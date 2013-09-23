@@ -1,0 +1,5 @@
+$("#response").remove();
+$("#table-it-issue-list").prepend("<div id='response' class='flash <%=@clas%>'><%=@notice%></div>");
+setTimeout(function(){ $("#response").fadeOut() }, 2000);
+//page.delay(2) do
+//page.visual_effect(:fade, 'response', :duration=>1)

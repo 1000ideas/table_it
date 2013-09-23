@@ -1,0 +1,6 @@
+$("#response").remove();
+$("#table-it-issue-list").prepend("<div id='response' class='flash <%=@clas%>'><%=@notice%></div>")
+setTimeout(function(){ $("#response").fadeOut() }, 2000);
+
+clear_form_fields();
+refresh_issues_list();

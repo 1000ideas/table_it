@@ -1,0 +1,14 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+  <head>
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type" />
+  </head>
+  <body>
+    <h4>Welcome, <%= @user.firstname %></h4>
+    <p>
+      Author of <%=link_to "#{@issue.tracker.name} ##{@issue.id} : #{@issue.subject}", issue_url(@issue) %> wants to remind you about work.
+      Don't make him sad.
+    </p>
+    <p>Have a great day ]:-)</p>
+  </body>
+</html>

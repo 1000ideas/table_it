@@ -1,0 +1,4 @@
+
+$("#table-it-form").html("<%=escape_javascript(render partial: 'list', :locals => { :issues => @issues, :query=>@query}) %>")
+
+close_ticket(); add_time(); tooltip_show(); main_sort(); change_to_in_progress(); start_stop(); poke();

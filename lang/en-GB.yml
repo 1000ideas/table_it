@@ -1,0 +1,13 @@
+en-GB:
+  late: late
+  to: to
+  end_time_field_name: Pozostały czas
+  field_end_time: End time
+  time_left_hour: Time left (h:m)
+  add_time_column: Add time
+  time_added: Time added.
+  cant_add_time: Can't add time.
+  change_issue_revert: Issue is open now. New status is "in progress".
+  change_issue_closed: Issue is closed. After list refresh it'll be removed.
+  attachment: attachment
+

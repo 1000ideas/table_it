@@ -1,0 +1,22 @@
+<p>
+  <%= form_tag "/", :method=>:get  do%>
+    Filtr by:
+	<% if params[:filter] && params[:filter][:project] %>
+    	<%=select_tag "filter[project]", options_for_select([""]+@projects.collect{|p| [p.name, p.id]}, params[:filter][:project]) %>
+	<% else %>
+		<%=select_tag "filter[project]", options_for_select([""]+@projects.collect{|p| [p.name, p.id]}) %>
+  	<% end %>
+    
+	
+		<% if params[:filter] && params[:filter][:user] %>
+      		<%=select_tag "filter[user]", options_for_select(User.all.collect {|m| [m.name, m.id] if m.type=='User'}, params[:filter][:user])%>
+		<% else %>
+      		<%=select_tag "filter[user]", options_for_select(User.all.collect {|m| [m.name, m.id] if m.type=='User'})%>
+		<% end %>
+	<%if User.current.admin?%>	
+    <%=label_tag 'filter[admin]', l(:user_view)%><%= check_box_tag 'filter[admin]', 1, (params[:filter] and params[:filter][:admin].blank?) ? false : true%>
+    <%end%>
+    <%=submit_tag l(:filtr)%>
+	<%= link_to "wyczyść", home_path %>
+  <%end%>
+</p>

@@ -1,0 +1,123 @@
+#new-issue-plugin{
+    width:920px;
+    position: relative;
+}
+#new-issue-plugin submit{
+    left: 180px;
+    position: relative;
+    margin-top: 20px;
+}
+#new-issue-plugin input#issue_subject, #new-issue-plugin {
+    width: 75%;
+}
+textarea#issue_description{
+    height:65px;
+    width:75%;
+    margin:0px;
+}
+#new-issue-plugin div.field{
+    font-weight: bold;
+    float: left;
+    text-align: right;
+    margin-left: -180px;
+    width: 175px;
+}
+#issue_submit{
+    left: 180px;
+    position: relative;
+    margin: 15px 0px;
+}
+#add_time{
+    width:40px;
+}
+
+table.sortable thead {
+    color: #2A5685;
+    cursor: pointer;
+}
+table.sortable thead th:hover {
+    color: #c61a1a; text-decoration: underline;
+}
+div.clip{
+    background: url('../images/status-icons.png');
+    width: 17px;
+    height: 25px;
+    background-position: -69px 0px;
+    float: left;
+    margin: 0px 3px;
+}
+td.subject a{
+    float: left;
+}
+div.status_1{
+    background: url('../images/status-icons.png');
+    width: 17px;
+    height: 25px;
+    background-position: 0px 0px;
+    float: left;
+    margin: 0px 3px;
+    cursor: pointer;
+}
+div.status_1:hover{
+    background: url('../images/status-icons.png');
+    width: 17px;
+    height: 25px;
+    background-position: -85px 0px;
+    float: left;
+    margin: 0px 3px;
+}
+div.status_2{
+    background: url('../images/status-icons.png');
+    width: 17px;
+    height: 25px;
+    background-position: -17px 0px;
+    float: left;
+    margin: 0px 3px;
+}
+div.status_3{
+    background: url('../images/status-icons.png');
+    width: 17px;
+    height: 25px;
+    background-position: -34px 0px;
+    float: left;
+    margin: 0px 3px;
+}
+div.status_4{
+    background: url('../images/status-icons.png');
+    width: 17px;
+    height: 25px;
+    background-position: -52px 0px;
+    float: left;
+    margin: 0px 3px;
+}
+ul#legend{
+    line-height: 25px;
+    list-style-type: none;
+    padding: 0px;
+}
+.start_time{
+    background: url('../images/status-icons.png');
+    width: 17px;
+    height: 25px;
+    background-position: -116px 0px;
+    float: left;
+    margin: 0px 3px;
+    cursor: pointer;
+    border: 0px solid white;
+}
+.stop_time{
+    background: url('../images/status-icons.png');
+    width: 17px;
+    height: 25px;
+    background-position: -102px 0px;
+    float: left;
+    margin: 0px 3px;
+    cursor: pointer;
+    border: 0px solid white;
+}
+div.poke{
+    background: url('../images/poke.png');
+    width: 25px;
+    height: 22px;
+    cursor: pointer;
+}
