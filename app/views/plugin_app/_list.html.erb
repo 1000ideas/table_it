@@ -64,7 +64,7 @@
               <% end %>
             <% end %>
             <%if @cf%>
-              <td><%=time_left(issue, l(:end_time_field_name))%></td>
+              <td><%=time_left(issue, "end_time_field_name")%></td>
             <%end%>
             <td><%=issue.spent_hours.round(2)%></td>
             <td>

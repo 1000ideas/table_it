@@ -53,7 +53,7 @@ class PluginAppController < ApplicationController
         @issues = @issues.select{|p| p.assigned_to_id==User.current.id or p.author_id==User.current.id}
       end
     end
-    @cf = CustomField.find(:first, :conditions=>{:name=>l(:end_time_field_name)})
+    @cf = CustomField.find(:first, :conditions=>{:name=>"end_time_field_name"})
     projects=Project.visible.find(:all, :order => 'lft')
     @projects=[]
     projects.each do |p|
@@ -132,7 +132,7 @@ class PluginAppController < ApplicationController
         @issues = @issues.select{|p| p.assigned_to_id==User.current.id or p.author_id==User.current.id}
       end
     end
-    @cf = CustomField.find(:first, :conditions=>{:name=>l(:end_time_field_name)})
+    @cf = CustomField.find(:first, :conditions=>{:name=>"end_time_field_name"})
     params[:action] = 'index'
     @issues=@issues.paginate :page => params[:page], :per_page => @limit ? @limit : 25
     

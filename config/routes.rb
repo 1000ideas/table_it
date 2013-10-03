@@ -1,4 +1,6 @@
 RedmineApp::Application.routes.draw do
+  root :to => 'plugin_app#index', :as => 'home'
+  match '/', :to => 'plugin_app#index', :as => 'home'
 	match 'plugin_app/change_to_in_progress', :to => 'plugin_app#change_to_in_progress', :via => [:post]
 	match 'plugin_app/start_time', :to => 'plugin_app#start_time', :via => [:post]
 	match 'plugin_app/stop_time', :to => 'plugin_app#stop_time', :via => [:post]
