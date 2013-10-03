@@ -12,7 +12,7 @@ pl:
   attachment: Załącznik
   changed_to_in_progress: Zmieniono na "in progress"
   cant_change_to_in_progress: Nie można zmienić na "in progress"
-  label_spent_time_plugin: sTime
+  label_spent_time_plugin: Czas spędzony
   work_start: start pracy
   filtr: filtruj
   user_view: Widok usera

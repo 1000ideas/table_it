@@ -1,8 +1,8 @@
 <%if User.current && User.current.type!='AnonymousUser'%>
 
   <% content_for :header_tags do %>
-    <%= javascript_include_tag "jquery.qtip.js","table_it", 'sorttable', :plugin=>'redmine_table_it' %>
-    <%= stylesheet_link_tag "table_it", :plugin=>'redmine_table_it' %>
+    <%= javascript_include_tag "jquery.qtip.js","table_it", 'sorttable', :plugin=>'table_it' %>
+    <%= stylesheet_link_tag "table_it", :plugin=>'table_it' %>
   <% end %>
 
   <div class="contextual">

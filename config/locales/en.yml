@@ -12,7 +12,7 @@ en:
   attachment: attachment
   changed_to_in_progress: yay! You're now "in progress"
   cant_change_to_in_progress: ups.... I try but I can't change to "in progress"
-  label_spent_time_plugin: sTime
+  label_spent_time_plugin: time spent
   work_start: work start
   filtr: filter
   user_view: user's view
