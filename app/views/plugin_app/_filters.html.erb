@@ -9,9 +9,9 @@
     
 	
 		<% if params[:filter] && params[:filter][:user] %>
-      		<%=select_tag "filter[user]", options_for_select(User.all.collect {|m| [m.name, m.id] if m.type=='User'}, params[:filter][:user])%>
+      		<%=select_tag "filter[user]", options_for_select(User.all.collect {|m| [m.name, m.id] if m.type=='User' && m.status==1}, params[:filter][:user])%>
 		<% else %>
-      		<%=select_tag "filter[user]", options_for_select(User.all.collect {|m| [m.name, m.id] if m.type=='User'})%>
+      		<%=select_tag "filter[user]", options_for_select(User.all.collect {|m| [m.name, m.id] if m.type=='User' && m.status==1})%>
 		<% end %>
 	<%if User.current.admin?%>	
     <%=label_tag 'filter[admin]', l(:user_view)%><%= check_box_tag 'filter[admin]', 1, (params[:filter] and params[:filter][:admin].blank?) ? false : true%>
