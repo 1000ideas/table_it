@@ -1,6 +1,5 @@
 $(document).ready(function() {
     setTimeout("refresh_issues_list();",60000);
-
     main_sort();
     add_time();
     close_ticket();
@@ -136,27 +135,24 @@ function change_to_in_progress(){
     })
 }
 function change_person(){
-   /* proj_id=$('issue_project_id').getValue();
+    proj_id=$('#issue_project_id').val();
+
     hasz= new Array({
+        id:96,
+        val:1,
+        name:'Krzysztof'
+    },{
         id:101,
         val:17,
         name:'Bartek'
     }, {
         id:98,
         val:15,
-        name:'Ewelina'
+        name:'Ewelina L.'
     },{
         id:99,
         val:16,
-        name:'Ewelina S'
-    }, {
-        id:97,
-        val:5,
-        name:'Konrad'
-    }, {
-        id:96,
-        val:1,
-        name:'Krzysztof'
+        name:'Ewelina Ś.'
     },{
         id:94,
         val:8,
@@ -169,16 +165,36 @@ function change_person(){
         id:95,
         val:7,
         name:'Wiktor'
-    });
+    },{
+	    id:168,
+	    val:30,
+	    name:'Daniel'
+	},{
+	    id:156,
+	    val:27,
+	    name:'Franek'
+	},{
+		id:130,
+		val:25,
+		name: "Przemek"
+	},{
+		id:107,
+		val:21,
+		name: "Łukasz"
+	},{
+		id:167,
+		val:31,
+		name: "Basia"
+	});
     if(proj_id==94){
-        $('issue_assigned_to_id').setValue(8)
+        $('#issue_assigned_to_id').val(8)
         }
     for(var i=0; i<hasz.length; i++){
         if(hasz[i].id==proj_id){
-            $('issue_assigned_to_id').setValue(hasz[i].val);
+            $('#issue_assigned_to_id').val(hasz[i].val);
             break;
         }
-    }*/
+    }
 }
 
 function start_stop(){
