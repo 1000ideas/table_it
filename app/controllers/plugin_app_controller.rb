@@ -34,25 +34,32 @@ class PluginAppController < ApplicationController
       @issue_count_by_group = @query.issue_count_by_group
     end
     @priorities = IssuePriority.active
-
-
-    #blokada wyswietlen ticketow z podprojektów 'projekty'
-    forbidden_issues=dont_show_tickets_from_project()
-
-    @issues=@issues.select{|i| i.assigned_to_id==User.current.id || User.current.admin? || i.author_id==User.current.id}
-    @issues=@issues.delete_if{|i| forbidden_issues.include?(i.project_id)}
-
+    user_projects_manage = []
+    User.current.memberships.each do |membership|
+       user_projects_manage << membership.project_id if membership.member_roles.select{|mr| mr.role_id == 3}.length > 0
+    end
     if params[:filter]
       unless params[:filter][:project].blank?
         @issues = @issues.select{|p| p.project_id==params[:filter][:project].to_i}
       end
       unless params[:filter][:user].blank?
-        @issues = @issues.select{|p| p.assigned_to_id==params[:filter][:user].to_i}
+        @issues = @issues.select{|p| p.assigned_to_id == params[:filter][:user].to_i}
       end
-      unless params[:filter][:admin].blank?
-        @issues = @issues.select{|p| p.assigned_to_id==User.current.id or p.author_id==User.current.id}
+      if params[:filter][:admin].blank?
+        @issues=@issues.select{|i| i.assigned_to_id==User.current.id || i.author_id==User.current.id || user_projects_manage.include?(i.project_id) || i.watchers.collect(&:user_id).include?(User.current.id)}
       end
+      
     end
+
+    
+    #blokada wyswietlen ticketow z podprojektów 'projekty'
+    forbidden_issues=dont_show_tickets_from_project()
+
+    @issues=@issues.select{|i| i.assigned_to_id==User.current.id || User.current.admin? || i.author_id==User.current.id || user_projects_manage.include?(i.project_id) || i.watchers.collect(&:user_id).include?(User.current.id)}
+    @issues=@issues.delete_if{|i| forbidden_issues.include?(i.project_id)}
+
+    
+    
     @cf = CustomField.find(:first, :conditions=>{:name=>"end_time_field_name"})
     projects=Project.visible.find(:all, :order => 'lft')
     @projects=[]
@@ -76,7 +83,9 @@ class PluginAppController < ApplicationController
     issue = Issue.all(:conditions=>{:id=>params[:ids]})
     issue.each do |i|
       stop_time=i.progresstimes.last
+      logger.debug stop_time.inspect
       if stop_time
+        logger.debug stop_time.end_time.inspect
         if stop_time.end_time.blank?
           stop_time.update_attributes(:end_time=>DateTime.now, :closed=>true)
           new_time = ((((DateTime.now - stop_time.start_time.to_datetime)*24*60).to_i)/60.0).round(2)
@@ -109,6 +118,11 @@ class PluginAppController < ApplicationController
     sort_init(@query.sort_criteria.empty? ? [['id', 'desc']] : @query.sort_criteria)
     sort_update(@query.sortable_columns)
 
+    user_projects_manage = []
+    User.current.memberships.each do |membership|
+       user_projects_manage << membership.project_id if membership.member_roles.select{|mr| mr.role_id == 3}.length > 0
+    end
+
     if @query.valid?
       @limit = per_page_option
       @query.column_names= [:project, :subject, :done_ratio, :assigned_to, :priority,:due_date]
@@ -117,7 +131,7 @@ class PluginAppController < ApplicationController
 
       forbidden_issues=dont_show_tickets_from_project()
 
-      @issues=@issues.select{|i| i.assigned_to_id==User.current.id || User.current.admin? || i.author_id==User.current.id}
+      @issues=@issues.select{|i| i.assigned_to_id==User.current.id || User.current.admin? || i.author_id==User.current.id || user_projects_manage.include?(i.project_id) || i.watchers.collect(&:user_id).include?(User.current.id)}
       @issues=@issues.delete_if{|i| forbidden_issues.include?(i.project_id)}
       @issue_count_by_group = @query.issue_count_by_group
     end
