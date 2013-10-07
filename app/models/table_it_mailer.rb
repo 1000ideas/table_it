@@ -9,7 +9,7 @@ def poke_mail(issue)
     
     mail(:to => issue.assigned_to.mail, 
     :from => "#{issue.author.firstname}<#{issue.author.mail}>",
-    :subject => "*poke, poke* Hurry up!") do |format|
+    :subject => "[redmine - #{issue.tracker.name} ##{issue.id}] *poke, poke* Hurry up!") do |format|
           format.html { render 'table_it_mailer/poke_mail' }
         end   
     
@@ -17,6 +17,7 @@ def poke_mail(issue)
 end
 
 def close_ticket_plugin_mail(issue)
+  
   if issue.assigned_to
   recipients = issue.assigned_to.mail
   
@@ -24,8 +25,8 @@ def close_ticket_plugin_mail(issue)
   @issue = issue
   
     mail(:to => issue.assigned_to.mail, 
-    :from => "Redmine TableIt plugin",
-    :subject => "issue ##{issue.id} is closed") do |format|
+    :from => Setting.mail_from,
+    :subject => "[redmine - #{issue.tracker.name} ##{issue.id}] is closed") do |format|
       format.html { render 'table_it_mailer/close_ticket_plugin_mail' }
     end  
   end    
