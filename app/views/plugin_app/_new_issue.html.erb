@@ -7,7 +7,7 @@
     <p><%=label_tag "issue[description]", l(:field_description)%><%= text_area_tag "issue[description]"%></p>
     <p><%=label_tag "issue[tracker_id]", l(:field_tracker)%><%= select_tag 'issue[tracker_id]', options_for_select(Tracker.all.collect{|p| [p.name, p.id]})%></p>
     <p><%=label_tag "issue[priority_id]", l(:field_priority)%><%= select_tag "issue[priority_id]", options_for_select( @priorities.collect {|p| [p.name, p.id]})%></p>
-    <p><%#=label_tag "issue[assigned_to_id]", l(:field_assigned_to)%><%=select_tag 'issue[assigned_to_id]', options_for_select(User.all.collect {|m| [m.name, m.id] if m.type=='User' && m.status==1}), :include_blank => true %></p>
+    <p><%#=label_tag "issue[assigned_to_id]", l(:field_assigned_to)%><%=select_tag 'issue[assigned_to_id]', options_for_select(User.all.collect {|m| [m.name, m.id] if m.type=='User' && m.status==1 && m.active?}.compact!), :include_blank => true %></p>
     <%if @cf%>
     <p><%=label_tag(l(:field_end_time))%><%=text_field_tag 'end_time', nil, :size=>5, :placeholder=>'00:00' %></p>
     <%end%>
