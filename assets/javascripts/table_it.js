@@ -12,7 +12,7 @@ $(document).ready(function() {
         $('#new-issue-plugin').hide();
     }
     $('#issue_project_id').on('change', function(e){
-        change_person();
+		change_users_list();
     })
     $('#clear_new_issue_form').on('click', function(){
 		 $('#issue-form').find(':input').each(function() {
@@ -133,6 +133,25 @@ function change_to_in_progress(){
         }
         )
     })
+}
+function change_users_list(){
+	var request = $.ajax("/plugin_app/project_users", {
+	  type: "POST",
+	  data: { 'project_id': $('#issue_project_id').val() },
+		success: function( data, textStatus, jqXHR){
+			var options = '';
+			options += '<option value=""></option>';
+			for (var i = 0; i < data.length; i++) {
+				options += '<option value="' + data[i].id + '">' + data[i].name + '</option>';
+			}
+			$("select#issue_assigned_to_id").html(options);
+			change_person();
+		},
+		error: function(a,b){
+		}
+	}
+	)
+	
 }
 function change_person(){
     proj_id=$('#issue_project_id').val();

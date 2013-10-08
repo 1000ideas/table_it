@@ -272,6 +272,14 @@ class PluginAppController < ApplicationController
     end
   end
 
+  def project_users
+    project = Project.find(params[:project_id])
+    @users = project.users.collect{|us| {name: us.name, id: us.id} }
+
+    render json: @users
+    
+  end
+
   private
   def build_new_issue_from_params
     if params[:id].blank?
