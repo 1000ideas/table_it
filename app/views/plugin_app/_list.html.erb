@@ -64,9 +64,9 @@
               <% end %>
             <% end %>
             <%if @cf%>
-              <td><%=time_left(issue, "end_time_field_name")%></td>
+              <td><%= begin ; time_left(issue, "end_time_field_name"); rescue ; issue.id ; end %></td>
             <%end%>
-            <td><%=issue.spent_hours.round(2)%></td>
+            <td><%=issue.spent_hours.round(2) %></td>
             <td>
               <%=hidden_field_tag 'id', issue.id%>
               <%=text_field_tag 'add_time' %>
