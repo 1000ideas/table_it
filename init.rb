@@ -1,4 +1,5 @@
 require 'redmine'
+require 'extend_core_classes'
 
 Redmine::Plugin.register :table_it do
   name 'TableIt'

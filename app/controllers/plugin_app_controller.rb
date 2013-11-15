@@ -83,9 +83,8 @@ class PluginAppController < ApplicationController
     issue = Issue.all(:conditions=>{:id=>params[:ids]})
     issue.each do |i|
       stop_time=i.progresstimes.last
-      logger.debug stop_time.inspect
+
       if stop_time
-        logger.debug stop_time.end_time.inspect
         if stop_time.end_time.blank?
           stop_time.update_attributes(:end_time=>DateTime.now, :closed=>true)
           new_time = ((((DateTime.now - stop_time.start_time.to_datetime)*24*60).to_i)/60.0).round(2)

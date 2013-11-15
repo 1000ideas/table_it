@@ -68,8 +68,6 @@ require 'generators/table_it/actions'
       end
       
       def add_to_models
-        inject_into_file "app/models/issue.rb", "has_many :progresstimes\n", :before => "belongs_to :project\n"            
-
         create_file Rails.root+"config/initializers/table_it_conf.rb", "require 'will_paginate/array'" 
       end
     end
