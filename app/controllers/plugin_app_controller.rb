@@ -12,8 +12,8 @@ class PluginAppController < ApplicationController
   include PluginAppHelper
 
   before_filter :build_new_issue_from_params, :only=>[:create_issue]
-
-  accept_api_auth :index, :show, :create, :update, :destroy
+  
+  accept_api_auth :index, :show, :create, :update, :destroy, :start_time, :stop_time
   #accept_api_auth :index
   def list
     sort_init 'last_name'
@@ -237,22 +237,28 @@ class PluginAppController < ApplicationController
   end
 
   def start_time
+    
     issue=Issue.find(params[:issue_id])
-    issue.progresstimes.create(:issue_id=>params[:issue_id], :start_time=>DateTime.now)
-    if issue.status_id !=2
-      issue.update_attribute(:status_id, 2)
+    edit_allowed = User.current.allowed_to?(:edit_issues, issue.project)
+    if edit_allowed
+      issue.progresstimes.create(:issue_id=>params[:issue_id], :start_time=>DateTime.now)
+      if issue.status_id !=2
+        issue.update_attribute(:status_id, 2)
+      end
     end
     render :nothing => true
   end
 
   def stop_time
     issue=Issue.find(params[:issue_id])
+    edit_allowed = User.current.allowed_to?(:edit_issues, issue.project)
+    if edit_allowed
     stop_time=issue.progresstimes.last
 
     stop_time.update_attributes(:end_time=>DateTime.now, :closed=>true)
     new_time = ((((DateTime.now - stop_time.start_time.to_datetime)*24*60).to_i)/60.0).round(2)
     issue.time_entries.create(:user=>User.current, :hours=>new_time, :activity_id=>8, :spent_on=>Date.today)
-
+    end
     render :nothing => true
   end
 

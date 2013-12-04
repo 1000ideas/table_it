@@ -47,12 +47,13 @@
                   <%else%>
                     <div class="status_<%=issue.status_id%>" id="<%=issue.id%>"></div>
                   <%end%>
-                    <%if issue.progresstimes.blank?|| issue.progresstimes.last.closed==true%>
+				<% if User.current.allowed_to?(:edit_issues, issue.project) %>
+                    <%if issue.progresstimes.blank? || issue.progresstimes.last.closed==true%>
                     <div class="start_time" value="<%=issue.id%>"></div>
                     <%else%>
                       <div class="stop_time" value="<%=issue.id%>"></div>
                       <%end%>
-
+				<% end %>
                   <%=link_to(h(column.value(issue)),issue_url(issue) , :id => issue.id, :title=>"#{l(:field_description)}: #{issue.description} <br> #{l(:field_estimated_hours)}: #{issue.estimated_hours}<br> #{l(:field_author)}: #{issue.author}")%>
                 </td>
               <%elsif column.name ==:done_ratio%>
