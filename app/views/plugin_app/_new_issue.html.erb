@@ -1,29 +1,58 @@
 <div id="new-issue-plugin">
   <%if !@projects.blank? || (@issue && @issue.errors)%>
-  <%= form_tag url_for(:controller=> "plugin_app", :action=> "create_issue"), method: :post, remote: true, multipart: true, id: 'issue-form', class: 'tabular new-issue-form' do %>
-  <%= error_messages_for 'issue' %>
-  <p><%=label_tag "issue[project_id]", l(:field_project)%><%=select_tag "issue[project_id]", options_for_select(@projects.collect{|p| [p.name, p.id]})%> <%=link_to l(:label_project_new), new_project_url, :class=>'icon icon-add'%></p>
-    <p><%=label_tag "issue[subject]", l(:field_subject)%><%=text_field_tag "issue[subject]"%></p>
-    <p><%=label_tag "issue[description]", l(:field_description)%><%= text_area_tag "issue[description]"%></p>
-    <p><%=label_tag "issue[tracker_id]", l(:field_tracker)%><%= select_tag 'issue[tracker_id]', options_for_select(Tracker.all.collect{|p| [p.name, p.id]})%></p>
-    <p><%=label_tag "issue[priority_id]", l(:field_priority)%><%= select_tag "issue[priority_id]", options_for_select( @priorities.collect {|p| [p.name, p.id]})%></p>
-	
-    <p><%=select_tag 'issue[assigned_to_id]', options_for_select( @projects.first.users.collect{|m| [m.name, m.id] }), :include_blank => true %></p>
+  	<%= form_tag url_for(:controller=> "plugin_app", :action=> "create_issue"), method: :post, remote: true, multipart: true, id: 'issue-form', class: 'tabular new-issue-form' do %>
+  	<%= error_messages_for 'issue' %>
+  	<p>
+		<%=label_tag "issue[project_id]", l(:field_project)%>
+		<%=select_tag "issue[project_id]", options_for_select(@projects.collect{|p| [p.name, p.id]})%> 
+		<%=link_to l(:label_project_new), new_project_url, :class=>'icon icon-add'%>
+	</p>
+    <p>
+		<%=label_tag "issue[subject]", l(:field_subject)%><%=text_field_tag "issue[subject]"%>
+	</p>
+    <p>
+		<%=label_tag "issue[description]", l(:field_description)%>
+		<%= text_area_tag "issue[description]"%>
+	</p>
+    <p>
+		<%=label_tag "issue[tracker_id]", l(:field_tracker)%>
+		<%= select_tag 'issue[tracker_id]', options_for_select(Tracker.all.collect{|p| [p.name, p.id]})%>
+	</p>
+    <p>
+		<%=label_tag "issue[priority_id]", l(:field_priority)%>
+		<%= select_tag "issue[priority_id]", options_for_select( @priorities.collect {|p| [p.name, p.id]})%>
+	</p>	
+    <p>
+		<%=label_tag "issue[assigned_to_id]", l(:field_assigned_to)%>
+		<%=select_tag 'issue[assigned_to_id]', options_for_select( @projects.first.users.collect{|m| [m.name, m.id] }), :include_blank => true %>
+	</p>
     <%if @cf%>
-    <p><%=label_tag(l(:field_end_time))%><%=text_field_tag 'end_time', nil, :size=>5, :placeholder=>'00:00' %></p>
+    	<p>
+			<%=label_tag(l(:field_end_time))%>
+			<%=text_field_tag 'end_time', nil, :size=>5, :placeholder=>'00:00' %>
+		</p>
     <%end%>
     <%=hidden_field_tag 'end_time_field_tag', l(:end_time_field_name)%>
-
-    <p><%=label_tag "issue[estimated_hours]", l(:field_estimated_hours)%><%= text_field_tag "issue[estimated_hours]", nil, :size => 3%> <%= l(:field_hours) %></p>
-    <p> <%=label_tag "issue[due_date]", l(:field_due_date)%><%= text_field_tag "issue[due_date]", nil, :size => 10 %><%= calendar_for('issue_due_date') %></p>
+    <p>
+		<%=label_tag "issue[estimated_hours]", l(:field_estimated_hours)%>
+		<%= text_field_tag "issue[estimated_hours]", nil, :size => 3%> 
+		<%= l(:field_hours) %>
+	</p>
+    <p>
+		<%=label_tag "issue[due_date]", l(:field_due_date)%>
+		<%= text_field_tag "issue[due_date]", nil, :size => 10 %>
+		<%= calendar_for('issue_due_date') %>
+	</p>
     <%=submit_tag l(:button_save), :id=>'submit_new_ticket'%>
-  <% end %>
-    <%else%>
-    <p><%=link_to l(:label_project_new), new_project_url, :class=>'icon icon-add'%></p>
-    <%end%>
-    <br><br>
-    <%=  link_to l(:button_clear), "javascript:void(0)", :id=>'clear_new_issue_form'%>
-    <%=hidden_field_tag 'is-shown', 0%>
+  	<% end %>
+  <%else%>
+    <p>
+		<%=link_to l(:label_project_new), new_project_url, :class=>'icon icon-add'%>
+	</p>
+  <%end%>
+  <br><br>
+  <%=  link_to l(:button_clear), "javascript:void(0)", :id=>'clear_new_issue_form'%>
+  <%=hidden_field_tag 'is-shown', 0%>
 </div>
 
 
