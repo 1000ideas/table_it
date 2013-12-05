@@ -327,12 +327,16 @@ class PluginAppController < ApplicationController
 
 
   def dont_show_tickets_from_project
-    project = Project.find(:first, :conditions=>{:name=>'projekty'})
+    
+    projects = Project.find(:all, :conditions=>["identifier IN (?)",['1000projekty', "projekty"]])
     
     forbidden_issues=[]
-    if project
-      project.children.each do |c|
-        forbidden_issues<< c.id
+    if projects
+      projects.each do |proj|
+        forbidden_issues << proj.id
+        proj.children.each do |c|
+          forbidden_issues<< c.id
+        end
       end
     end
     return forbidden_issues
