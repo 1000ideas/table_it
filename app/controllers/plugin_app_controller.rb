@@ -124,7 +124,7 @@ class PluginAppController < ApplicationController
 
     if @query.valid?
       @limit = per_page_option
-      @query.column_names= [:project, :subject, :done_ratio, :assigned_to, :priority,:due_date]
+      @query.column_names= [:project, :subject, :done_ratio,:author, :assigned_to, :priority,:due_date]
       @issues = @query.issues(:include => [:assigned_to, :tracker, :priority, :category, :fixed_version],
         :order => sort_clause)
 
