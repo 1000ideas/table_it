@@ -91,6 +91,7 @@ class PluginAppController < ApplicationController
           i.time_entries.create(:user=>User.current, :hours=>new_time, :activity_id=>8, :spent_on=>Date.today)
         end
       end
+      i.init_journal(User.current)
       if i.update_attributes(:status_id=>5)
         TableItMailer.close_ticket_plugin_mail(i).deliver
       end
@@ -105,7 +106,7 @@ class PluginAppController < ApplicationController
   def uncheck_issue
     issue= Issue.find(params[:id])
     issue.update_attribute(:status_id, 2)
-
+    issue.init_journal(User.current)
     @notice=l(:change_issue_revert)
     respond_to do |format|
       format.js
