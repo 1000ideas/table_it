@@ -217,30 +217,36 @@ function change_person(){
 }
 
 function start_stop(){
-    $('.start_time').each(function(e){
-        $(this).on("click", function(a){
-            $.ajax('/plugin_app/start_time', {
-				type: "POST",
-                data: {
-                    'issue_id': $(this).attr("value")
-                }
-            })
-            $(this).removeClass('start_time').addClass('stop_time');
+
+    $(document).on('click', 'tr.issue .start_time, tr.issue .stop_time', function(e){
+        url = "/plugin_app/"
+
+        if ($(this).hasClass('start_time')) {
+            url += "start_time"
+        } else {
+            url += "stop_time"
+        }
+
+        $.ajax(url, {
+			type: "POST",
+            data: { issue_id: $(this).attr("value") }
         });
+
+        $(this).toggleClass('start_time').toggleClass('stop_time');
     })
 
-    $('.stop_time').each(function(e){
-        $(this).on("click", function(a){
+    // $('.stop_time').each(function(e){
+    //     $(this).on("click", function(a){
 
-            $.ajax('/plugin_app/stop_time', {
-				type: "POST",
-                data: {
-                    'issue_id': $(this).attr("value")
-                }
-            })
-            $(this).removeClass('stop_time').addClass('start_time');
-        });
-    })
+    //         $.ajax('/plugin_app/stop_time', {
+				// type: "POST",
+    //             data: {
+    //                 'issue_id': $(this).attr("value")
+    //             }
+    //         })
+    //         $(this).removeClass('stop_time').addClass('start_time');
+    //     });
+    // })
 }
 
 function getURLParameter(url, sParam){

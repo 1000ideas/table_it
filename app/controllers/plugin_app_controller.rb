@@ -13,8 +13,9 @@ class PluginAppController < ApplicationController
 
   before_filter :build_new_issue_from_params, :only=>[:create_issue]
   
-  accept_api_auth :index, :show, :create, :update, :destroy, :start_time, :stop_time
-  #accept_api_auth :index
+  accept_api_auth :index, :show, :create, :update,
+    :destroy, :start_time, :stop_time, :add_time
+
   def list
     sort_init 'last_name'
     sort_update %w(first_name last_name)
@@ -47,6 +48,10 @@ class PluginAppController < ApplicationController
       end
       if params[:filter][:admin].blank?
         @issues=@issues.select{|i| i.assigned_to_id==User.current.id || i.author_id==User.current.id || user_projects_manage.include?(i.project_id) || i.watchers.collect(&:user_id).include?(User.current.id)}
+      end
+
+      if params[:filter][:started].to_i == 1
+        @issues = @issues.select {|i| i.started? }
       end
       
     end
@@ -157,7 +162,13 @@ class PluginAppController < ApplicationController
 
   def add_time
     if params[:issue_id] && !params[:time].blank?
-      time=TimeEntry.new(:issue_id=>params[:issue_id],:hours=>params[:time], :activity_id=>8, :user=>User.current, :spent_on=>Date.today)
+
+      time = TimeEntry.new issue_id: params[:issue_id],
+        hours: params[:time],
+        activity_id: 8,
+        user: User.current,
+        spent_on: Date.today
+
       if time.save
         @clas="notice"
         @notice=l(:time_added)
@@ -169,8 +180,10 @@ class PluginAppController < ApplicationController
       @clas="error"
       @notice=l(:cant_add_time)
     end
+    
     respond_to do |format|
       format.js
+      format.json { render json: {:"#{@clas}" => @notice} }
     end
   end
 
@@ -238,29 +251,64 @@ class PluginAppController < ApplicationController
   end
 
   def start_time
-    
-    issue=Issue.find(params[:issue_id])
+    issue = Issue.find(params[:issue_id])
+
     edit_allowed = User.current.allowed_to?(:edit_issues, issue.project)
     if edit_allowed
-      issue.progresstimes.create(:issue_id=>params[:issue_id], :start_time=>DateTime.now)
+      issue
+        .progresstimes
+        .create(issue_id: params[:issue_id], start_time: DateTime.now)
+
       if issue.status_id !=2
         issue.update_attribute(:status_id, 2)
       end
+      @success = true
+    else
+      @success = false
     end
-    render :nothing => true
+    respond_to do |format|
+      format.json do
+        render json: {
+          success: @success,
+          status: issue.status_id
+        }
+      end
+    end
   end
 
   def stop_time
-    issue=Issue.find(params[:issue_id])
-    edit_allowed = User.current.allowed_to?(:edit_issues, issue.project)
-    if edit_allowed
-    stop_time=issue.progresstimes.last
+    issue = Issue.started.find(params[:issue_id])
 
-    stop_time.update_attributes(:end_time=>DateTime.now, :closed=>true)
-    new_time = ((((DateTime.now - stop_time.start_time.to_datetime)*24*60).to_i)/60.0).round(2)
-    issue.time_entries.create(:user=>User.current, :hours=>new_time, :activity_id=>8, :spent_on=>Date.today)
+    edit_allowed = User.current.allowed_to?(:edit_issues, issue.project)
+
+    if edit_allowed
+      stop_time = issue.progresstimes.last
+
+      new_time = stop_time.close!
+      
+      if new_time > 0
+        issue
+          .time_entries
+          .create(user: User.current, hours: new_time, activity_id: 8, spent_on: Date.today)
+
+      end
+
+      issue.progresstimes.started.delete_all
+
+      @success = true
+    else
+      @success = false
+      new_time = 0.0
     end
-    render :nothing => true
+    respond_to do |format|
+      format.json do
+        render json: {
+          success: @success,
+          status: issue.status_id,
+          time: new_time
+        }
+      end
+    end
   end
 
   def poke

@@ -1,6 +1,6 @@
 RedmineApp::Application.routes.draw do
   root :to => 'plugin_app#index', :as => 'home'
-  match '/', :to => 'plugin_app#index', :as => 'home'
+  match 'table_it', :to => 'plugin_app#index', :as => 'table_it'
 	match 'plugin_app/change_to_in_progress', :to => 'plugin_app#change_to_in_progress', :via => [:post]
 	match 'plugin_app/start_time', :to => 'plugin_app#start_time', :via => [:post]
 	match 'plugin_app/stop_time', :to => 'plugin_app#stop_time', :via => [:post]
@@ -15,7 +15,7 @@ RedmineApp::Application.routes.draw do
 end
 #ActionController::Routing::Routes.draw do |map|
 
- # map.connect 'plugin_app/change_to_in_progress', :controller=>'plugin_app', :action=>'change_to_in_progress', :conditions => { :method => :post }
+# map.connect 'plugin_app/change_to_in_progress', :controller=>'plugin_app', :action=>'change_to_in_progress', :conditions => { :method => :post }
  # map.connect 'plugin_app/start_time', :controller=>'plugin_app', :action=>'start_time', :conditions => { :method => :post }
  # map.connect 'plugin_app/update_issue', :controller=>'plugin_app', :action=>'update_issue', :conditions => { :method => :post }
 #  map.connect 'plugin_app/filtr_issues', :controller=>'plugin_app', :action=>'filtr_issues', :conditions => { :method => :post }

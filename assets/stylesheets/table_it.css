@@ -46,15 +46,23 @@ div.clip{
     float: left;
     margin: 0px 3px;
 }
-td.subject a{
-    float: left;
+
+tr.issue td.subject {
+    white-space: nowrap !important;
 }
+
+div.status-icon, 
+td.subject > a,
+td.subject > div {
+    display: inline-block;
+    vertical-align: middle;
+}
+
 div.status_1{
     background: url('../images/status-icons.png');
     width: 17px;
     height: 25px;
     background-position: 0px 0px;
-    float: left;
     margin: 0px 3px;
     cursor: pointer;
 }
@@ -63,7 +71,6 @@ div.status_1:hover{
     width: 17px;
     height: 25px;
     background-position: -85px 0px;
-    float: left;
     margin: 0px 3px;
 }
 div.status_2{
@@ -71,7 +78,6 @@ div.status_2{
     width: 17px;
     height: 25px;
     background-position: -17px 0px;
-    float: left;
     margin: 0px 3px;
 }
 div.status_3{
@@ -79,7 +85,6 @@ div.status_3{
     width: 17px;
     height: 25px;
     background-position: -34px 0px;
-    float: left;
     margin: 0px 3px;
 }
 div.status_4{
@@ -87,7 +92,6 @@ div.status_4{
     width: 17px;
     height: 25px;
     background-position: -52px 0px;
-    float: left;
     margin: 0px 3px;
 }
 ul#legend{
@@ -100,7 +104,6 @@ ul#legend{
     width: 17px;
     height: 25px;
     background-position: -116px 0px;
-    float: left;
     margin: 0px 3px;
     cursor: pointer;
     border: 0px solid white;
@@ -110,7 +113,6 @@ ul#legend{
     width: 17px;
     height: 25px;
     background-position: -102px 0px;
-    float: left;
     margin: 0px 3px;
     cursor: pointer;
     border: 0px solid white;

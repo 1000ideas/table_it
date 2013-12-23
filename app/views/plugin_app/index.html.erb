@@ -31,10 +31,10 @@
         <p class="pagination"><%=will_paginate @issues %> <%=l(:label_per_page)%> <%=@limit==25 ? 25 : link_to("25", '?per_page=25')%> | <%=@limit==50 ? 50 : link_to("50", '?per_page=50')%> | <%=@limit==100 ? 100 : link_to("100", '?per_page=100')%></p>
         <ul id="legend">
           <%IssueStatus.find(1,2,3,4).each do |s|%>
-          <li><div class="status_<%=s.id%>"></div><%=s.name%> </li>
+          <li><div class="status_<%=s.id%> status-icon"></div><%=s.name%> </li>
           <%end%>
-          <li><div class="clip"></div><%=l(:attachment)%></li>
-          <li><div class="start_time"></div><%=l(:work_start)%></li>
+          <li><div class="clip status-icon"></div><%=l(:attachment)%></li>
+          <li><div class="start_time status-icon"></div><%=l(:work_start)%></li>
         </ul>
       <% end %>
     </div>
