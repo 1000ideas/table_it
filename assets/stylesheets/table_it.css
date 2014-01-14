@@ -1,125 +1,61 @@
-#new-issue-plugin{
-    width:920px;
-    position: relative;
-}
-#new-issue-plugin submit{
-    left: 180px;
-    position: relative;
-    margin-top: 20px;
-}
-#new-issue-plugin input#issue_subject, #new-issue-plugin {
-    width: 75%;
-}
-textarea#issue_description{
-    height:65px;
-    width:75%;
-    margin:0px;
-}
-#new-issue-plugin div.field{
-    font-weight: bold;
-    float: left;
-    text-align: right;
-    margin-left: -180px;
-    width: 175px;
-}
-#issue_submit{
-    left: 180px;
-    position: relative;
-    margin: 15px 0px;
-}
-#add_time{
-    width:40px;
-}
-
-table.sortable thead {
-    color: #2A5685;
-    cursor: pointer;
-}
-table.sortable thead th:hover {
-    color: #c61a1a; text-decoration: underline;
-}
-div.clip{
-    background: url('../images/status-icons.png');
-    width: 17px;
-    height: 25px;
-    background-position: -69px 0px;
-    float: left;
-    margin: 0px 3px;
-}
-
-tr.issue td.subject {
-    white-space: nowrap !important;
-}
-
-div.status-icon, 
-td.subject > a,
-td.subject > div {
+#toast {
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  background: rgba(255, 255, 255, 0.5);
+  text-align: center; }
+  #toast > div {
+    position: absolute;
+    top: 50%;
     display: inline-block;
-    vertical-align: middle;
-}
+    max-width: 50%;
+    padding: 1em 2em;
+    border: 1px solid #eee;
+    background: #fff;
+    color: #333;
+    border-radius: .5em; }
+    #toast > div.alert {
+      border: 1px solid #d00;
+      background: #fee;
+      color: #800; }
+    #toast > div.notice {
+      border: 1px solid #dfffdf;
+      background: #9fcf9f;
+      color: #005f00; }
 
-div.status_1{
-    background: url('../images/status-icons.png');
-    width: 17px;
-    height: 25px;
-    background-position: 0px 0px;
-    margin: 0px 3px;
-    cursor: pointer;
-}
-div.status_1:hover{
-    background: url('../images/status-icons.png');
-    width: 17px;
-    height: 25px;
-    background-position: -85px 0px;
-    margin: 0px 3px;
-}
-div.status_2{
-    background: url('../images/status-icons.png');
-    width: 17px;
-    height: 25px;
-    background-position: -17px 0px;
-    margin: 0px 3px;
-}
-div.status_3{
-    background: url('../images/status-icons.png');
-    width: 17px;
-    height: 25px;
-    background-position: -34px 0px;
-    margin: 0px 3px;
-}
-div.status_4{
-    background: url('../images/status-icons.png');
-    width: 17px;
-    height: 25px;
-    background-position: -52px 0px;
-    margin: 0px 3px;
-}
-ul#legend{
-    line-height: 25px;
-    list-style-type: none;
-    padding: 0px;
-}
-.start_time{
-    background: url('../images/status-icons.png');
-    width: 17px;
-    height: 25px;
-    background-position: -116px 0px;
-    margin: 0px 3px;
-    cursor: pointer;
-    border: 0px solid white;
-}
-.stop_time{
-    background: url('../images/status-icons.png');
-    width: 17px;
-    height: 25px;
-    background-position: -102px 0px;
-    margin: 0px 3px;
-    cursor: pointer;
-    border: 0px solid white;
-}
-div.poke{
-    background: url('../images/poke.png');
-    width: 25px;
-    height: 22px;
-    cursor: pointer;
-}
+table.issues tr td.actions, table.issues tr td.subject {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis; }
+
+.status-icon {
+  display: inline-block;
+  vertical-align: middle;
+  background: url("../images/status-icons.png");
+  width: 17px;
+  height: 25px;
+  overflow: hidden;
+  text-indent: 9999px; }
+  .status-icon.status-1 {
+    background-position: 0px 0px; }
+  .status-icon.status-2 {
+    background-position: -17px 0px; }
+  .status-icon.status-3 {
+    background-position: -34px 0px; }
+  .status-icon.status-4 {
+    background-position: -51px 0px; }
+  .status-icon.clip {
+    background-position: -68px 0px; }
+  .status-icon.start-time {
+    background-position: -102px 0px; }
+  .status-icon.stop-time {
+    background-position: -115px 0px; }
+
+ul#legend {
+  list-style: none;
+  padding-left: 0; }
+  ul#legend li .status-icon {
+    margin-right: .5em; }

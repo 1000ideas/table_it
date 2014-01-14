@@ -1,20 +1,17 @@
 require_dependency 'issue'
 
-module ExtendCoreClasses
+module IssueExtension
+  extend ActiveSupport::Concern
 
-  def self.included(base)
-    base.class_eval do
-      has_many :progresstimes, dependent: :destroy
+  included do
+    has_many :progresstimes, dependent: :destroy
 
-      def started?
-        progresstimes.where(closed: [false, nil]).any?
-      end
-
-      scope :started, lambda { joins(:progresstimes).where(progresstimes: {closed: [false, nil]}) }
-    end
-
+    scope :started, lambda { joins(:progresstimes).where(progresstimes: {closed: [false, nil]}) }
   end
 
+  def started?
+    progresstimes.where(closed: [false, nil]).any?
+  end
 end
 
-Issue.send(:include, ExtendCoreClasses)
+Issue.send(:include, IssueExtension)

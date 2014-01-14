@@ -1,4 +1,16 @@
 pl:
+  issues:
+    list:
+      actions: "Akcje"
+    sidebar:
+      legend: "Legenda"
+      attachment: "Z załącznikiem"
+      work_start: "Rozpocznij pracę nad zadaniem"
+      work_stop: "Wstrzymaj pracę"
+      status_1: Nowe zadanie
+      status_2: Zadanie rozpoczęte
+      status_3: Rozwiązane
+      status_4: Oczekuje na informację zwrotną
   late: spóźnienia
   to: do
   end_time_field_name: koniec
@@ -16,3 +28,4 @@ pl:
   work_start: start pracy
   filtr: filtruj
   user_view: Widok admina
+  poke: Przypomij

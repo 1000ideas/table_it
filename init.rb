@@ -1,5 +1,6 @@
 require 'redmine'
 require 'extend_core_classes'
+require 'issues_helper_patch'
 
 Redmine::Plugin.register :table_it do
   name 'TableIt'
@@ -12,4 +13,8 @@ Redmine::Plugin.register :table_it do
   project_module :table_it do
       permission :home, { :table_it => [:table_it] },:public => true
   end
+end
+
+RedmineApp::Application.routes.prepend do
+  root :to => 'issues#index', :as => 'home'
 end
