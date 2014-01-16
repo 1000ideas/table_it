@@ -160,33 +160,6 @@ class PluginAppController < ApplicationController
     end
   end
 
-  def add_time
-    if params[:issue_id] && !params[:time].blank?
-
-      time = TimeEntry.new issue_id: params[:issue_id],
-        hours: params[:time],
-        activity_id: 8,
-        user: User.current,
-        spent_on: Date.today
-
-      if time.save
-        @clas="notice"
-        @notice=l(:time_added)
-      else
-        @clas="error"
-        @notice=l(:cant_add_time)
-      end
-    else
-      @clas="error"
-      @notice=l(:cant_add_time)
-    end
-    
-    respond_to do |format|
-      format.js
-      format.json { render json: {:"#{@clas}" => @notice} }
-    end
-  end
-
   def create_issue
     retrieve_query
     sort_init(@query.sort_criteria.empty? ? [['id', 'desc']] : @query.sort_criteria)
@@ -227,89 +200,7 @@ class PluginAppController < ApplicationController
     end
   end
 
-  def change_to_in_progress
-    issue=Issue.find(params[:issue_id])
-
-    if issue.update_attribute(:status_id, 2)
-      clas = 'notice'
-      notice = l(:changed_to_in_progress)
-    else
-      clas='error'
-      notice = l(:cant_change_to_in_progress)
-    end
-    render :update do |page|
-      page << "if ($('response')) {"
-      page.remove 'response'
-      page.insert_html :top, 'table-it-issue-list', '<div id="response" class="flash '+clas+'">'+notice+'</div>'
-      page << "}else{"
-      page.insert_html :top, 'table-it-issue-list', '<div id="response" class="flash '+clas+'">'+notice+'</div>'
-      page << "}"
-      page.delay(2) do
-        page.visual_effect(:fade, 'response', :duration=>1)
-      end
-    end
-  end
-
-  def start_time
-    issue = Issue.find(params[:issue_id])
-
-    edit_allowed = User.current.allowed_to?(:edit_issues, issue.project)
-    if edit_allowed
-      issue
-        .progresstimes
-        .create(issue_id: params[:issue_id], start_time: DateTime.now)
-
-      if issue.status_id !=2
-        issue.update_attribute(:status_id, 2)
-      end
-      @success = true
-    else
-      @success = false
-    end
-    respond_to do |format|
-      format.json do
-        render json: {
-          success: @success,
-          status: issue.status_id
-        }
-      end
-    end
-  end
-
-  def stop_time
-    issue = Issue.started.find(params[:issue_id])
-
-    edit_allowed = User.current.allowed_to?(:edit_issues, issue.project)
-
-    if edit_allowed
-      stop_time = issue.progresstimes.last
-
-      new_time = stop_time.close!
-      
-      if new_time > 0
-        issue
-          .time_entries
-          .create(user: User.current, hours: new_time, activity_id: 8, spent_on: Date.today)
-
-      end
-
-      issue.progresstimes.started.delete_all
-
-      @success = true
-    else
-      @success = false
-      new_time = 0.0
-    end
-    respond_to do |format|
-      format.json do
-        render json: {
-          success: @success,
-          status: issue.status_id,
-          time: new_time
-        }
-      end
-    end
-  end
+  
 
   def poke
     issue=Issue.find(params[:id])

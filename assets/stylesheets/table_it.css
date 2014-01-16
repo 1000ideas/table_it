@@ -42,6 +42,9 @@ form.home-filter {
 h2 > .status-icon {
   margin-right: .5em; }
 
+h2#new-issue {
+  cursor: pointer; }
+
 table.issues tr td {
   vertical-align: middle; }
   table.issues tr td.actions, table.issues tr td.subject {

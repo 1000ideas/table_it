@@ -31,6 +31,8 @@ pl:
   work_start: start pracy
   home_filter_by: "Filtruj według:"
   home_filter: Filtruj
+  home_filter_project: Wybierz project...
+  home_filter_user: Wybierz użytkownika...
   user_view: Widok admina
   poke: Przypomij
   edit: Edytuj

@@ -5,6 +5,11 @@
   <%= delete_link query_path(@query) %>
 <% end %>
 </div>
+<h2 id="new-issue"><%= l(:label_issue_new) %></h2>
+<div style="display:none">
+  Siemanko
+</div>
+
 <h2><%= @query.new_record? ? l(:label_issue_plural) : h(@query.name) %></h2>
 <% html_title(@query.new_record? ? l(:label_issue_plural) : @query.name) %>
 

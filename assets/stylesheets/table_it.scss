@@ -55,6 +55,10 @@ h2 > .status-icon {
   margin-right: .5em;
 }
 
+h2#new-issue {
+  cursor: pointer;
+}
+
 table.issues {
 
   tr {

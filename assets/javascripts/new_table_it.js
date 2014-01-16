@@ -7,6 +7,7 @@
       this._init_time_add();
       this._init_toast();
       this._init_tooltips();
+      this._init_new_issue();
       true;
     }
 
@@ -31,6 +32,13 @@
         complete: function() {
           return $(time_input).val('');
         }
+      });
+    };
+
+    TableIt.prototype._init_new_issue = function() {
+      return $(document).on('click', 'h2#new-issue', function(event) {
+        event.preventDefault();
+        return $(this).next().slideToggle();
       });
     };
 

@@ -4,11 +4,11 @@
 
   <%= hidden_field_tag('f[]', :project_id) %>
   <%= hidden_field_tag("op[project_id]", '=') %>
-  <%= select_tag "v[project_id][]", options_from_collection_for_select(@projects, :id, :name, params[:v].try(:[], :project_id).try(:first) ), include_blank: true  %>
+  <%= select_tag "v[project_id][]", options_from_collection_for_select(@projects, :id, :name, params[:v].try(:[], :project_id).try(:first) ), prompt: l(:home_filter_project)  %>
   
   <%= hidden_field_tag('f[]', :assigned_to_id) %>
   <%= hidden_field_tag("op[assigned_to_id]", '=') %>
-  <%= select_tag "v[assigned_to_id][]", options_from_collection_for_select(@users, :id, :name, params[:v].try(:[], :assigned_to_id).try(:first) ), include_blank: true  %>
+  <%= select_tag "v[assigned_to_id][]", options_from_collection_for_select(@users, :id, :name, params[:v].try(:[], :assigned_to_id).try(:first) ), prompt: l(:home_filter_user)  %>
 
   <%= button_tag l(:home_filter) %>
   <%= link_to "wyczyść", home_path(set_filter: 1) %>

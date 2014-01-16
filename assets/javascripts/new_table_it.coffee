@@ -3,6 +3,7 @@ class TableIt
     @_init_time_add()
     @_init_toast()
     @_init_tooltips()
+    @_init_new_issue()
     true
 
   set_api_key: (key) ->
@@ -26,7 +27,10 @@ class TableIt
       complete: ->
         $(time_input).val('')
 
-
+  _init_new_issue: ->
+    $(document).on 'click', 'h2#new-issue', (event) ->
+      event.preventDefault()
+      $(this).next().slideToggle();
 
   _init_time_add: ->
     $(document).on 'click', '.add-time-button', (event) =>
