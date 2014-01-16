@@ -49,7 +49,7 @@ module IssuesControllerPatch
   end
 
   def find_projects_and_users
-    @projects = Project.scoped
+    @projects = Project.order('lft')
     @users = User
       .select("*, (id = #{User.current.id}) as current")
       .where(type: 'User', status: User::STATUS_ACTIVE)

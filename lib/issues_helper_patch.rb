@@ -1,12 +1,17 @@
 module IssuesHelperPatch
   extend ActiveSupport::Concern
 
+  def nl2br(text)
+    text.gsub(/\r\n|\r|\n/, '<br />').html_safe
+  end
+
   def issue_tooltip(issue)
     desc = strip_tags(issue.description)
     if desc.length > 300
       desc = desc.slice(0, 299).concat("&hellip;")
     end
-    [content_tag(:strong, "#{l(:field_author)}: "), issue.author, tag(:br), desc].join
+
+    [content_tag(:strong, "#{l(:field_author)}: "), issue.author, tag(:br), nl2br(desc)].join
   end
 
   def issue_status_action(issue)

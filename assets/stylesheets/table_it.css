@@ -27,8 +27,8 @@
       color: #005f00; }
 
 body .ui-tooltip {
-  box-shadow: 1px 1px 1px #888;
-  border: 1px solid #ddd;
+  box-shadow: 1px 1px 0 #ddd;
+  border: 1px solid #888;
   background: #fff;
   border-radius: 0; }
 
