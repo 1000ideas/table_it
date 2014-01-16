@@ -11,6 +11,9 @@ pl:
       status_2: Zadanie rozpoczęte
       status_3: Rozwiązane
       status_4: Oczekuje na informację zwrotną
+    time:
+      success: "Pomyślnie dodano czas."
+      failure: "Wystąpił błąd podczas dodawania czasu, spróbuj jeszcze raz."
   late: spóźnienia
   to: do
   end_time_field_name: koniec
@@ -26,6 +29,9 @@ pl:
   cant_change_to_in_progress: Nie można zmienić na "in progress"
   label_spent_time_plugin: Czas spędzony
   work_start: start pracy
-  filtr: filtruj
+  home_filter_by: "Filtruj według:"
+  home_filter: Filtruj
   user_view: Widok admina
   poke: Przypomij
+  edit: Edytuj
+  add_time: "Dodaj"

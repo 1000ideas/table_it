@@ -33,16 +33,64 @@
   }
 }
 
+body .ui-tooltip {
+  box-shadow: 1px 1px 1px #888;
+  border: 1px solid #ddd;
+  background: #fff;
+  border-radius: 0;
+
+}
+
+form.home-filter {
+  display: block;
+  margin: .5em 0 1.5em 0;
+
+  > * {
+    display: inline-block;
+    vertical-align: middle;
+  }
+}
+
 table.issues {
 
   tr {
     td {
+      vertical-align: middle;
+
       &.actions,
       &.subject {
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
+
       }
+
+      &.actions {
+        > * { 
+          display: inline-block;
+          vertical-align: middle;
+          margin-right: .5em;
+          min-height: 15px;
+          &:last-child {
+            margin-right: 0;
+          }
+        }
+
+        > span > * {
+          display: inline-block;
+          vertical-align: middle;
+        }
+
+        input[type=text] {
+          border: 1px solid #888;
+          width: 3em;
+          line-height: 1.6em;
+          padding: 0 .2em;
+          text-align: center;
+        }
+      }
+
+
 
 
     }
@@ -65,6 +113,14 @@ table.issues {
   &.clip { background-position: -68px 0px; }
   &.start-time { background-position: -102px 0px; }
   &.stop-time { background-position: -115px 0px; }
+  &.poke { 
+    width: 22px;
+    background: url('../images/poke.png');
+  }
+  &.edit { 
+    width: 22px;
+    background: url('../images/poke.png');
+  }
 }
 
 ul#legend {

@@ -4,8 +4,64 @@
 
   TableIt = (function() {
     function TableIt() {
+      this._init_time_add();
+      this._init_toast();
+      this._init_tooltips();
       true;
     }
+
+    TableIt.prototype.set_api_key = function(key) {
+      return this.api_key = key;
+    };
+
+    TableIt.prototype.add_time = function(time_input) {
+      var time, url;
+      time = $(time_input).val();
+      url = $(time_input).data('url');
+      if (time.length === 0 || (url == null)) {
+        return;
+      }
+      return $.ajax({
+        dataType: 'script',
+        type: 'POST',
+        url: url,
+        data: {
+          time: time
+        },
+        complete: function() {
+          return $(time_input).val('');
+        }
+      });
+    };
+
+    TableIt.prototype._init_time_add = function() {
+      var _this = this;
+      $(document).on('click', '.add-time-button', function(event) {
+        event.preventDefault();
+        return _this.add_time($(event.target).prev());
+      });
+      $(document).on('keyup', '.add-time-input', function(event) {
+        if (event.keyCode === 13) {
+          event.preventDefault();
+          return _this.add_time(event.target);
+        }
+      });
+      return true;
+    };
+
+    TableIt.prototype._init_toast = function() {
+      this._toast_element();
+      $(document).on('click', '#toast', function() {
+        var id;
+        id = $(this).data('timeout_id');
+        if (id != null) {
+          clearTimeout(id);
+          $(this).removeData('timeout_id');
+        }
+        return $(this).fadeOut('fast');
+      });
+      return true;
+    };
 
     TableIt.prototype._toast_element = function() {
       if ($('#toast').length === 0) {
@@ -20,14 +76,29 @@
         class_name = 'notice';
       }
       return this._toast_element().each(function(idx, el) {
+        var the_toast;
+        the_toast = $(el).parent();
         el.className = class_name;
         el.innerHTML = text;
-        return $(el).parent().fadeIn('fast', function() {
-          var _this = this;
-          return setTimeout(function() {
-            return $(el).parent().fadeOut('fast');
+        return the_toast.fadeIn('fast', function() {
+          var id,
+            _this = this;
+          id = setTimeout(function() {
+            return the_toast.fadeOut('fast');
           }, 3000);
+          return the_toast.data("timeout_id", id);
         });
+      });
+    };
+
+    TableIt.prototype._init_tooltips = function() {
+      return $(document).tooltip({
+        items: "[data-tooltip]",
+        track: true,
+        hide: false,
+        content: function() {
+          return $(this).data('tooltip');
+        }
       });
     };
 

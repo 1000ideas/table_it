@@ -1,0 +1,15 @@
+<%= form_tag home_path, method: :get, class: :'home-filter' do |f| %>
+  <%= l(:home_filter_by) %>
+  <%= hidden_field_tag(:set_filter, 1) %>
+
+  <%= hidden_field_tag('f[]', :project_id) %>
+  <%= hidden_field_tag("op[project_id]", '=') %>
+  <%= select_tag "v[project_id][]", options_from_collection_for_select(@projects, :id, :name, params[:v].try(:[], :project_id).try(:first) ), include_blank: true  %>
+  
+  <%= hidden_field_tag('f[]', :assigned_to_id) %>
+  <%= hidden_field_tag("op[assigned_to_id]", '=') %>
+  <%= select_tag "v[assigned_to_id][]", options_from_collection_for_select(@users, :id, :name, params[:v].try(:[], :assigned_to_id).try(:first) ), include_blank: true  %>
+
+  <%= button_tag l(:home_filter) %>
+  <%= link_to "wyczyść", home_path(set_filter: 1) %>
+<%end%>

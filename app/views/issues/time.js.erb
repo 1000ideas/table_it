@@ -1,0 +1,7 @@
+$('tr#issue-<%= @issue.id %> td.spent_hours').text('<%= @issue.spent_hours.round(2) %>');
+if (<%= @success.to_json %>) {
+  table_it.toast("<%= t('.success') %>", "notice")
+} else {
+  table_it.toast("<%= t('.failure') %>", "alert")
+}
+

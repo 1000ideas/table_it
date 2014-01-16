@@ -1,5 +1,14 @@
 
 	match 'table_it', :to => 'plugin_app#index'
+
+	resources :issues, only: [] do
+		member do 
+			post :poke
+			post :start_time, action: :time, defaults: {time: true}
+			post :stop_time, action: :time, defaults: {time: false}
+			post :add_time, action: :time
+		end
+	end
 	
 	match 'plugin_app/change_to_in_progress', :to => 'plugin_app#change_to_in_progress', :via => [:post]
 	match 'plugin_app/start_time', :to => 'plugin_app#start_time', :via => [:post]

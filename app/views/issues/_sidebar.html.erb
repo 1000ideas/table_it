@@ -15,7 +15,7 @@
 
 <%= render_sidebar_queries %>
 <%= call_hook(:view_issues_sidebar_queries_bottom) %>
-<h3><%= t('.legend') %><h3>
+<h3><%= t('.legend') %></h3>
 <ul id="legend">
   <% 1.upto(4).each do |id|%>
   <li><div class="status-<%= id %> status-icon"></div><%= t(".status_#{id}") %></li>
