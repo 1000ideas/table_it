@@ -1,0 +1,11 @@
+$('tr#issue-<%= @issue.id %>').each(function(idx, el) {
+<% if @issue.closed? %>
+  $('.stop-time', this).removeClass('stop-time').addClass('start-time');
+  $('td.spent_hours', this).text('<%= @issue.spent_hours.round(2) %>');
+  $(this).addClass('closed');
+  $('td.checkbox input[type=checkbox]', this).data('url', "<%= reopen_issue_path(@issue) %>");
+<% else %>
+  $(this).removeClass('closed');
+  $('td.checkbox input[type=checkbox]', this).data('url', "<%= close_issue_path(@issue) %>");
+<% end %>
+});

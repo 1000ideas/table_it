@@ -70,6 +70,8 @@ table.issues tr td {
     line-height: 1.6em;
     padding: 0 .2em;
     text-align: center; }
+table.issues tr.closed td {
+  text-decoration: line-through; }
 
 .status-icon {
   display: inline-block;

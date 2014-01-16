@@ -4,11 +4,11 @@ module IssuesControllerPatch
   included do
     prepend_before_filter :clear_filter_from_empty_values, only: [:index]
     skip_before_filter :authorize
-    before_filter :xfind_issue, only: [:poke, :time]
+    before_filter :xfind_issue, only: [:poke, :time, :close]
     before_filter :authorize, except: [:index]
     before_filter :find_projects_and_users, only: [:index]
 
-    accept_api_auth :poke, :time
+    accept_api_auth :poke, :time, :close
   end
 
   def poke
@@ -46,6 +46,19 @@ module IssuesControllerPatch
       format.js
     end
     
+  end
+
+  def close
+    if params[:reopen]
+      @issue.update_attributes(status_id: 2)
+    else
+      @issue.stop_time!
+      @issue.update_attributes(status_id: 5)
+    end
+
+    respond_to do |format|
+      format.js
+    end
   end
 
   private

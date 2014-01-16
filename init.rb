@@ -16,6 +16,7 @@ Redmine::Plugin.register :table_it do
     # permission :home, { :table_it => [:table_it] },:public => true
     permission :time_actions, issues: :time
     permission :poke, issues: :poke
+    permission :close_reopen_issue, issues: :close
   end
 end
 

@@ -1,6 +1,6 @@
 <%- @query.column_names = [:id, :project, :subject, :done_ratio, :author, :assigned_to, :due_date, :cf_1, :spent_hours] %>
 <% Rails.logger.debug @query.available_columns.inspect %>
-<%= form_tag({}) do -%>
+<%= form_tag({}, id: "issues-list-form") do -%>
 <%= hidden_field_tag 'back_url', url_for(params), :id => nil %>
 <div class="autoscroll">
 <table class="list issues">
@@ -33,7 +33,7 @@
     <% previous_group = group %>
   <% end %>
   <tr id="issue-<%= issue.id %>" class="hascontextmenu <%= cycle('odd', 'even') %> <%= issue.css_classes %> <%= level > 0 ? "idnt idnt-#{level}" : nil %>">
-    <td class="checkbox hide-when-print"><%= check_box_tag("ids[]", issue.id, false, :id => nil) %></td>
+    <td class="checkbox hide-when-print"><%= check_box_tag("ids[]", issue.id, false, :id => nil, data: {url: send(:"#{issue.closed? ? "reopen" : "close"}_issue_path", issue)}) %></td>
     <% query.inline_columns.each do |column| %>
       <% if column.name == :subject %>
         <td class="<%= column.css_classes %>" data-tooltip="<%= issue_tooltip(issue) %>">

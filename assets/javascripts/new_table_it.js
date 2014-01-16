@@ -8,6 +8,7 @@
       this._init_toast();
       this._init_tooltips();
       this._init_new_issue();
+      this._init_close_on_tick();
       true;
     }
 
@@ -31,6 +32,23 @@
         },
         complete: function() {
           return $(time_input).val('');
+        }
+      });
+    };
+
+    TableIt.prototype._init_close_on_tick = function() {
+      return $(document).on('click', '.issues td.checkbox input[type=checkbox]', function(event) {
+        var checked, closed, url;
+        event.preventDefault;
+        checked = $(this).is(':checked');
+        closed = $(this).parents('tr.closed').length > 0;
+        url = $(this).data('url');
+        if (checked !== closed) {
+          return $.ajax({
+            dataType: 'script',
+            type: 'POST',
+            url: url
+          });
         }
       });
     };

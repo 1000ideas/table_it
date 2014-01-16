@@ -108,6 +108,12 @@ table.issues {
 
 
     }
+
+    &.closed {
+      td {
+        text-decoration: line-through;
+      }
+    }
   }
 }
 

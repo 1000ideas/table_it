@@ -4,6 +4,7 @@ class TableIt
     @_init_toast()
     @_init_tooltips()
     @_init_new_issue()
+    @_init_close_on_tick()
     true
 
   set_api_key: (key) ->
@@ -19,13 +20,26 @@ class TableIt
       dataType: 'script'
       type: 'POST'
       url: url
-      # headers:
-      #   "X-Redmine-API-Key": @api_key
       data: 
         time: time
-        # key: @api_key 
       complete: ->
         $(time_input).val('')
+
+  _init_close_on_tick: ->
+    $(document).on 'click', '.issues td.checkbox input[type=checkbox]', (event) ->
+      event.preventDefault
+      checked = $(this).is(':checked') 
+      closed = $(this).parents('tr.closed').length > 0
+      url = $(this).data('url')
+      if checked != closed
+        $.ajax
+          dataType: 'script'
+          type: 'POST'
+          url: url
+      
+
+
+
 
   _init_new_issue: ->
     $(document).on 'click', 'h2#new-issue', (event) ->
