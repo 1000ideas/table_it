@@ -56,7 +56,7 @@
     TableIt.prototype._init_new_issue = function() {
       return $(document).on('click', 'h2#new-issue', function(event) {
         event.preventDefault();
-        return $(this).next().slideToggle();
+        return $(this).next().slideToggle('fast');
       });
     };
 

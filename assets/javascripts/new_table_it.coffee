@@ -36,15 +36,11 @@ class TableIt
           dataType: 'script'
           type: 'POST'
           url: url
-      
-
-
-
 
   _init_new_issue: ->
     $(document).on 'click', 'h2#new-issue', (event) ->
       event.preventDefault()
-      $(this).next().slideToggle();
+      $(this).next().slideToggle('fast');
 
   _init_time_add: ->
     $(document).on 'click', '.add-time-button', (event) =>

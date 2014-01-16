@@ -57,6 +57,33 @@ h2 > .status-icon {
 
 h2#new-issue {
   cursor: pointer;
+
+  & + div {
+    display: none;
+    padding: 1px 0;
+  }
+}
+
+form.home-new-issue-form {
+  label {
+    width: 10em;
+    display: inline-block;
+    text-align: right;
+    margin-right: 1em;
+  }
+
+  input {
+    &#issue_subject {
+      width: 50%;
+    }
+  }
+
+  textarea {
+    vertical-align: top;
+    max-width: 50%;
+  }
+
+
 }
 
 table.issues {

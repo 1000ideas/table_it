@@ -7,7 +7,7 @@
 </div>
 <h2 id="new-issue"><%= l(:label_issue_new) %></h2>
 <div style="display:none">
-  Siemanko
+  <%= render 'home_new_issue' %>
 </div>
 
 <h2><%= @query.new_record? ? l(:label_issue_plural) : h(@query.name) %></h2>

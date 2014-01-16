@@ -1,0 +1,43 @@
+<%= form_for(Issue.new(tracker_id: 1), url: issues_path(format: :js), remote: true, html: {class: "home-new-issue-form"}) do |f| %>
+<%= hidden_field_tag(:key, User.current.api_key) %>
+<p>
+  <%= f.label :project_id %>
+  <%= f.select :project_id, options_from_collection_for_select(@projects, :id, :name) %>
+  <%= link_to l(:label_project_new), new_project_url, :class=>'icon icon-add'%>
+</p>
+<p>
+  <%= f.label :subject %>
+  <%= f.text_field :subject %>
+</p>
+<p>
+  <%= f.label :description %>
+  <%= f.text_area :description, rows: 6 %>
+</p>
+<p>
+  <%= f.label :priority_id %>
+  <%= f.select :priority_id, options_from_collection_for_select(IssuePriority.scoped, :id, :name) %>
+</p>
+<p>
+  <%= f.label :tracker_id %>
+  <%= f.select :tracker_id, options_from_collection_for_select(Tracker.scoped, :id, :name) %>
+</p>
+<p>
+  <%= f.label :assigned_to_id %>
+  <%= f.select :assigned_to_id, options_from_collection_for_select(@projects.first.users, :id, :name), include_blank: true %>
+</p>
+
+<p>
+  <%= f.label :custom_field_values_1, l(:field_end_time) %>
+  <%= text_field_tag "issue[custom_field_values][1]" %>
+</p>
+
+<p>
+  <%= f.label :due_date %>
+  <%= f.text_field :due_date %>
+  <%= calendar_for :issue_due_date %>
+</p>
+<p>
+  <%= f.button l(:button_save) %>
+  <%= f.button l(:button_clear), type: :reset %>
+</p>
+<% end %>
