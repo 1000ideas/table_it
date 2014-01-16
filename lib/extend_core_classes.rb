@@ -14,15 +14,38 @@ module IssueExtension
   end
 
   def start_time!
-    
+    unless started?
+      update_attributes(status_id: 2)
+      progresstimes.create(
+        start_time: DateTime.now  
+      )
+      true
+    else
+      false
+    end
   end
 
   def stop_time!
-
+    if started?
+      time = progresstimes.started.last.close!
+      if time > 0
+        time_entries
+          .create(
+            user: User.current,
+            hours: time,
+            activity_id: 8,
+            spent_on: Date.today
+          )
+      end
+      progresstimes.started.delete_all
+      true
+    else
+      false
+    end
   end
 
 
-  def table_status?(status)
+  def table_status
     case status_id
       when 1 then :new
       when 2 then :progress

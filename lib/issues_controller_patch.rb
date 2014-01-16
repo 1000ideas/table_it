@@ -22,7 +22,13 @@ module IssuesControllerPatch
 
     @success = true
 
-    if time === true
+    if params[:switch] === true
+      @success = if @issue.started?
+        @issue.stop_time!
+      else
+        @issue.start_time!
+      end        
+    elsif time === true
       @success = @issue.start_time!
     elsif time === false
       @success = @issue.stop_time!
@@ -31,7 +37,7 @@ module IssuesControllerPatch
         activity_id: 8,
         user: User.current,
         spent_on: Date.today
-
+      @notice = true
       @success = tentry.errors.empty?
     end
 

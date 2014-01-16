@@ -15,7 +15,13 @@ module IssuesHelperPatch
   end
 
   def issue_status_action(issue)
-    content_tag(:b, "SA")
+    buttons = []
+    buttons << content_tag(:span, '', class: [:clip, :'status-icon']) if issue.attachments.any?
+    buttons << content_tag(:span, '', class: [:"status-#{issue.table_status}", :'status-icon'])
+    if User.current.allowed_to?(:edit_issues, issue.project)
+      buttons << link_to('', switch_time_issue_path(issue), data: {remote: true, method: :post}, class: [:"#{issue.started? ? "stop" : "start"}-time", :'status-icon'])
+    end
+    buttons.join.html_safe
   end
 
   def issue_actions(issue)

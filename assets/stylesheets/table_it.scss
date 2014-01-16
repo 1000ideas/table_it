@@ -51,6 +51,10 @@ form.home-filter {
   }
 }
 
+h2 > .status-icon {
+  margin-right: .5em;
+}
+
 table.issues {
 
   tr {
@@ -62,7 +66,13 @@ table.issues {
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
+      }
 
+      &.subject {
+        .status-icon {
+          margin-right: .5em;
+          vertical-align: middle;
+        }
       }
 
       &.actions {
@@ -106,13 +116,13 @@ table.issues {
   overflow: hidden;
   text-indent: 9999px;
 
-  &.status-1 { background-position: 0px 0px; }
-  &.status-2 { background-position: -17px 0px; }
-  &.status-3 { background-position: -34px 0px; }
-  &.status-4 { background-position: -51px 0px; }
+  &.status-1, &.status-new { background-position: 0px 0px; }
+  &.status-2, &.status-progress { background-position: -17px 0px; }
+  &.status-3, &.status-resolved { background-position: -34px 0px; }
+  &.status-4, &.status-feedback { background-position: -51px 0px; }
   &.clip { background-position: -68px 0px; }
-  &.start-time { background-position: -102px 0px; }
-  &.stop-time { background-position: -115px 0px; }
+  &.stop-time { background-position: -102px 0px; }
+  &.start-time { background-position: -115px 0px; }
   &.poke { 
     width: 22px;
     background: url('../images/poke.png');
@@ -120,6 +130,11 @@ table.issues {
   &.edit { 
     width: 22px;
     background: url('../images/poke.png');
+  }
+
+  &.status-none {
+    width: 0;
+    display: none;
   }
 }
 

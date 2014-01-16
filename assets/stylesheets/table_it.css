@@ -39,12 +39,18 @@ form.home-filter {
     display: inline-block;
     vertical-align: middle; }
 
+h2 > .status-icon {
+  margin-right: .5em; }
+
 table.issues tr td {
   vertical-align: middle; }
   table.issues tr td.actions, table.issues tr td.subject {
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis; }
+  table.issues tr td.subject .status-icon {
+    margin-right: .5em;
+    vertical-align: middle; }
   table.issues tr td.actions > * {
     display: inline-block;
     vertical-align: middle;
@@ -70,19 +76,19 @@ table.issues tr td {
   height: 25px;
   overflow: hidden;
   text-indent: 9999px; }
-  .status-icon.status-1 {
+  .status-icon.status-1, .status-icon.status-new {
     background-position: 0px 0px; }
-  .status-icon.status-2 {
+  .status-icon.status-2, .status-icon.status-progress {
     background-position: -17px 0px; }
-  .status-icon.status-3 {
+  .status-icon.status-3, .status-icon.status-resolved {
     background-position: -34px 0px; }
-  .status-icon.status-4 {
+  .status-icon.status-4, .status-icon.status-feedback {
     background-position: -51px 0px; }
   .status-icon.clip {
     background-position: -68px 0px; }
-  .status-icon.start-time {
-    background-position: -102px 0px; }
   .status-icon.stop-time {
+    background-position: -102px 0px; }
+  .status-icon.start-time {
     background-position: -115px 0px; }
   .status-icon.poke {
     width: 22px;
@@ -90,6 +96,9 @@ table.issues tr td {
   .status-icon.edit {
     width: 22px;
     background: url("../images/poke.png"); }
+  .status-icon.status-none {
+    width: 0;
+    display: none; }
 
 ul#legend {
   list-style: none;

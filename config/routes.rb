@@ -6,6 +6,7 @@
 			post :poke
 			post :start_time, action: :time, defaults: {time: true}
 			post :stop_time, action: :time, defaults: {time: false}
+			post :switch_time, action: :time, defaults: {switch: true}
 			post :add_time, action: :time
 		end
 	end

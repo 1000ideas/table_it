@@ -1,7 +1,17 @@
 $('tr#issue-<%= @issue.id %> td.spent_hours').text('<%= @issue.spent_hours.round(2) %>');
+
+<% if @issue.started? %>
+$('tr#issue-<%= @issue.id %> .start-time, h2 > .start-time').removeClass('start-time').addClass('stop-time');
+$('tr#issue-<%= @issue.id %> .status-new, h2 > .status-new').removeClass('status-new').addClass('status-progress');
+<% else %>
+$('tr#issue-<%= @issue.id %> .stop-time, h2 > .stop-time').removeClass('stop-time').addClass('start-time');
+<% end %>
+
+<% if @notice %>
 if (<%= @success.to_json %>) {
   table_it.toast("<%= t('.success') %>", "notice")
 } else {
   table_it.toast("<%= t('.failure') %>", "alert")
 }
+<% end %>
 
