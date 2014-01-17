@@ -62,7 +62,7 @@
 <%= link_to "", '#', id: :'toggle-sidebar' %>
 
 <% content_for :header_tags do %>
-    <%= javascript_include_tag 'new_table_it', plugin: :table_it %>
+    <%= javascript_include_tag 'table_it', plugin: :table_it %>
     <%= javascript_tag do %>
       jQuery(function() {
         table_it.set_api_key("<%= User.current.api_key %>");        
