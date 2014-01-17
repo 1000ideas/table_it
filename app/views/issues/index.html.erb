@@ -5,20 +5,20 @@
   <%= delete_link query_path(@query) %>
 <% end %>
 </div>
-<h2 id="new-issue"><%= l(:label_issue_new) %></h2>
-<div style="display:none">
-  <%= render 'home_new_issue' %>
-</div>
-
-<h2><%= @query.new_record? ? l(:label_issue_plural) : h(@query.name) %></h2>
-<% html_title(@query.new_record? ? l(:label_issue_plural) : @query.name) %>
 
 <% if request.path == home_path %>
+  <h2 id="new-issue"><%= l(:label_issue_new) %></h2>
+  <div style="display:none">
+    <%= render 'home_new_issue' %>
+  </div>
+  <h2><%= @query.new_record? ? l(:label_issue_plural) : h(@query.name) %></h2>
   <%= render 'home_filter' %>  
 <% else %>
+  <h2><%= @query.new_record? ? l(:label_issue_plural) : h(@query.name) %></h2>
   <%= render 'default_filter' %>  
 <% end %>
 
+<% html_title(@query.new_record? ? l(:label_issue_plural) : @query.name) %>
 
 <%= error_messages_for 'query' %>
 <% if @query.valid? %>
@@ -58,6 +58,8 @@
 <% content_for :sidebar do %>
     <%= render :partial => 'issues/sidebar' %>
 <% end %>
+
+<%= link_to "", '#', id: :'toggle-sidebar' %>
 
 <% content_for :header_tags do %>
     <%= javascript_include_tag 'new_table_it', plugin: :table_it %>

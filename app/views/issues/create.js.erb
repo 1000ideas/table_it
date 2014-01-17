@@ -2,7 +2,7 @@
   table_it.toast("<%= @issue.errors.full_messages.first %>", 'alert')
 <% else %>
   table_it.toast("<%= l(:label_issue_added) %>")
-  $('.home-new-issue-form').each(function() {
-    this.reset();
+  $('#issue_subject, #issue_description').each(function() {
+    $(this).val('');
   });
 <% end %>

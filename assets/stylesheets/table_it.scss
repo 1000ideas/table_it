@@ -7,6 +7,7 @@
   height: 100%;
   background: rgba(255,255,255, .5);
   text-align: center;
+  z-index: 100;
   
   > div {
     position: absolute;
@@ -66,19 +67,32 @@ h2#new-issue {
 
 form.home-new-issue-form {
   label {
-    width: 10em;
+    width: 14em;
     display: inline-block;
     text-align: right;
     margin-right: 1em;
+    font-size: .9em;
   }
 
   input {
+    border-width: 1px;
+    border-style: solid;
+    border-radius: 2px;
+    border-color: #ddd;
     &#issue_subject {
       width: 50%;
     }
   }
 
+  select {
+    min-width: 12em;
+  }
+
   textarea {
+    border-width: 1px;
+    border-style: solid;
+    border-radius: 2px;
+    border-color: #ddd;
     vertical-align: top;
     max-width: 50%;
   }
@@ -184,4 +198,38 @@ ul#legend {
       margin-right: .5em;
     }
   }  
+}
+
+#content {
+  position: relative;
+
+  #toggle-sidebar {
+    position: absolute;
+    top: 0;
+    right: -1px;
+    display: block;
+    width: 2em;
+    height: 2em;
+    background: #eee;
+    border: 1px solid #ddd;
+    border-right: 0;
+    color: #888;
+    line-height: 2em;
+    text-align: center;
+    text-decoration: none;
+
+    &:focus, &:hover {
+      box-shadow: -1px 1px 1px #eee;
+    }
+
+    &:before {
+      content: '»';
+    }
+  }
+}
+
+#main.nosidebar #content #toggle-sidebar {
+  &:before {
+    content: '«';
+  }
 }

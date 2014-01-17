@@ -5,6 +5,7 @@ class TableIt
     @_init_tooltips()
     @_init_new_issue()
     @_init_close_on_tick()
+    @_init_toggle_sidebar()
     true
 
   set_api_key: (key) ->
@@ -24,6 +25,25 @@ class TableIt
         time: time
       complete: ->
         $(time_input).val('')
+
+  set_cookie: (name, value, days = 1) ->
+    d = new Date()
+    d.setTime( d.getTime() + days*24*60*60*1000 )
+    document.cookie = "#{name}=#{value}; expires=#{d.toGMTString()}"
+
+  _init_toggle_sidebar: ->
+    status = document.cookie.match(/sidebar=(open|closed)(?:;|$)/)
+    if status?
+      $('#main').toggleClass('nosidebar', status[1] == 'closed')
+
+
+    $(document).on 'click', '#toggle-sidebar', (event) =>
+      event.preventDefault()
+      
+      closed = $(event.target).parents('#main').toggleClass('nosidebar').hasClass('nosidebar')
+      @set_cookie('sidebar', (if closed then "closed" else "open"), 365)
+
+
 
   _init_close_on_tick: ->
     $(document).on 'click', '.issues td.checkbox input[type=checkbox]', (event) ->

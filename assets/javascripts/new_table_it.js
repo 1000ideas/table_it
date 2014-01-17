@@ -9,6 +9,7 @@
       this._init_tooltips();
       this._init_new_issue();
       this._init_close_on_tick();
+      this._init_toggle_sidebar();
       true;
     }
 
@@ -33,6 +34,31 @@
         complete: function() {
           return $(time_input).val('');
         }
+      });
+    };
+
+    TableIt.prototype.set_cookie = function(name, value, days) {
+      var d;
+      if (days == null) {
+        days = 1;
+      }
+      d = new Date();
+      d.setTime(d.getTime() + days * 24 * 60 * 60 * 1000);
+      return document.cookie = "" + name + "=" + value + "; expires=" + (d.toGMTString());
+    };
+
+    TableIt.prototype._init_toggle_sidebar = function() {
+      var status,
+        _this = this;
+      status = document.cookie.match(/sidebar=(open|closed)(?:;|$)/);
+      if (status != null) {
+        $('#main').toggleClass('nosidebar', status[1] === 'closed');
+      }
+      return $(document).on('click', '#toggle-sidebar', function(event) {
+        var closed;
+        event.preventDefault();
+        closed = $(event.target).parents('#main').toggleClass('nosidebar').hasClass('nosidebar');
+        return _this.set_cookie('sidebar', (closed ? "closed" : "open"), 365);
       });
     };
 
