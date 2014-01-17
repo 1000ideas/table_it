@@ -1,0 +1,5 @@
+$('#issue_assigned_to_id')
+  .html("<%= content_tag(:option) %>")
+  .append("<%=j options_from_collection_for_select(@users, :id, :name) %>")
+
+$('#issue_assigned_to_id').val(<%= @project.default_user_id %>)

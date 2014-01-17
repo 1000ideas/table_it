@@ -118,9 +118,20 @@
     };
 
     TableIt.prototype._init_new_issue = function() {
-      return $(document).on('click', 'h2#new-issue', function(event) {
+      $(document).on('click', 'h2#new-issue', function(event) {
         event.preventDefault();
         return $(this).next().slideToggle('fast');
+      });
+      return $(document).on('change', '.home-new-issue-form #issue_project_id', function(event) {
+        return $.ajax({
+          dataType: 'script',
+          type: 'GET',
+          data: {
+            project_id: $(this).val()
+          },
+          url: $(this).data('url'),
+          error: function() {}
+        });
       });
     };
 

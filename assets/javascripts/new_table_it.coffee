@@ -90,6 +90,16 @@ class TableIt
       event.preventDefault()
       $(this).next().slideToggle('fast');
 
+    $(document).on 'change', '.home-new-issue-form #issue_project_id', (event) ->
+      $.ajax
+        dataType: 'script'
+        type: 'GET'
+        data:
+          project_id: $(this).val()
+        url: $(this).data('url')
+        error: ->
+
+
   _init_time_add: ->
     $(document).on 'click', '.add-time-button', (event) =>
       event.preventDefault()

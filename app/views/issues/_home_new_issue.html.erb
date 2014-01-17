@@ -2,7 +2,7 @@
 <%= hidden_field_tag(:key, User.current.api_key) %>
 <p>
   <%= f.label :project_id %>
-  <%= f.select :project_id, options_from_collection_for_select(@projects, :id, :name) %>
+  <%= f.select :project_id, options_from_collection_for_select(@projects, :id, :name), {}, data: {url: project_users_path(format: :js)} %>
   <%= link_to l(:label_project_new), new_project_url, :class=>'icon icon-add'%>
 </p>
 <p>

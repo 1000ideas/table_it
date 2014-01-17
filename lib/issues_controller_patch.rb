@@ -3,15 +3,24 @@ module IssuesControllerPatch
   
   included do
     prepend_before_filter :clear_filter_from_empty_values, only: [:index]
+    prepend_before_filter :find_project_by_project_id, only: [:project_users]
     skip_before_filter :authorize
     before_filter :xfind_issue, only: [:poke, :time, :close]
     before_filter :authorize, except: [:index]
     before_filter :find_projects_and_users, only: [:index]
 
-    accept_api_auth :poke, :time, :close
+    accept_api_auth :poke, :time, :close, :project_users
 
-    alias_method_chain :create, :js_response
-    
+    alias_method_chain :create, :js_response    
+  end
+
+
+  def project_users
+    @users = @project.users
+
+    respond_to do |format|
+      format.js
+    end
   end
 
   def poke

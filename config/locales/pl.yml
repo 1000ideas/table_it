@@ -18,10 +18,6 @@ pl:
   to: do
   end_time_field_name: koniec
   field_end_time: Czas zakończenia
-  time_added: Dodano czas pracy.
-  time_left_hour: Pozostały czas (h:m)
-  add_time_column: Dodaj czas
-  cant_add_time: Nie można było dodać czasu.
   change_issue_revert: Otworzono pownie zagadnienie. Status zmieniony na "w trakcie".
   change_issue_closed: Zagadnienia zamknięto. Po ponownym załadowaniu list nie będzie możliwe cofnięcie.
   attachment: Załącznik
@@ -31,11 +27,12 @@ pl:
   work_start: start pracy
   home_filter_by: "Filtruj według:"
   home_filter: Filtruj
-  home_filter_project: Wybierz project...
+  home_filter_project: Wybierz projekt...
   home_filter_user: Wybierz użytkownika...
   user_view: Widok admina
   poke: Przypomij
   label_poke_success: "Przypomnienie zostało wysłane"
   label_poke_failure: "Wystąpił błąd. Powiadomienie nie wysłane. Musisz zrobić spacerek."
+  label_project_default_users: "Domyślni użytkownicy"
   edit: Edytuj
   add_time: "Dodaj"

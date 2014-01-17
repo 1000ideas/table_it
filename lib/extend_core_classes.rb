@@ -1,12 +1,23 @@
 require_dependency 'issue'
 
-module CustomFieldExtension
+module ProjectExtension
   extend ActiveSupport::Concern
 
-  # included do
-    
+  def default_user_id
+    project_users_hash = JSON.load(Setting.plugin_table_it[:default_users])
+    login = project_users_hash.find do |key, value|
+      key == identifier
+    end.try(:last)
 
-  # end
+    User.where(login: login).last.try(:id) if login.present?
+  rescue SyntaxError
+    Rails.logger.error "Fix JSON syntax in TableIt settings"
+    nil
+  end
+end
+
+module CustomFieldExtension
+  extend ActiveSupport::Concern
 
   def name
     n = read_attribute(:name)
@@ -72,4 +83,5 @@ module IssueExtension
 end
 
 Issue.send(:include, IssueExtension)
+Project.send(:include, ProjectExtension)
 CustomField.send(:include, CustomFieldExtension)

@@ -9,13 +9,15 @@ Redmine::Plugin.register :table_it do
   description 'Watch your issues right from redmine home page'
   version '0.2.0'
   url 'https://github.com/1000ideas/table_it.git'
-  author_url 'http://1000i.pl'  
+  author_url 'http://1000i.pl' 
 
-  
+  settings default: {default_users: true}, partial: 'settings/table_it'
+
   project_module :table_it do
     permission :time_actions, issues: :time
     permission :poke, issues: :poke
     permission :close_reopen_issue, issues: :close
+    permission :list_project_users, issues: :project_users
   end
 end
 
