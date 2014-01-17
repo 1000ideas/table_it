@@ -1,5 +1,20 @@
 require_dependency 'issue'
 
+module CustomFieldExtension
+  extend ActiveSupport::Concern
+
+  # included do
+    
+
+  # end
+
+  def name
+    n = read_attribute(:name)
+    I18n.t(:"field_#{n.gsub(/\s+/,'_').downcase}", default: n.humanize)
+  end
+
+end
+
 module IssueExtension
   extend ActiveSupport::Concern
 
@@ -57,3 +72,4 @@ module IssueExtension
 end
 
 Issue.send(:include, IssueExtension)
+CustomField.send(:include, CustomFieldExtension)

@@ -35,5 +35,7 @@ pl:
   home_filter_user: Wybierz użytkownika...
   user_view: Widok admina
   poke: Przypomij
+  label_poke_success: "Przypomnienie zostało wysłane"
+  label_poke_failure: "Wystąpił błąd. Powiadomienie nie wysłane. Musisz zrobić spacerek."
   edit: Edytuj
   add_time: "Dodaj"

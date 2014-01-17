@@ -1,0 +1,5 @@
+<% if @success %>
+  table_it.toast("<%= l(:label_poke_success) %>")
+<% else %>
+  table_it.toast("<%= l(:label_poke_failure) %>", 'alert')
+<% end %>

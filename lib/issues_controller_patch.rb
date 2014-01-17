@@ -14,6 +14,8 @@ module IssuesControllerPatch
   end
 
   def poke
+    @success = !!TableItMailer.poke_mail(@issue).try(:deliver)
+
     respond_to do |format|
       format.js
     end

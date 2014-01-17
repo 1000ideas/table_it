@@ -9,20 +9,11 @@ require 'generators/table_it/actions'
         puts "====================================================="
       end
 
-      def add_gems # :nodoc:
-          puts "adding gems"
-          gem 'thor'
-          gem "will_paginate"
-       
-        Bundler.with_clean_env do
-          run 'bundle install'
-        end
-      end
 
-      def add_migration
-        if(!CustomField.find_by_name("Time left"))
+      def add_custom_field
+        if CustomField.where(name: 'end_time').empty?
           custom_field = CustomField.new(
-            name: "Time left", 
+            name: "end_time", 
             field_format: "string", 
             is_required: 0, 
             is_for_all: 1, 
@@ -36,33 +27,16 @@ require 'generators/table_it/actions'
             multiple: 0,
             type: "IssueCustomField")
           
-          if custom_field.save            
-            puts "Made custom field"
+          if custom_field.save
+            puts "Made custom field (End time)"
           else
             puts custom_field.errors.inspect
           end
         end
       end
       
-      def add_translation
-        custom_field = CustomField.find_by_name("Time left")
-        
-        trans = { "end_time_field_name" => "Time left"}
-      
-        trans['end_time_field_name'] = "Time left"
-
-        I18n.available_locales.each do |locale|
-          translations_file "end_time_field_name", "Time left", locale
-        end
-        
-      end
-      
       def run_migrations
-        puts "run plugin migrations"
         rake("redmine:plugins:migrate")
       end
       
-      def add_to_models
-        create_file Rails.root+"config/initializers/table_it_conf.rb", "require 'will_paginate/array'" 
-      end
     end

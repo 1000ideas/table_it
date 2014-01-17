@@ -84,39 +84,6 @@ class PluginAppController < ApplicationController
     end
   end
 
-  def update_issue
-    issue = Issue.all(:conditions=>{:id=>params[:ids]})
-    issue.each do |i|
-      stop_time=i.progresstimes.last
-
-      if stop_time
-        if stop_time.end_time.blank?
-          stop_time.update_attributes(:end_time=>DateTime.now, :closed=>true)
-          new_time = ((((DateTime.now - stop_time.start_time.to_datetime)*24*60).to_i)/60.0).round(2)
-          i.time_entries.create(:user=>User.current, :hours=>new_time, :activity_id=>8, :spent_on=>Date.today)
-        end
-      end
-      i.init_journal(User.current)
-      if i.update_attributes(:status_id=>5)
-        TableItMailer.close_ticket_plugin_mail(i).deliver
-      end
-    end
-    
-    @notice=l(:change_issue_closed)
-    respond_to do |format|
-      format.js
-    end
-  end
-
-  def uncheck_issue
-    issue= Issue.find(params[:id])
-    issue.update_attribute(:status_id, 2)
-    issue.init_journal(User.current)
-    @notice=l(:change_issue_revert)
-    respond_to do |format|
-      format.js
-    end
-  end
 
   def refresh_issues_list
     retrieve_query
@@ -158,64 +125,7 @@ class PluginAppController < ApplicationController
     respond_to do |format|
       format.js
     end
-  end
-
-  def create_issue
-    retrieve_query
-    sort_init(@query.sort_criteria.empty? ? [['id', 'desc']] : @query.sort_criteria)
-    sort_update(@query.sortable_columns)
-    if @query.valid?
-      @limit = per_page_option
-      @query.column_names= [:project, :subject, :done_ratio, :assigned_to, :tracker, :priority,:due_date]
-      @issues = @query.issues(:include => [:assigned_to, :tracker, :priority, :category, :fixed_version],
-        :order => sort_clause)
-      @issue_count_by_group = @query.issue_count_by_group
-    end
-    call_hook(:controller_plugin_app_index_before_save, { :params => params, :issue => @issue })
-
-    
-    @cf =CustomField.find(:first, :conditions=>{:name=>params[:end_time_field_tag]})
-    if @cf
-      @issue.custom_values.build(:value=> params[:end_time], :custom_field_id=>@cf.id, :customized_type=>"Issue")
-    end
-    if !params[:end_time].blank? && @issue.due_date.blank?
-      @issue.due_date=Date.today
-    end
-
-    @issues=@issues.paginate :page => params[:page], :per_page => @limit ? @limit : 25
-
-    @error_messages = ""
-    if @issue.save
-      add_attach_files(@issue, params[:attachments])
-      call_hook(:controller_issues_new_after_save, { :params => params, :issue => @issue})
-      
-      @saved = true
-    else
-      @saved = false
-      @error_messages = error_messages_for_issue('issue')    
-    end
-    logger.debug @error_messages.inspect
-    respond_to do |format|
-      format.js
-    end
-  end
-
-  
-
-  def poke
-    issue=Issue.find(params[:id])
-
-    if TableItMailer.poke_mail(issue).deliver
-      @clas='notice'
-      @notice="poked"
-    else
-      @clas="error"
-      @notice="can't poke"
-    end
-    respond_to do |format|
-      format.js
-    end
-  end
+  end 
 
   def project_users
     project = Project.find(params[:project_id])
@@ -226,45 +136,6 @@ class PluginAppController < ApplicationController
   end
 
   private
-  def build_new_issue_from_params
-    if params[:id].blank?
-      @issue = Issue.new(params[:issue])
-    end
-    @issue.author = User.current
-    @issue.start_date ||= Date.today
-    if params[:issue].is_a?(Hash)
-      @issue.safe_attributes = params[:issue]
-      if User.current.allowed_to?(:add_issue_watchers, @project) && @issue.new_record?
-        @issue.watcher_user_ids = params[:issue]['watcher_user_ids']
-      end
-    end
-    @priorities = IssuePriority.all
-    @allowed_statuses = @issue.new_statuses_allowed_to(User.current, true)
-  end
-
-  def add_attach_files(obj, attachments)
-    attached = []
-    if attachments && attachments.is_a?(Hash)
-      attachments.each_value do |attachment|
-        file = attachment['file']
-        next unless file && file.size > 0
-        a = Attachment.create(:container => obj,
-          :file => file,
-          :description => attachment['description'].to_s.strip,
-          :author => User.current)
-        obj.attachments << a
-
-        if a.new_record?
-          obj.unsaved_attachments ||= []
-          obj.unsaved_attachments << a
-        else
-          attached << a
-        end
-      end
-    end
-    {:files => attached, :unsaved => obj.unsaved_attachments}
-  end
-
 
   def dont_show_tickets_from_project
     
