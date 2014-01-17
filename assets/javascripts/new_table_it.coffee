@@ -1,4 +1,7 @@
 class TableIt
+  #refresh time in seconds
+  @refresh_time = 60
+
   constructor: ->
     @_init_time_add()
     @_init_toast()
@@ -6,7 +9,17 @@ class TableIt
     @_init_new_issue()
     @_init_close_on_tick()
     @_init_toggle_sidebar()
+    @_init_auto_refresh()
     true
+
+
+  refresh: (done = (=> @_reset_auto_refresh()) )->
+    $.ajax
+      url: location.href
+      dataType: 'html'
+      success: (data) ->
+        $("#issues-list-form").replaceWith $(data).filter("#issues-list-form")          
+      complete: done
 
   set_api_key: (key) ->
     @api_key = key
@@ -30,6 +43,21 @@ class TableIt
     d = new Date()
     d.setTime( d.getTime() + days*24*60*60*1000 )
     document.cookie = "#{name}=#{value}; expires=#{d.toGMTString()}"
+
+  _init_auto_refresh: ->
+    @refresh_timeout_id = setTimeout(
+      =>
+        @refresh =>
+          @_init_auto_refresh()        
+      TableIt.refresh_time*1000
+    )
+
+  _clear_auto_refresh: ->
+    clearTimeout(@refresh_timeout_id)
+
+  _reset_auto_refresh: ->
+    @_clear_auto_refresh()
+    @_init_auto_refresh()
 
   _init_toggle_sidebar: ->
     status = document.cookie.match(/sidebar=(open|closed)(?:;|$)/)

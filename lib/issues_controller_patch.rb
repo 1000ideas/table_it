@@ -11,6 +11,7 @@ module IssuesControllerPatch
     accept_api_auth :poke, :time, :close
 
     alias_method_chain :create, :js_response
+    
   end
 
   def poke
@@ -92,8 +93,7 @@ module IssuesControllerPatch
         format.js
       end
     end
-  end
-  
+  end  
 
   private
 

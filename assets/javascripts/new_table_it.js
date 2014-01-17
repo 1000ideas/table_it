@@ -3,6 +3,8 @@
   var TableIt;
 
   TableIt = (function() {
+    TableIt.refresh_time = 60;
+
     function TableIt() {
       this._init_time_add();
       this._init_toast();
@@ -10,8 +12,26 @@
       this._init_new_issue();
       this._init_close_on_tick();
       this._init_toggle_sidebar();
+      this._init_auto_refresh();
       true;
     }
+
+    TableIt.prototype.refresh = function(done) {
+      var _this = this;
+      if (done == null) {
+        done = (function() {
+          return _this._reset_auto_refresh();
+        });
+      }
+      return $.ajax({
+        url: location.href,
+        dataType: 'html',
+        success: function(data) {
+          return $("#issues-list-form").replaceWith($(data).filter("#issues-list-form"));
+        },
+        complete: done
+      });
+    };
 
     TableIt.prototype.set_api_key = function(key) {
       return this.api_key = key;
@@ -45,6 +65,24 @@
       d = new Date();
       d.setTime(d.getTime() + days * 24 * 60 * 60 * 1000);
       return document.cookie = "" + name + "=" + value + "; expires=" + (d.toGMTString());
+    };
+
+    TableIt.prototype._init_auto_refresh = function() {
+      var _this = this;
+      return this.refresh_timeout_id = setTimeout(function() {
+        return _this.refresh(function() {
+          return _this._init_auto_refresh();
+        });
+      }, TableIt.refresh_time * 1000);
+    };
+
+    TableIt.prototype._clear_auto_refresh = function() {
+      return clearTimeout(this.refresh_timeout_id);
+    };
+
+    TableIt.prototype._reset_auto_refresh = function() {
+      this._clear_auto_refresh();
+      return this._init_auto_refresh();
     };
 
     TableIt.prototype._init_toggle_sidebar = function() {
