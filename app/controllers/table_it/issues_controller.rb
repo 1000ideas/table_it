@@ -1,8 +1,8 @@
 class TableIt::IssuesController < ApplicationController
   
   before_filter :find_issue, only: [:poke, :time, :close]
-  before_filter :authorize
   before_filter :find_project_by_project_id, only: [:project_users]
+  before_filter :authorize
 
   accept_api_auth :poke, :time, :close, :project_users
 

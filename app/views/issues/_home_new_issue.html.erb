@@ -28,7 +28,7 @@
 </p>
 <p>
   <%= f.label :assigned_to_id %>
-  <%= f.select :assigned_to_id, options_from_collection_for_select(@projects.first.users, :id, :name), include_blank: true %>
+  <%= f.select :assigned_to_id, options_from_collection_for_select(@projects.first.users, :id, :name, @projects.first.default_user_id), include_blank: true %>
 </p>
 
 <p>

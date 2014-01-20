@@ -98,6 +98,7 @@ class TableIt
           project_id: $(this).val()
         url: $(this).data('url')
         error: ->
+          $('.home-new-issue-form #issue_assigned_to_id').html $('<option>')
 
     $(document).on 'ajax:success', 'form.home-new-issue-form', (event, data) =>
       label = $(event.target).data('success') ? "Success"

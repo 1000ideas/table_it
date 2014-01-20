@@ -131,7 +131,9 @@
             project_id: $(this).val()
           },
           url: $(this).data('url'),
-          error: function() {}
+          error: function() {
+            return $('.home-new-issue-form #issue_assigned_to_id').html($('<option>'));
+          }
         });
       });
       $(document).on('ajax:success', 'form.home-new-issue-form', function(event, data) {

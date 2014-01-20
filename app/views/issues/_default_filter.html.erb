@@ -1,5 +1,5 @@
-<%= form_tag({ :controller => 'issues', :action => 'index', :project_id => @project },
-            :method => :get, :id => 'query_form') do %>
+<%- path = @project.nil? ? issues_path : project_issues_path(@project)  %>
+<%= form_tag(path, :method => :get, :id => 'query_form') do %>
     <%= hidden_field_tag 'set_filter', '1' %>
     <div id="query_form_content" class="hide-when-print">
     <fieldset id="filters" class="collapsible <%= @query.new_record? ? "" : "collapsed" %>">

@@ -4,7 +4,8 @@
 
   <%= hidden_field_tag('f[]', :project_id) %>
   <%= hidden_field_tag("op[project_id]", '=') %>
-  <%= select_tag "v[project_id][]", options_from_collection_for_select(@projects, :id, :name, params[:v].try(:[], :project_id).try(:first) ), prompt: l(:home_filter_project)  %>
+  <%- selected_project = params[:v].try(:[], :project_id).try(:one?) ? params[:v].try(:[], :project_id).try(:first) : nil -%>
+  <%= select_tag "v[project_id][]", options_from_collection_for_select(@projects, :id, :name, selected_project ), prompt: l(:home_filter_project)  %>
   
   <%= hidden_field_tag('f[]', :assigned_to_id) %>
   <%= hidden_field_tag("op[assigned_to_id]", '=') %>
