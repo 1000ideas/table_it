@@ -1,18 +1,37 @@
-en-GB:
+en:
+  issues:
+    list:
+      actions: "Actions"
+    sidebar:
+      legend: "Legend"
+      attachment: "With attachment"
+      work_start: "Start work"
+      work_stop: "Pause work"
+      status_1: New issue
+      status_2: Issue in progress
+      status_3: Resolved issue
+      status_4: Waiting for feedback
+    time:
+      success: "Time added successfully."
+      failure: "Time adding failed. Try again."
   late: late
   to: to
-  end_time_field_name: koniec
   field_end_time: End time
-  time_left_hour: Time left (h:m)
-  add_time_column: Add time
-  time_added: Time added.
-  cant_add_time: Can't add time.
   change_issue_revert: Issue is open now. New status is "in progress".
   change_issue_closed: Issue is closed. After list refresh it'll be removed.
-  attachment: attachment
+  attachment: Attachment
   changed_to_in_progress: yay! You're now "in progress"
   cant_change_to_in_progress: ups.... I try but I can't change to "in progress"
   label_spent_time_plugin: time spent
   work_start: work start
-  filtr: filter
-  user_view: admins's view
+  user_view: admin's view
+  home_filter_by: "Filter by:"
+  home_filter: Filter
+  home_filter_project: Select project...
+  home_filter_user: Select user...
+  poke: Poke user
+  label_poke_success: "Poke sent"
+  label_poke_failure: "Failure. Try again or go for a walk."
+  label_project_default_users: "Default users"
+  label_end_time_custom_field: "End time custom field"
+  add_time: Add...

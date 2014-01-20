@@ -33,4 +33,5 @@ en:
   label_poke_success: "Poke sent"
   label_poke_failure: "Failure. Try again or go for a walk."
   label_project_default_users: "Default users"
+  label_end_time_custom_field: "End time custom field"
   add_time: Add...

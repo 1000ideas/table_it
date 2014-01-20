@@ -34,5 +34,6 @@ pl:
   label_poke_success: "Przypomnienie zostało wysłane"
   label_poke_failure: "Wystąpił błąd. Powiadomienie nie wysłane. Musisz zrobić spacerek."
   label_project_default_users: "Domyślni użytkownicy"
+  label_end_time_custom_field: "Niestandardowe pole czasu zakończenia"
   edit: Edytuj
   add_time: "Dodaj"

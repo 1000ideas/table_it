@@ -6,5 +6,11 @@
         <%= text_area(:settings, :default_users, value: settings[:default_users]) %>
       </td>
     </tr>
+    <tr>
+      <th><%= l(:label_end_time_custom_field) %></th>
+      <td>
+        <%= select_tag("settings[end_time]", options_from_collection_for_select(CustomField.scoped, :id, :name, settings[:end_time])) %>
+      </td>
+    </tr>
   </tbody>
 </table>

@@ -32,8 +32,10 @@
 </p>
 
 <p>
-  <%= f.label :custom_field_values_1, l(:field_end_time) %>
-  <%= text_field_tag "issue[custom_field_values][1]", '', size: 10 %>
+  <%- end_time_id = Setting.plugin_table_it[:end_time] -%>
+  <%- cf = CustomField.where(id: end_time_id).first -%>
+  <%= f.label :"custom_field_values_#{end_time_id}", (cf.try(:name) || l(:field_end_time)) %>
+  <%= text_field_tag "issue[custom_field_values][#{end_time_id}]", '', size: 10 %>
 </p>
 
 <p>
