@@ -1,4 +1,4 @@
-<%= form_for(Issue.new(tracker_id: 1), url: issues_path(format: :js), remote: true, html: {class: "home-new-issue-form"}) do |f| %>
+<%= form_for(Issue.new(tracker_id: 1), url: issues_path(format: :json), remote: true, html: {class: "home-new-issue-form", data: {success: l(:label_issue_added)} }) do |f| %>
 <%= hidden_field_tag(:key, User.current.api_key) %>
 <p>
   <%= f.label :project_id %>

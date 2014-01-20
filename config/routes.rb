@@ -1,5 +1,5 @@
-	resources :issues, only: [] do
-		member do 
+	resources :issues, only: [], module: :table_it do
+		member do
 			post :poke
 			post :start_time, action: :time, defaults: {time: true}
 			post :stop_time, action: :time, defaults: {time: false}
@@ -10,4 +10,4 @@
 		end
 	end
 	
-	get :project_users, to: 'issues#project_users'
+	get :project_users, to: 'table_it/issues#project_users'

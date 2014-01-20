@@ -1,0 +1,68 @@
+class TableIt::IssuesController < ApplicationController
+  
+  before_filter :find_issue, only: [:poke, :time, :close]
+  before_filter :authorize
+  before_filter :find_project_by_project_id, only: [:project_users]
+
+  accept_api_auth :poke, :time, :close, :project_users
+
+  def project_users
+    @users = @project.users
+
+    respond_to do |format|
+      format.js
+    end
+  end
+
+  def poke
+    @success = !!TableItMailer.poke_mail(@issue).try(:deliver)
+
+    respond_to do |format|
+      format.js
+    end
+  end
+
+  def time
+    time = params[:time]
+
+    @success = true
+
+    if params[:switch] === true
+      @success = if @issue.started?
+        @issue.stop_time!
+      else
+        @issue.start_time!
+      end        
+    elsif time === true
+      @success = @issue.start_time!
+    elsif time === false
+      @success = @issue.stop_time!
+    else
+      tentry = @issue.time_entries.create hours: time,
+        activity_id: 8,
+        user: User.current,
+        spent_on: Date.today
+      @notice = true
+      @success = tentry.errors.empty?
+    end
+
+    respond_to do |format|
+      format.json
+      format.js
+    end
+    
+  end
+
+  def close
+    if params[:reopen]
+      @issue.update_attributes(status_id: 2)
+    else
+      @issue.stop_time!
+      @issue.update_attributes(status_id: 5)
+    end
+
+    respond_to do |format|
+      format.js
+    end
+  end
+end

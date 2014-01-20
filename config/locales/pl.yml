@@ -11,9 +11,11 @@ pl:
       status_2: Zadanie rozpoczęte
       status_3: Rozwiązane
       status_4: Oczekuje na informację zwrotną
-    time:
-      success: "Pomyślnie dodano czas."
-      failure: "Wystąpił błąd podczas dodawania czasu, spróbuj jeszcze raz."
+  table_it:
+    issues:
+      time:
+        success: "Pomyślnie dodano czas."
+        failure: "Wystąpił błąd podczas dodawania czasu, spróbuj jeszcze raz."
   late: spóźnienia
   to: do
   end_time_field_name: koniec

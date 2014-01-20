@@ -99,6 +99,17 @@ class TableIt
         url: $(this).data('url')
         error: ->
 
+    $(document).on 'ajax:success', 'form.home-new-issue-form', (event, data) =>
+      label = $(event.target).data('success') ? "Success"
+      @toast(label, 'notice')
+      @refresh()
+      $('#issue_subject, #issue_description', event.target).each (idx, el) ->
+        $(el).val('')
+
+    $(document).on 'ajax:error', 'form.home-new-issue-form', (event, xhr, status, error) =>
+      rsp = JSON.parse xhr.responseText
+      if rsp.errors? and rsp.errors.length > 0
+        @toast(rsp.errors[0], 'alert')
 
   _init_time_add: ->
     $(document).on 'click', '.add-time-button', (event) =>

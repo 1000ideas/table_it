@@ -1,9 +1,0 @@
-<% if @issue.errors.any? %>
-  table_it.toast("<%= @issue.errors.full_messages.first %>", 'alert')
-<% else %>
-  table_it.toast("<%= l(:label_issue_added) %>")
-  table_it.refresh()
-  $('#issue_subject, #issue_description').each(function() {
-    $(this).val('');
-  });
-<% end %>

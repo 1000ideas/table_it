@@ -11,9 +11,11 @@ en:
       status_2: Issue in progress
       status_3: Resolved issue
       status_4: Waiting for feedback
-    time:
-      success: "Time added successfully."
-      failure: "Time adding failed. Try again."
+  table_it:
+    issues:
+      time:
+        success: "Time added successfully."
+        failure: "Time adding failed. Try again."
   late: late
   to: to
   field_end_time: End time

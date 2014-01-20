@@ -118,11 +118,12 @@
     };
 
     TableIt.prototype._init_new_issue = function() {
+      var _this = this;
       $(document).on('click', 'h2#new-issue', function(event) {
         event.preventDefault();
         return $(this).next().slideToggle('fast');
       });
-      return $(document).on('change', '.home-new-issue-form #issue_project_id', function(event) {
+      $(document).on('change', '.home-new-issue-form #issue_project_id', function(event) {
         return $.ajax({
           dataType: 'script',
           type: 'GET',
@@ -132,6 +133,22 @@
           url: $(this).data('url'),
           error: function() {}
         });
+      });
+      $(document).on('ajax:success', 'form.home-new-issue-form', function(event, data) {
+        var label, _ref;
+        label = (_ref = $(event.target).data('success')) != null ? _ref : "Success";
+        _this.toast(label, 'notice');
+        _this.refresh();
+        return $('#issue_subject, #issue_description', event.target).each(function(idx, el) {
+          return $(el).val('');
+        });
+      });
+      return $(document).on('ajax:error', 'form.home-new-issue-form', function(event, xhr, status, error) {
+        var rsp;
+        rsp = JSON.parse(xhr.responseText);
+        if ((rsp.errors != null) && rsp.errors.length > 0) {
+          return _this.toast(rsp.errors[0], 'alert');
+        }
       });
     };
 
