@@ -31,7 +31,7 @@ module IssuesHelperPatch
       button = button_tag(l(:add_time), class: "add-time-button")
       [input, button].join.html_safe
     end
-    if issue.author == User.current && User.allowed_to?(:poke, issue.project)
+    if issue.author == User.current && User.current.allowed_to?(:poke, issue.project)
       buttons << link_to(l(:poke), poke_issue_path(issue, format: :js), data: {method: :post, remote: :true}, class: "status-icon poke") 
     end
     buttons << link_to('', edit_issue_path(issue), class: 'icon icon-edit')
