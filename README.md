@@ -15,4 +15,4 @@
 2. Configure plugin at `/settings/plugin/table_it`:
   * Setup default users for projects. When you change project in new issue form, user will be selected by default. Enter JSON object containing pairs: `{"project_identifier": "user_login", ...}`;
   * Select custom field which contain issues's end time.
-3. Enable plugin for each project you want to see on homepage. You can enable it by default. Select `table it` plugin in modules list at `/settings?tab=projects`.
+3. Enable plugin for each project you want to see on homepage. You can enable it by default. Select `table it` plugin in modules list at `/settings?tab=projects`. You can also enable it for all existing projects calling `rake table_it:enable`.
