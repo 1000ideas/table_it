@@ -24,12 +24,14 @@ class TableIt::IssuesController < ApplicationController
 
   def time
     time = params[:time]
+    tentry = nil
 
     @success = true
 
     if params[:switch] === true
       @success = if @issue.started?
         @issue.stop_time!
+        tentry = @issue.time_entries.last
       else
         @issue.start_time!
       end        
@@ -37,6 +39,7 @@ class TableIt::IssuesController < ApplicationController
       @success = @issue.start_time!
     elsif time === false
       @success = @issue.stop_time!
+      tentry = @issue.time_entries.last
     else
       tentry = @issue.time_entries.create hours: time,
         activity_id: 8,
@@ -47,7 +50,7 @@ class TableIt::IssuesController < ApplicationController
     end
 
     respond_to do |format|
-      format.json
+      format.json { render json: {success: @success, time: tentry.try(:hours)} }
       format.js
     end
     
