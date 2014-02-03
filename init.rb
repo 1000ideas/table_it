@@ -11,7 +11,7 @@ Redmine::Plugin.register :table_it do
   url 'https://github.com/1000ideas/table_it.git'
   author_url 'http://1000i.pl' 
 
-  settings default: {default_users: true, end_time: true}, partial: 'settings/table_it'
+  settings default: {default_users: '{}', end_time: 1}, partial: 'settings/table_it'
 
   project_module :table_it do
     permission :time_actions, :"table_it/issues" => :time
