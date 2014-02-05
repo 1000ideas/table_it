@@ -1,4 +1,6 @@
 require_dependency 'issue'
+require_dependency 'custom_field'
+require_dependency 'issue'
 
 module ProjectExtension
   extend ActiveSupport::Concern
@@ -82,6 +84,6 @@ module IssueExtension
   end
 end
 
-Issue.send(:include, IssueExtension)
 Project.send(:include, ProjectExtension)
 CustomField.send(:include, CustomFieldExtension)
+Issue.send(:include, IssueExtension)
