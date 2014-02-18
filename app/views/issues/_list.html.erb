@@ -1,4 +1,4 @@
-<%- @query.column_names = [:id, :project, :subject, :done_ratio, :author, :assigned_to, :due_date, :"cf_#{Setting.plugin_table_it[:end_time]}", :spent_hours] %>
+<%- @query.column_names = [:id, :project, :priority, :subject, :done_ratio, :author, :assigned_to,  :due_date, :"cf_#{Setting.plugin_table_it[:end_time]}", :spent_hours] %>
 <% Rails.logger.debug @query.filters.inspect %>
 <%= form_tag({}, id: "issues-list-form") do -%>
 <%= hidden_field_tag 'back_url', url_for(params), :id => nil %>
