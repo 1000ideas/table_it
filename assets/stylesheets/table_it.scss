@@ -8,7 +8,7 @@
   background: rgba(255,255,255, .5);
   text-align: center;
   z-index: 100;
-  
+
   > div {
     position: absolute;
     top: 50%;
@@ -121,7 +121,7 @@ table.issues {
       }
 
       &.actions {
-        > * { 
+        > * {
           display: inline-block;
           vertical-align: middle;
           margin-right: .5em;
@@ -174,11 +174,11 @@ table.issues {
   &.clip { background-position: -68px 0px; }
   &.stop-time { background-position: -102px 0px; }
   &.start-time { background-position: -115px 0px; }
-  &.poke { 
+  &.poke {
     width: 22px;
     background: url('../images/poke.png');
   }
-  &.edit { 
+  &.edit {
     width: 22px;
     background: url('../images/poke.png');
   }
@@ -197,16 +197,16 @@ ul#legend {
     .status-icon {
       margin-right: .5em;
     }
-  }  
+  }
 }
 
 #content {
-  position: relative;
 
   #toggle-sidebar {
-    position: absolute;
-    top: 0;
-    right: -1px;
+    position: relative;
+    top: -6px;
+    right: -11px;
+    float: right;
     display: block;
     width: 2em;
     height: 2em;

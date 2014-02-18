@@ -1,4 +1,6 @@
 
+<%= link_to "", '#', id: :'toggle-sidebar' %>
+
 <div class="contextual">
 <% if !@query.new_record? && @query.editable_by?(User.current) %>
   <%= link_to l(:button_edit), edit_query_path(@query), :class => 'icon icon-edit' %>
@@ -12,10 +14,10 @@
     <%= render 'home_new_issue' %>
   </div>
   <h2><%= @query.new_record? ? l(:label_issue_plural) : h(@query.name) %></h2>
-  <%= render 'home_filter' %>  
+  <%= render 'home_filter' %>
 <% else %>
   <h2><%= @query.new_record? ? l(:label_issue_plural) : h(@query.name) %></h2>
-  <%= render 'default_filter' %>  
+  <%= render 'default_filter' %>
 <% end %>
 
 <% html_title(@query.new_record? ? l(:label_issue_plural) : @query.name) %>
@@ -59,13 +61,13 @@
     <%= render :partial => 'issues/sidebar' %>
 <% end %>
 
-<%= link_to "", '#', id: :'toggle-sidebar' %>
+
 
 <% content_for :header_tags do %>
     <%= javascript_include_tag 'table_it', plugin: :table_it %>
     <%= javascript_tag do %>
       jQuery(function() {
-        table_it.set_api_key("<%= User.current.api_key %>");        
+        table_it.set_api_key("<%= User.current.api_key %>");
       });
     <% end %>
     <%= stylesheet_link_tag 'table_it', plugin: :table_it %>

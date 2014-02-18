@@ -139,26 +139,25 @@ ul#legend {
   ul#legend li .status-icon {
     margin-right: .5em; }
 
-#content {
-  position: relative; }
-  #content #toggle-sidebar {
-    position: absolute;
-    top: 0;
-    right: -1px;
-    display: block;
-    width: 2em;
-    height: 2em;
-    background: #eee;
-    border: 1px solid #ddd;
-    border-right: 0;
-    color: #888;
-    line-height: 2em;
-    text-align: center;
-    text-decoration: none; }
-    #content #toggle-sidebar:focus, #content #toggle-sidebar:hover {
-      box-shadow: -1px 1px 1px #eee; }
-    #content #toggle-sidebar:before {
-      content: '»'; }
+#content #toggle-sidebar {
+  position: relative;
+  top: -6px;
+  right: -11px;
+  float: right;
+  display: block;
+  width: 2em;
+  height: 2em;
+  background: #eee;
+  border: 1px solid #ddd;
+  border-right: 0;
+  color: #888;
+  line-height: 2em;
+  text-align: center;
+  text-decoration: none; }
+  #content #toggle-sidebar:focus, #content #toggle-sidebar:hover {
+    box-shadow: -1px 1px 1px #eee; }
+  #content #toggle-sidebar:before {
+    content: '»'; }
 
 #main.nosidebar #content #toggle-sidebar:before {
   content: '«'; }
