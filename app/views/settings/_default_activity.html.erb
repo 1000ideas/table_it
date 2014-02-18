@@ -1,0 +1,13 @@
+<% role ||= nil %>
+<% activity ||= nil %>
+<tr>
+<td>
+  <%= select_tag :role, options_from_collection_for_select(@roles_list, :id, :name, role), include_blank: true, id: nil %>
+</td>
+<td>
+  <%= select_tag :user, options_from_collection_for_select(@activities_list, :id, :name, activity), include_blank: true, id: nil %>
+</td>
+<td>
+  <%= link_to l(:label_remove), '#', class: :'remove-match' %>
+</td>
+</tr>
