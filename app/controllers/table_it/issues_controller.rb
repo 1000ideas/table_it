@@ -1,5 +1,5 @@
 class TableIt::IssuesController < ApplicationController
-  
+
   before_filter :find_issue, only: [:poke, :time, :close]
   before_filter :find_project_by_project_id, only: [:project_users]
   before_filter :authorize
@@ -34,7 +34,7 @@ class TableIt::IssuesController < ApplicationController
         tentry = @issue.time_entries.last
       else
         @issue.start_time!
-      end        
+      end
     elsif time === true
       @success = @issue.start_time!
     elsif time === false
@@ -53,10 +53,12 @@ class TableIt::IssuesController < ApplicationController
       format.json { render json: {success: @success, time: tentry.try(:hours)} }
       format.js
     end
-    
+
   end
 
   def close
+    @issue.init_journal(User.current)
+
     if params[:reopen]
       @issue.update_attributes(status_id: 2)
     else
