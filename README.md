@@ -13,6 +13,7 @@
   * Close/reopen issue - close issue by selecting checkbox on list, reopen by unselecting it;
   * List project users - get users allowed to be assigned to project.
 2. Configure plugin at `/settings/plugin/table_it`:
-  * Setup default users for projects. When you change project in new issue form, user will be selected by default. Enter JSON object containing pairs: `{"project_identifier": "user_login", ...}`;
+  * Setup default users for projects. When you change project in new issue form, user will be selected by default;
+  * Setup default activity for each role. It will be used with time actions: stop issue time and add time entry to issue;
   * Select custom field which contain issues's end time.
 3. Enable plugin for each project you want to see on homepage. You can enable it by default. Select `table it` plugin in modules list at `/settings?tab=projects`. You can also enable it for all existing projects calling `rake table_it:enable`.
