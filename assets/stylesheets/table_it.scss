@@ -192,6 +192,10 @@ table.issues {
 ul#legend {
   list-style: none;
   padding-left: 0;
+  background: #fff;
+  margin: 1em 0;
+  padding: 1em;
+  border: 1px solid #ddd;
 
   li {
     .status-icon {

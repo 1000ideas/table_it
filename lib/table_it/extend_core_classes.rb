@@ -45,7 +45,7 @@ module IssueExtension
     unless started?
       update_attributes(status_id: 2)
       progresstimes.create(
-        start_time: DateTime.now  
+        start_time: DateTime.now
       )
       true
     else
@@ -84,6 +84,30 @@ module IssueExtension
   end
 end
 
+
+module UserExtension
+  extend ActiveSupport::Concern
+
+  def default_activity(project)
+    defaults = JSON.load(Setting.plugin_table_it[:default_activity]) || {}
+    roles = roles_for_project(project).map(&:id)
+
+    aids = defaults.find_all do |key, value|
+      roles.include?(key.to_i)
+    end.map(&:last).map(&:to_i)
+
+    unless aids.empty?
+      TimeEntryActivity.where(id: aids).first
+    else
+      TimeEntryActivity.where(id: roles).first || TimeEntryActivity.first
+    end
+  rescue SyntaxError
+    Rails.logger.error "Fix JSON syntax in TableIt settings"
+    nil
+  end
+end
+
+User.send(:include, UserExtension)
 Project.send(:include, ProjectExtension)
 CustomField.send(:include, CustomFieldExtension)
 Issue.send(:include, IssueExtension)
