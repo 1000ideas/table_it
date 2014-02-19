@@ -135,7 +135,11 @@ table.issues tr.closed td {
 
 ul#legend {
   list-style: none;
-  padding-left: 0; }
+  padding-left: 0;
+  background: #fff;
+  margin: 1em 0;
+  padding: 1em;
+  border: 1px solid #ddd; }
   ul#legend li .status-icon {
     margin-right: .5em; }
 

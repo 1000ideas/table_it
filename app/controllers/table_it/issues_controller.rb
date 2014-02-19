@@ -42,7 +42,7 @@ class TableIt::IssuesController < ApplicationController
       tentry = @issue.time_entries.last
     else
       tentry = @issue.time_entries.create hours: time,
-        activity_id: 8,
+        activity_id: User.current.default_activity(@issue.project).try(:id),
         user: User.current,
         spent_on: Date.today
       @notice = true

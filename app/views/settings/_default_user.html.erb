@@ -1,0 +1,13 @@
+<% project ||= nil %>
+<% user ||= nil %>
+<tr>
+<td>
+  <%= select_tag :project, options_from_collection_for_select(@projects_list, :identifier, :name, project), include_blank: true, id: nil %>
+</td>
+<td>
+  <%= select_tag :user, options_from_collection_for_select(@users_list, :login, :name, user), include_blank: true, id: nil %>
+</td>
+<td>
+  <%= link_to l(:label_remove), '#', class: :'remove-match' %>
+</td>
+</tr>

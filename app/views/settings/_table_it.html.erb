@@ -1,9 +1,39 @@
+<% @users_list = User.active.all %>
+<% @projects_list = Project.all %>
+<% @roles_list = Role.where(builtin: false).all %>
+<% @activities_list = TimeEntryActivity.all %>
 <table>
   <tbody>
     <tr>
       <th><%= l(:label_project_default_users) %></th>
       <td>
-        <%= text_area(:settings, :default_users, value: settings[:default_users]) %>
+        <%= hidden_field(:settings, :default_users, value: settings[:default_users]) %>
+        <table class="default_users">
+          <tbody>
+            <% users = JSON.parse(settings[:default_users] || '{}') rescue {} %>
+            <% users.each do |project, user| %>
+              <%= render 'default_user', project: project, user: user %>
+            <% end %>
+          </tbody>
+        </table>
+        <% template = render('default_user').to_str %>
+        <%= link_to l(:label_add_next), '#', class: :'add-next-match', data: { template: template } %>
+      </td>
+    </tr>
+    <tr>
+      <th><%= l(:label_project_default_activity) %></th>
+      <td>
+        <%= hidden_field(:settings, :default_activity, value: settings[:default_activity]) %>
+        <table class="default_activity">
+          <tbody>
+            <% activities = JSON.parse(settings[:default_activity] || '{}') rescue {} %>
+            <% activities.each do |role, activity| %>
+              <%= render 'default_activity', role: role, activity: activity %>
+            <% end %>
+          </tbody>
+        </table>
+        <% template = render('default_activity').to_str %>
+        <%= link_to l(:label_add_next), '#', class: :'add-next-match', data: { template: template } %>
       </td>
     </tr>
     <tr>
@@ -14,3 +44,6 @@
     </tr>
   </tbody>
 </table>
+<% content_for :header_tags do %>
+  <%= javascript_include_tag('settings', plugin: :table_it) %>
+<% end %>
