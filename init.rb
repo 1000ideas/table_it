@@ -7,7 +7,7 @@ Redmine::Plugin.register :table_it do
   name 'TableIt'
   author '1000ideas'
   description 'Watch your issues right from redmine home page'
-  version '0.2.6'
+  version '0.2.7'
   url 'https://github.com/1000ideas/table_it.git'
   author_url 'http://1000i.pl'
 
