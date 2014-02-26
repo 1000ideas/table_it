@@ -42,3 +42,4 @@ pl:
   add_time: "Dodaj"
   label_add_next: "Dodaj kolejne"
   label_remove: "Usuń"
+  alert_not_yours: "Nie możesz liczyć czasu w nieswoich zadaniach!"

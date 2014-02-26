@@ -3,13 +3,14 @@ class TableIt
   @refresh_time = 60
 
   constructor: ->
-    @_init_time_add()
     @_init_toast()
+    @_init_time_add()
     @_init_tooltips()
     @_init_new_issue()
     @_init_close_on_tick()
     @_init_toggle_sidebar()
     @_init_auto_refresh()
+    @_init_empty_play()
     true
 
 
@@ -18,7 +19,7 @@ class TableIt
       url: location.href
       dataType: 'html'
       success: (data) ->
-        $("#issues-list-form").replaceWith $(data).filter("#issues-list-form")          
+        $("#issues-list-form").replaceWith $(data).filter("#issues-list-form")
       complete: done
 
   set_api_key: (key) ->
@@ -34,7 +35,7 @@ class TableIt
       dataType: 'script'
       type: 'POST'
       url: url
-      data: 
+      data:
         time: time
       complete: ->
         $(time_input).val('')
@@ -48,7 +49,7 @@ class TableIt
     @refresh_timeout_id = setTimeout(
       =>
         @refresh =>
-          @_init_auto_refresh()        
+          @_init_auto_refresh()
       TableIt.refresh_time*1000
     )
 
@@ -67,7 +68,7 @@ class TableIt
 
     $(document).on 'click', '#toggle-sidebar', (event) =>
       event.preventDefault()
-      
+
       closed = $(event.target).parents('#main').toggleClass('nosidebar').hasClass('nosidebar')
       @set_cookie('sidebar', (if closed then "closed" else "open"), 365)
 
@@ -76,7 +77,7 @@ class TableIt
   _init_close_on_tick: ->
     $(document).on 'click', '.issues td.checkbox input[type=checkbox]', (event) ->
       event.preventDefault
-      checked = $(this).is(':checked') 
+      checked = $(this).is(':checked')
       closed = $(this).parents('tr.closed').length > 0
       url = $(this).data('url')
       if checked != closed
@@ -112,6 +113,11 @@ class TableIt
       if rsp.errors? and rsp.errors.length > 0
         @toast(rsp.errors[0], 'alert')
 
+  _init_empty_play: ->
+    $(document).on 'ajax:before', '[data-not-yours]', (event) =>
+      @toast( $(event.target).data('not-yours'), 'alert' )
+      return false
+
   _init_time_add: ->
     $(document).on 'click', '.add-time-button', (event) =>
       event.preventDefault()
@@ -124,14 +130,14 @@ class TableIt
         @add_time(event.target)
 
     true
-        
+
 
   _init_toast: ->
     @_toast_element()
     $(document).on 'click', '#toast', ->
       id = $(this).data('timeout_id')
       if id?
-        clearTimeout(id) 
+        clearTimeout(id)
         $(this).removeData('timeout_id')
       $(this).fadeOut('fast')
     true
@@ -148,7 +154,7 @@ class TableIt
       el.className = class_name
       el.innerHTML = text
       the_toast.fadeIn 'fast', ->
-        id = setTimeout => 
+        id = setTimeout =>
             the_toast.fadeOut('fast')
           , 3000
         the_toast.data("timeout_id", id)

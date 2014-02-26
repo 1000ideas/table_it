@@ -88,6 +88,13 @@ end
 module UserExtension
   extend ActiveSupport::Concern
 
+
+  def stop_progress!
+    Issue.where(assigned_to_id: self.id).map do |issue|
+      issue.stop_time!
+    end
+  end
+
   def default_activity(project)
     defaults = JSON.load(Setting.plugin_table_it[:default_activity]) || {}
     roles = roles_for_project(project).map(&:id)

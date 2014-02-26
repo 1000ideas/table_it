@@ -37,3 +37,4 @@ en:
   label_project_default_users: "Default users"
   label_end_time_custom_field: "End time custom field"
   add_time: Add...
+  alert_not_yours: "You can count time in issue you are not assigned to!"

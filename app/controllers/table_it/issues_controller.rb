@@ -2,9 +2,9 @@ class TableIt::IssuesController < ApplicationController
 
   before_filter :find_issue, only: [:poke, :time, :close]
   before_filter :find_project_by_project_id, only: [:project_users]
-  before_filter :authorize
+  before_filter :authorize, except: [:stop_time]
 
-  accept_api_auth :poke, :time, :close, :project_users
+  accept_api_auth :poke, :time, :stop_time, :close, :project_users
 
   def project_users
     @users = @project.users
@@ -22,10 +22,14 @@ class TableIt::IssuesController < ApplicationController
     end
   end
 
+  def stop_time
+    User.current.stop_progress!
+    head :ok
+  end
+
   def time
     time = params[:time]
     tentry = nil
-
     @success = true
 
     if params[:switch] === true

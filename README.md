@@ -17,3 +17,7 @@
   * Setup default activity for each role. It will be used with time actions: stop issue time and add time entry to issue;
   * Select custom field which contain issues's end time.
 3. Enable plugin for each project you want to see on homepage. You can enable it by default. Select `table it` plugin in modules list at `/settings?tab=projects`. You can also enable it for all existing projects calling `rake table_it:enable`.
+
+## Additional info
+
+You can use route `/stop_progress_times` for stopping all started time registrations of issues assigned to current user (by token).

@@ -9,5 +9,6 @@
 			post :reopen, action: :close, defaults: {reopen: true}
 		end
 	end
-	
+
+	get :stop_progress_times, to: "table_it/issues#stop_time"
 	get :project_users, to: 'table_it/issues#project_users'

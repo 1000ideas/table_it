@@ -19,7 +19,13 @@ module IssuesHelperPatch
     buttons << content_tag(:span, '', class: [:clip, :'status-icon']) if issue.attachments.any?
     buttons << content_tag(:span, '', class: [:"status-#{issue.table_status}", :'status-icon']) unless issue.table_status == :closed
     if User.current.allowed_to?(:time_actions, issue.project) and !issue.closed?
-      buttons << link_to('', switch_time_issue_path(issue), data: {remote: true, method: :post}, class: [:"#{issue.started? ? "stop" : "start"}-time", :'status-icon'])
+      data = {remote: true, method: :post}
+      path = switch_time_issue_path(issue)
+      unless User.current == issue.assigned_to
+        data.merge!(:"not-yours" => t("alert_not_yours"))
+        path = '#'
+      end
+      buttons << link_to('', path, data: data, class: [:"#{issue.started? ? "stop" : "start"}-time", :'status-icon'])
     end
     buttons.join.html_safe
   end
@@ -32,7 +38,7 @@ module IssuesHelperPatch
       [input, button].join.html_safe
     end
     if issue.author == User.current && User.current.allowed_to?(:poke, issue.project)
-      buttons << link_to(l(:poke), poke_issue_path(issue, format: :js), data: {method: :post, remote: :true}, class: "status-icon poke") 
+      buttons << link_to(l(:poke), poke_issue_path(issue, format: :js), data: {method: :post, remote: :true}, class: "status-icon poke")
     end
     buttons << link_to('', edit_issue_path(issue), class: 'icon icon-edit')
     buttons.join.html_safe

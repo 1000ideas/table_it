@@ -6,13 +6,14 @@
     TableIt.refresh_time = 60;
 
     function TableIt() {
-      this._init_time_add();
       this._init_toast();
+      this._init_time_add();
       this._init_tooltips();
       this._init_new_issue();
       this._init_close_on_tick();
       this._init_toggle_sidebar();
       this._init_auto_refresh();
+      this._init_empty_play();
       true;
     }
 
@@ -151,6 +152,14 @@
         if ((rsp.errors != null) && rsp.errors.length > 0) {
           return _this.toast(rsp.errors[0], 'alert');
         }
+      });
+    };
+
+    TableIt.prototype._init_empty_play = function() {
+      var _this = this;
+      return $(document).on('ajax:before', '[data-not-yours]', function(event) {
+        _this.toast($(event.target).data('not-yours'), 'alert');
+        return false;
       });
     };
 
