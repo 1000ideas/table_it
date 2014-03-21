@@ -21,7 +21,7 @@ module IssuesHelperPatch
     if User.current.allowed_to?(:time_actions, issue.project) and !issue.closed?
       data = {remote: true, method: :post}
       path = switch_time_issue_path(issue)
-      unless User.current == issue.assigned_to
+      unless User.current == issue.assigned_to or User.current.admin?
         data.merge!(:"not-yours" => t("alert_not_yours"))
         path = '#'
       end

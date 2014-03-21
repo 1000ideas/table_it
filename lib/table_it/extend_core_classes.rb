@@ -59,7 +59,7 @@ module IssueExtension
       if time > 0
         time_entries
           .create(
-            user: User.current,
+            user: self.assigned_to || User.current,
             hours: time,
             activity_id: 8,
             spent_on: Date.today
