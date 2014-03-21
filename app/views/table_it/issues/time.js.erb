@@ -15,3 +15,6 @@ if (<%= @success.to_json %>) {
 }
 <% end %>
 
+$('table.list.issues').data('ticking', <%= User.current.ticking? %>)
+
+window.table_it.ticking()

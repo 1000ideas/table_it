@@ -3,6 +3,7 @@ class TableIt
   @refresh_time = 60
 
   constructor: ->
+    @ticking()
     @_init_toast()
     @_init_time_add()
     @_init_tooltips()
@@ -13,13 +14,25 @@ class TableIt
     @_init_empty_play()
     true
 
+  ticking: ->
+    title = $('head title')
+    unless title.data('placeholder')?
+      title.data('placeholder', title.text())
+
+    default_title = title.data('placeholder')
+
+    if $('table.list.issues').data('ticking')
+      title.text("▶ #{default_title}")
+    else
+      title.text(default_title)
 
   refresh: (done = (=> @_reset_auto_refresh()) )->
     $.ajax
       url: location.href
       dataType: 'html'
-      success: (data) ->
+      success: (data) =>
         $("#issues-list-form").replaceWith $(data).filter("#issues-list-form")
+        @ticking()
       complete: done
 
   set_api_key: (key) ->

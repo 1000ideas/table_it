@@ -95,6 +95,12 @@ module UserExtension
     end
   end
 
+  def ticking?
+    Issue.where(assigned_to_id: self.id).any? do |issue|
+      issue.started?
+    end
+  end
+
   def default_activity(project)
     defaults = JSON.load(Setting.plugin_table_it[:default_activity]) || {}
     roles = roles_for_project(project).map(&:id)

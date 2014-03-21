@@ -6,6 +6,7 @@
     TableIt.refresh_time = 60;
 
     function TableIt() {
+      this.ticking();
       this._init_toast();
       this._init_time_add();
       this._init_tooltips();
@@ -16,6 +17,20 @@
       this._init_empty_play();
       true;
     }
+
+    TableIt.prototype.ticking = function() {
+      var default_title, title;
+      title = $('head title');
+      if (title.data('placeholder') == null) {
+        title.data('placeholder', title.text());
+      }
+      default_title = title.data('placeholder');
+      if ($('table.list.issues').data('ticking')) {
+        return title.text("▶ " + default_title);
+      } else {
+        return title.text(default_title);
+      }
+    };
 
     TableIt.prototype.refresh = function(done) {
       var _this = this;
@@ -28,7 +43,8 @@
         url: location.href,
         dataType: 'html',
         success: function(data) {
-          return $("#issues-list-form").replaceWith($(data).filter("#issues-list-form"));
+          $("#issues-list-form").replaceWith($(data).filter("#issues-list-form"));
+          return _this.ticking();
         },
         complete: done
       });
