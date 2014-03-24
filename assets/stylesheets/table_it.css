@@ -32,7 +32,8 @@ body .ui-tooltip {
   box-shadow: 1px 1px 0 #ddd;
   border: 1px solid #888;
   background: #fff;
-  border-radius: 0; }
+  border-radius: 0;
+  word-wrap: break-word; }
 
 form.home-filter {
   display: block;
