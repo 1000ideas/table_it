@@ -96,9 +96,10 @@ module UserExtension
   end
 
   def ticking?
-    Issue.where(assigned_to_id: self.id).any? do |issue|
-      issue.started?
-    end
+    Issue
+      .joins(:progresstimes)
+      .where(assigned_to_id: self.id, progresstimes: {closed: [false, nil]})
+      .any?
   end
 
   def default_activity(project)
