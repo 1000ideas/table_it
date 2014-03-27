@@ -38,6 +38,8 @@ pl:
   label_project_default_users: "Domyślni użytkownicy"
   label_end_time_custom_field: "Niestandardowe pole czasu zakończenia"
   label_project_default_activity: "Domyślne aktywności"
+  label_default_close: "Domyślny status zamknięcia"
+  label_default_inprogress: "Domyślny status ponownego otwarcia"
   edit: Edytuj
   add_time: "Dodaj"
   label_add_next: "Dodaj kolejne"

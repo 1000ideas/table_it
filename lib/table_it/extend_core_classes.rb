@@ -35,6 +35,7 @@ module IssueExtension
     has_many :progresstimes, dependent: :destroy
 
     scope :started, lambda { joins(:progresstimes).where(progresstimes: {closed: [false, nil]}) }
+    before_update :stop_time_if_closed
   end
 
   def started?
@@ -82,6 +83,23 @@ module IssueExtension
       when 5 then :closed
     end
   end
+
+  def stop_time_if_closed
+    if closed? and started?
+      self.stop_time!
+    end
+  end
+
+  def table_it_close!
+    status_id = (Setting.plugin_table_it[:close_status] || 5).to_i
+    self.update_attributes(status_id: status_id)
+  end
+
+  def table_it_reopen!
+    status_id = (Setting.plugin_table_it[:inprogress_status] || 2).to_i
+    self.update_attributes(status_id: status_id)
+  end
+
 end
 
 

@@ -64,10 +64,9 @@ class TableIt::IssuesController < ApplicationController
     @issue.init_journal(User.current)
 
     if params[:reopen]
-      @issue.update_attributes(status_id: 2)
+      @issue.table_it_reopen!
     else
-      @issue.stop_time!
-      @issue.update_attributes(status_id: 5)
+      @issue.table_it_close!
     end
 
     respond_to do |format|

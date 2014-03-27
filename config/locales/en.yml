@@ -18,6 +18,7 @@ en:
         failure: "Time adding failed. Try again."
   late: late
   to: to
+  end_time_field_name: koniec
   field_end_time: End time
   change_issue_revert: Issue is open now. New status is "in progress".
   change_issue_closed: Issue is closed. After list refresh it'll be removed.
@@ -26,15 +27,21 @@ en:
   cant_change_to_in_progress: ups.... I try but I can't change to "in progress"
   label_spent_time_plugin: time spent
   work_start: work start
-  user_view: admin's view
   home_filter_by: "Filter by:"
   home_filter: Filter
   home_filter_project: Select project...
   home_filter_user: Select user...
+  user_view: Admin's view
   poke: Poke user
   label_poke_success: "Poke sent"
   label_poke_failure: "Failure. Try again or go for a walk."
   label_project_default_users: "Default users"
   label_end_time_custom_field: "End time custom field"
+  label_project_default_activity: "Default activities"
+  label_default_close: "Default close status"
+  label_default_inprogress: "Default reopen status"
+  edit: Edit
   add_time: Add...
+  label_add_next: "Add more"
+  label_remove: "Remove"
   alert_not_yours: "You can count time in issue you are not assigned to!"

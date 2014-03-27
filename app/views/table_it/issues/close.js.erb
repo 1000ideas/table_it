@@ -9,3 +9,7 @@ $('tr#issue-<%= @issue.id %>').each(function(idx, el) {
   $('td.checkbox input[type=checkbox]', this).data('url', "<%= close_issue_path(@issue) %>");
 <% end %>
 });
+
+
+$('table.list.issues').data('ticking', <%= User.current.ticking? %>)
+window.table_it.ticking()
