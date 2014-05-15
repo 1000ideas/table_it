@@ -83,22 +83,24 @@ table.issues tr td {
   table.issues tr td.subject .status-icon {
     margin-right: .5em;
     vertical-align: middle; }
-  table.issues tr td.actions > * {
-    display: inline-block;
-    vertical-align: middle;
-    margin-right: .5em;
-    min-height: 15px; }
-    table.issues tr td.actions > *:last-child {
-      margin-right: 0; }
-  table.issues tr td.actions > span > * {
-    display: inline-block;
-    vertical-align: middle; }
-  table.issues tr td.actions input[type=text] {
-    border: 1px solid #888;
-    width: 3em;
-    line-height: 1.6em;
-    padding: 0 .2em;
-    text-align: center; }
+  table.issues tr td.actions {
+    text-align: left; }
+    table.issues tr td.actions > * {
+      display: inline-block;
+      vertical-align: middle;
+      margin-right: .5em;
+      min-height: 15px; }
+      table.issues tr td.actions > *:last-child {
+        margin-right: 0; }
+    table.issues tr td.actions > span > * {
+      display: inline-block;
+      vertical-align: middle; }
+    table.issues tr td.actions input[type=text] {
+      border: 1px solid #888;
+      width: 3em;
+      line-height: 1.6em;
+      padding: 0 .2em;
+      text-align: center; }
 table.issues tr.closed td {
   text-decoration: line-through; }
 
