@@ -1,5 +1,6 @@
 class Progresstime < ActiveRecord::Base
   belongs_to :issue
+  belongs_to :user
 
   scope :started, lambda { where(closed: [false, nil]) }
 
@@ -13,4 +14,5 @@ class Progresstime < ActiveRecord::Base
     update_attributes(end_time: DateTime.now, closed: true)
     timediff
   end
+
 end

@@ -46,7 +46,8 @@ module IssueExtension
     unless started?
       update_attributes(status_id: 2)
       progresstimes.create(
-        start_time: DateTime.now
+        start_time: DateTime.now,
+        user_id: User.current.id
       )
       true
     else
@@ -105,8 +106,7 @@ end
 
 module UserExtension
   extend ActiveSupport::Concern
-
-
+  
   def stop_progress!
     Issue.where(assigned_to_id: self.id).map do |issue|
       issue.stop_time!
