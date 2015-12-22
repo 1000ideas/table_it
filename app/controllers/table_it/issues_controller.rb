@@ -33,11 +33,18 @@ class TableIt::IssuesController < ApplicationController
     @success = true
 
     if params[:switch] === true
+      user_issues = Issue.where(assigned_to_id: @issue.assigned_to_id)
+      any_in_progress = user_issues.any?(&:started?)
+
       @success = if @issue.started?
         @issue.stop_time!
         tentry = @issue.time_entries.last
       else
-        @issue.start_time!
+        if not any_in_progress
+          @issue.start_time!
+        else
+          false
+        end
       end
     elsif time === true
       @success = @issue.start_time!
