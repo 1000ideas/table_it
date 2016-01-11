@@ -4,9 +4,11 @@ $('tr#issue-<%= @issue.id %> td.spent_hours').text('<%= @issue.spent_hours.round
 $('tr#issue-<%= @issue.id %> .start-time, h2 > .start-time').removeClass('start-time').addClass('stop-time');
 $('tr#issue-<%= @issue.id %> .status-new, h2 > .status-new').removeClass('status-new').addClass('status-progress');
 $('li[data-issue-id=\"<%= @issue.id %>\"] span.status i.stop').removeClass('stop').addClass('play');
+document.title = '▶ ' + document.title;
 <% else %>
 $('tr#issue-<%= @issue.id %> .stop-time, h2 > .stop-time').removeClass('stop-time').addClass('start-time');
 $('li[data-issue-id=\"<%= @issue.id %>\"] span.status i.play').removeClass('play').addClass('stop');
+document.title = document.title.slice(2);
 <% end %>
 
 <% if @notice %>
