@@ -33,8 +33,7 @@ class TableIt::IssuesController < ApplicationController
     @success = true
 
     if params[:switch] === true
-      user_issues = Issue.open.where(assigned_to_id: @issue.assigned_to_id)
-      any_in_progress = user_issues.any?(&:started?)
+      any_in_progress = User.find(@issue.assigned_to_id).ticking?
 
       @success = if @issue.started?
         @issue.stop_time!
