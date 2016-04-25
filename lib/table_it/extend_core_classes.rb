@@ -7,13 +7,13 @@ module ProjectExtension
 
   def default_user_id
     project_users_hash = JSON.load(Setting.plugin_table_it[:default_users])
-    login = project_users_hash.find do |key, value|
+    login = project_users_hash.find do |key, _value|
       key == identifier
     end.try(:last)
 
     User.where(login: login).last.try(:id) if login.present?
   rescue SyntaxError
-    Rails.logger.error "Fix JSON syntax in TableIt settings"
+    Rails.logger.error 'Fix JSON syntax in TableIt settings'
     nil
   end
 end
@@ -23,9 +23,8 @@ module CustomFieldExtension
 
   def name
     n = read_attribute(:name)
-    I18n.t(:"field_#{n.gsub(/\s+/,'_').downcase}", default: n.humanize)
+    I18n.t(:"field_#{n.gsub(/\s+/, '_').downcase}", default: n.humanize)
   end
-
 end
 
 module IssueExtension
@@ -34,8 +33,9 @@ module IssueExtension
   included do
     has_many :progresstimes, dependent: :destroy
 
-    scope :started, lambda { joins(:progresstimes).where(progresstimes: {closed: [false, nil]}) }
+    scope :started, lambda { joins(:progresstimes).where(progresstimes: { closed: [false, nil] }) }
     before_update :stop_time_if_closed
+    before_create :wrap_with_p_tags
   end
 
   def started?
@@ -74,21 +74,18 @@ module IssueExtension
     end
   end
 
-
   def table_status
     case status_id
-      when 1 then :new
-      when 2 then :progress
-      when 3 then :resolved
-      when 4 then :feedback
-      when 5 then :closed
+    when 1 then :new
+    when 2 then :progress
+    when 3 then :resolved
+    when 4 then :feedback
+    when 5 then :closed
     end
   end
 
   def stop_time_if_closed
-    if closed? and started?
-      self.stop_time!
-    end
+    self.stop_time! if closed? && started?
   end
 
   def table_it_close!
@@ -101,12 +98,22 @@ module IssueExtension
     self.update_attributes(status_id: status_id)
   end
 
+  def wrap_with_p_tags
+    unless self.description.slice(0, 3) == '<p>'
+      text = self.description
+      text = text.split("\r\n")
+      desc = []
+      text.each do |el|
+        desc.push("<p>#{el}</p>\r\n\r\n")
+      end
+      self.description = desc.join
+    end
+  end
 end
-
 
 module UserExtension
   extend ActiveSupport::Concern
-  
+
   def stop_progress!
     Issue.where(assigned_to_id: self.id).map do |issue|
       issue.stop_time!
@@ -116,7 +123,7 @@ module UserExtension
   def ticking?
     Issue
       .joins(:progresstimes)
-      .where(assigned_to_id: self.id, progresstimes: {closed: [false, nil]})
+      .where(assigned_to_id: self.id, progresstimes: { closed: [false, nil] })
       .any?
   end
 
@@ -124,7 +131,7 @@ module UserExtension
     defaults = JSON.load(Setting.plugin_table_it[:default_activity]) || {}
     roles = roles_for_project(project).map(&:id)
 
-    aids = defaults.find_all do |key, value|
+    aids = defaults.find_all do |key, _value|
       roles.include?(key.to_i)
     end.map(&:last).map(&:to_i)
 
@@ -134,7 +141,7 @@ module UserExtension
       TimeEntryActivity.where(id: roles).first || TimeEntryActivity.first
     end
   rescue SyntaxError
-    Rails.logger.error "Fix JSON syntax in TableIt settings"
+    Rails.logger.error 'Fix JSON syntax in TableIt settings'
     nil
   end
 end
