@@ -68,7 +68,6 @@ module IssueExtension
             activity_id: 8,
             spent_on: Date.today
           )
-        update_attribute :spent_time, spent_time + time
       end
       progresstimes.started.delete_all
       true
@@ -149,7 +148,28 @@ module UserExtension
   end
 end
 
+module TimeEntryExtension
+  extend ActiveSupport::Concern
+
+  included do
+    after_create :time_entry_added
+    after_update :time_entry_added
+    before_destroy :time_entry_deleted
+  end
+
+  def time_entry_added
+    issue = Issue.find(issue_id)
+    issue.update_attributes(spent_time: issue.spent_time + hours)
+  end
+
+  def time_entry_deleted
+    issue = Issue.find(issue_id)
+    issue.update_attributes(spent_time: issue.spent_time - hours)
+  end
+end
+
 User.send(:include, UserExtension)
 Project.send(:include, ProjectExtension)
 CustomField.send(:include, CustomFieldExtension)
 Issue.send(:include, IssueExtension)
+TimeEntry.send(:include, TimeEntryExtension)

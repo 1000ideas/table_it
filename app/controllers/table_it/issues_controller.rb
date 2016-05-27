@@ -55,7 +55,6 @@ class TableIt::IssuesController < ApplicationController
         activity_id: User.current.default_activity(@issue.project).try(:id),
         user: User.current,
         spent_on: Date.today
-      @issue.update_attribute :spent_time, @issue.spent_time + time
       @notice = true
       @success = tentry.errors.empty?
     end
