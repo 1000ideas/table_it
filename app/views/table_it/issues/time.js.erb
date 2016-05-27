@@ -1,4 +1,4 @@
-$('tr#issue-<%= @issue.id %> td.spent_hours').text('<%= @issue.spent_hours.round(2) %>');
+$('tr#issue-<%= @issue.id %> td.spent_hours').text('<%= @issue.spent_time %>');
 
 <% if @issue.started? %>
 $('tr#issue-<%= @issue.id %> .start-time, h2 > .start-time').removeClass('start-time').addClass('stop-time');

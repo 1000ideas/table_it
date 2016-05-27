@@ -37,9 +37,11 @@ module IssueExtension
     before_update :stop_time_if_closed
     before_create :wrap_with_p_tags
   end
+  
 
   def started?
-    progresstimes.where(closed: [false, nil]).any?
+    @@started_issues_ids ||= Progresstime.where(closed: [false, nil]).pluck(:issue_id)
+    @@started_issues_ids.include? id
   end
 
   def start_time!
@@ -66,6 +68,7 @@ module IssueExtension
             activity_id: 8,
             spent_on: Date.today
           )
+        update_attribute :spent_time, spent_time + time
       end
       progresstimes.started.delete_all
       true
