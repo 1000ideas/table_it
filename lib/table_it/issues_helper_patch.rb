@@ -7,21 +7,26 @@ module IssuesHelperPatch
 
   def issue_tooltip(issue)
     desc = strip_tags(issue.description)
-    if desc.length > 300
-      desc = desc.slice(0, 299).concat("&hellip;")
-    end
+    desc = desc.slice(0, 299).concat("&hellip;") if desc.length > 300
 
-    [content_tag(:strong, "#{l(:field_author)}: "), issue.author, tag(:br), nl2br(desc)].join
+    parent = "<strong>PID:</strong> #{issue.root_id} <br />" unless issue.id == issue.root_id
+
+    [content_tag(:strong, "#{l(:field_author)}: "), issue.author, tag(:br), parent, nl2br(desc)].compact.join
+  end
+
+  def link_to_issue_show(id)
+    t = link_to("Parent ID: #{id}", Rails.application.routes.url_helpers.issue_path(id))
+    content_tag(:p, t)
   end
 
   def issue_status_action(issue)
     buttons = []
     buttons << content_tag(:span, '', class: [:clip, :'status-icon']) if issue.attachments.any?
     buttons << content_tag(:span, '', class: [:"status-#{issue.table_status}", :'status-icon']) unless issue.table_status == :closed
-    if User.current.allowed_to?(:time_actions, issue.project) and !issue.closed?
-      data = {remote: true, method: :post}
+    if User.current.allowed_to?(:time_actions, issue.project) && !issue.closed?
+      data = { remote: true, method: :post }
       path = switch_time_issue_path(issue)
-      unless User.current == issue.assigned_to or User.current.admin?
+      unless User.current == issue.assigned_to || User.current.admin?
         data.merge!(:"not-yours" => t("alert_not_yours"))
         path = '#'
       end
@@ -43,7 +48,6 @@ module IssuesHelperPatch
     end
     buttons.join.html_safe
   end
-
 end
 
 IssuesHelper.send(:include, IssuesHelperPatch)

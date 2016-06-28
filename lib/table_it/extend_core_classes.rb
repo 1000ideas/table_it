@@ -36,8 +36,8 @@ module IssueExtension
     scope :started, lambda { joins(:progresstimes).where(progresstimes: { closed: [false, nil] }) }
     before_update :stop_time_if_closed
     before_create :wrap_with_p_tags
+    after_create :add_parent_id_to_desc
   end
-  
 
   def started?
     @@started_issues_ids ||= Progresstime.where(closed: [false, nil]).pluck(:issue_id)
@@ -110,6 +110,13 @@ module IssueExtension
       end
       self.description = desc.join
     end
+  end
+
+  def add_parent_id_to_desc
+    self.root_id = (@parent_issue.nil? ? self.id : @parent_issue.root_id)
+    return if self.id == self.root_id
+    link_to_parent = IssuesController.helpers.link_to_issue_show(self.root_id)
+    self.update_attribute(:description, "#{link_to_parent} #{self.description}")
   end
 end
 
