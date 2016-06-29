@@ -36,7 +36,7 @@ module IssueExtension
     scope :started, -> { joins(:progresstimes).where(progresstimes: { closed: [false, nil] }) }
     before_update :stop_time_if_closed
     before_create :wrap_with_p_tags
-    before_update :add_parent_id_to_issue
+    before_save :add_parent_id_to_issue
   end
 
   def started?
