@@ -33,10 +33,10 @@ module IssueExtension
   included do
     has_many :progresstimes, dependent: :destroy
 
-    scope :started, lambda { joins(:progresstimes).where(progresstimes: { closed: [false, nil] }) }
+    scope :started, -> { joins(:progresstimes).where(progresstimes: { closed: [false, nil] }) }
     before_update :stop_time_if_closed
     before_create :wrap_with_p_tags
-    after_create :add_parent_id_to_desc
+    before_update :add_parent_id_to_issue
   end
 
   def started?
@@ -45,35 +45,28 @@ module IssueExtension
   end
 
   def start_time!
-    unless started?
-      update_attributes(status_id: 2)
-      progresstimes.create(
-        start_time: DateTime.now,
-        user_id: User.current.id
-      )
-      true
-    else
-      false
-    end
+    return false if started?
+    update_attributes(status_id: 2)
+    progresstimes.create(
+      start_time: DateTime.now,
+      user_id: User.current.id
+    )
+    true
   end
 
   def stop_time!
-    if started?
-      time = progresstimes.started.last.close!
-      if time > 0
-        time_entries
-          .create(
-            user: self.assigned_to || User.current,
-            hours: time,
-            activity_id: 8,
-            spent_on: Date.today
-          )
-      end
-      progresstimes.started.delete_all
-      true
-    else
-      false
+    return false unless started?
+    time = progresstimes.started.last.close!
+    if time > 0
+      time_entries.create(
+        user: self.assigned_to || User.current,
+        hours: time,
+        activity_id: 8,
+        spent_on: Date.today
+      )
     end
+    progresstimes.started.delete_all
+    true
   end
 
   def table_status
@@ -112,11 +105,11 @@ module IssueExtension
     end
   end
 
-  def add_parent_id_to_desc
-    self.root_id = (@parent_issue.nil? ? self.id : @parent_issue.root_id)
-    return if self.id == self.root_id
-    link_to_parent = IssuesController.helpers.link_to_issue_show(self.root_id)
-    self.update_attribute(:description, "#{link_to_parent} #{self.description}")
+  def add_parent_id_to_issue
+    return if (p_id = @parent_issue.try(&:root_id)).nil?
+    if (custom_field = self.custom_field_values.find { |cfv| cfv.custom_field.name =~ /pid/i })
+      custom_field.value = p_id
+    end
   end
 end
 
@@ -124,16 +117,13 @@ module UserExtension
   extend ActiveSupport::Concern
 
   def stop_progress!
-    Issue.where(assigned_to_id: self.id).map do |issue|
-      issue.stop_time!
-    end
+    Issue.where(assigned_to_id: self.id).map(&:stop_time!)
   end
 
   def ticking?
-    Issue
-      .joins(:progresstimes)
-      .where(assigned_to_id: self.id, progresstimes: { closed: [false, nil] })
-      .any?
+    Issue.joins(:progresstimes)
+         .where(assigned_to_id: self.id, progresstimes: { closed: [false, nil] })
+         .any?
   end
 
   def default_activity(project)
@@ -144,10 +134,10 @@ module UserExtension
       roles.include?(key.to_i)
     end.map(&:last).map(&:to_i)
 
-    unless aids.empty?
-      TimeEntryActivity.where(id: aids).first
-    else
+    if aids.empty?
       TimeEntryActivity.where(id: roles).first || TimeEntryActivity.first
+    else
+      TimeEntryActivity.where(id: aids).first
     end
   rescue SyntaxError
     Rails.logger.error 'Fix JSON syntax in TableIt settings'

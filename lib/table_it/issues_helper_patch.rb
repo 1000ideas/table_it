@@ -14,11 +14,6 @@ module IssuesHelperPatch
     [content_tag(:strong, "#{l(:field_author)}: "), issue.author, tag(:br), parent, nl2br(desc)].compact.join
   end
 
-  def link_to_issue_show(id)
-    t = link_to("Parent ID: #{id}", Rails.application.routes.url_helpers.issue_path(id))
-    content_tag(:p, t)
-  end
-
   def issue_status_action(issue)
     buttons = []
     buttons << content_tag(:span, '', class: [:clip, :'status-icon']) if issue.attachments.any?
