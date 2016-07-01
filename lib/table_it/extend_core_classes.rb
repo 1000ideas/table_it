@@ -106,9 +106,15 @@ module IssueExtension
   end
 
   def add_parent_id_to_issue
-    return if (p_id = @parent_issue.try(&:root_id)).nil?
-    if (custom_field = self.custom_field_values.find { |cfv| cfv.custom_field.name =~ /pid/i })
-      custom_field.value = p_id
+    cf = self.custom_field_values.find { |cfv| cfv.custom_field.name =~ /pid/i }
+    return if cf.nil?
+
+    p_id = @parent_issue.try(&:root_id)
+
+    if p_id.nil?
+      cf.value = nil
+    elsif p_id != cf.value.to_i
+      cf.value = p_id
     end
   end
 end
