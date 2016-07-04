@@ -21,11 +21,11 @@ module IssuesHelperPatch
     if User.current.allowed_to?(:time_actions, issue.project) && !issue.closed?
       data = { remote: true, method: :post }
       path = switch_time_issue_path(issue)
-      unless User.current == issue.assigned_to || User.current.admin?
+      unless User.current.admin? || issue.assignees_ids.include?(User.current.id)
         data.merge!(:"not-yours" => t("alert_not_yours"))
         path = '#'
       end
-      buttons << link_to('', path, data: data, class: [:"#{issue.started? ? "stop" : "start"}-time", :'status-icon'])
+      buttons << link_to('', path, data: data, class: [:"#{issue_stop_button?(issue) ? "stop" : "start"}-time", :'status-icon'])
     end
     buttons.join.html_safe
   end
@@ -33,7 +33,7 @@ module IssuesHelperPatch
   def issue_actions(issue)
     buttons = []
     buttons << content_tag(:span) do
-      input = text_field_tag(:"add-time-input-#{issue.id}", nil, class: "add-time-input", data: {url: add_time_issue_path(issue, format: :js)})
+      input = text_field_tag(:"add-time-input-#{issue.id}", nil, class: "add-time-input", data: { url: add_time_issue_path(issue, format: :js) })
       button = button_tag(l(:add_time), class: "add-time-button")
       [input, button].join.html_safe
     end
@@ -42,6 +42,10 @@ module IssuesHelperPatch
       buttons << link_to(l(:poke), poke_issue_path(issue, format: :js), data: {method: :post, remote: :true}, class: "status-icon poke")
     end
     buttons.join.html_safe
+  end
+
+  def issue_stop_button?(issue)
+    issue.started_by_user? || (User.current.admin? && issue.started?)
   end
 end
 

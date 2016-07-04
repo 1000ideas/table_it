@@ -40,12 +40,17 @@ module IssueExtension
   end
 
   def started?
-    @@started_issues_ids ||= Progresstime.where(closed: [false, nil]).pluck(:issue_id)
-    @@started_issues_ids.include? id
+    # @@started_issues_ids ||= Progresstime.where(closed: [false, nil]).pluck(:issue_id)
+    # @@started_issues_ids.include? id
+    progresstimes.find { |pt| !pt.closed }.present?
+  end
+
+  def started_by_user?(u_id = User.current.id)
+    progresstimes.find { |pt| !pt.closed && pt.user_id == u_id }.present?
   end
 
   def start_time!
-    return false if started?
+    return false if started_by_user?
     update_attributes(status_id: 2)
     progresstimes.create(
       start_time: DateTime.now,
@@ -56,16 +61,11 @@ module IssueExtension
 
   def stop_time!
     return false unless started?
-    time = progresstimes.started.last.close!
-    if time > 0
-      time_entries.create(
-        user: self.assigned_to || User.current,
-        hours: time,
-        activity_id: 8,
-        spent_on: Date.today
-      )
+    if assignees_ids.include?(User.current.id)
+      stop_by_assigned_user
+    else
+      stop_by_admin
     end
-    progresstimes.started.delete_all
     true
   end
 
@@ -93,6 +93,11 @@ module IssueExtension
     self.update_attributes(status_id: status_id)
   end
 
+  def assignees_ids
+    extra_users = tracker_accessible_issue_permissions.pluck(:user_id)
+    @assignees_ids ||= [extra_users, assigned_to_id].flatten
+  end
+
   def wrap_with_p_tags
     unless self.description.slice(0, 3) == '<p>'
       text = self.description
@@ -117,6 +122,30 @@ module IssueExtension
       cf.value = p_id
     end
   end
+
+  private
+
+  def stop_by_assigned_user
+    time = progresstimes.started.where(user_id: User.current.id).first.close!
+    time_entries.create(
+      user: User.current,
+      hours: time,
+      activity_id: 8,
+      spent_on: Date.today
+    )
+  end
+
+  def stop_by_admin
+    times = progresstimes.started.each do |time|
+      t = time.close!
+      time_entries.create(
+        user: User.current,
+        hours: t,
+        activity_id: 8,
+        spent_on: Date.today
+      )
+    end
+  end
 end
 
 module UserExtension
@@ -128,7 +157,8 @@ module UserExtension
 
   def ticking?
     Issue.joins(:progresstimes)
-         .where(assigned_to_id: self.id, progresstimes: { closed: [false, nil] })
+         .where(progresstimes: { closed: [false, nil] })
+         .where('progresstimes.user_id = ?', self.id)
          .any?
   end
 

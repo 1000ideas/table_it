@@ -33,13 +33,13 @@ class TableIt::IssuesController < ApplicationController
     @success = true
 
     if params[:switch] === true
-      any_in_progress = User.find(@issue.assigned_to_id).ticking?
+      any_in_progress = User.current.ticking?
 
-      @success = if @issue.started?
+      @success = if @issue.started_by_user? || (User.current.admin? && @issue.started?)
         @issue.stop_time!
         tentry = @issue.time_entries.last
       else
-        if not any_in_progress
+        if !any_in_progress
           @issue.start_time!
         else
           false
@@ -51,16 +51,18 @@ class TableIt::IssuesController < ApplicationController
       @success = @issue.stop_time!
       tentry = @issue.time_entries.last
     else
-      tentry = @issue.time_entries.create hours: time,
+      tentry = @issue.time_entries.create(
+        hours: time,
         activity_id: User.current.default_activity(@issue.project).try(:id),
         user: User.current,
         spent_on: Date.today
+      )
       @notice = true
       @success = tentry.errors.empty?
     end
 
     respond_to do |format|
-      format.json { render json: {success: @success, time: tentry.try(:hours)} }
+      format.json { render json: { success: @success, time: tentry.try(:hours) } }
       format.js
     end
 
