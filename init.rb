@@ -2,6 +2,7 @@ require 'redmine'
 require 'table_it/extend_core_classes'
 require 'table_it/issues_helper_patch'
 require 'table_it/issues_controller_patch'
+require 'table_it/my_controller_patch'
 
 Redmine::Plugin.register :table_it do
   name 'TableIt'
@@ -30,4 +31,5 @@ end
 
 RedmineApp::Application.routes.prepend do
   root :to => 'issues#index', :as => 'home'
+  get '/my/page/manage', to: 'my#manage_task', as: 'manage_task'
 end

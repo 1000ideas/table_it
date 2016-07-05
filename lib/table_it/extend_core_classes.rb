@@ -42,11 +42,23 @@ module IssueExtension
   def started?
     # @@started_issues_ids ||= Progresstime.where(closed: [false, nil]).pluck(:issue_id)
     # @@started_issues_ids.include? id
-    progresstimes.find { |pt| !pt.closed }.present?
+    # Issue.includes(:progresstimes)
+    #      .started
+    #      .where('progresstimes.issue_id = ?', self.id)
+    #      .any?
+
+    # !progresstimes.find { |pt| !pt.closed }.nil?
+    progresstimes.started.any?
   end
 
   def started_by_user?(u_id = User.current.id)
-    progresstimes.find { |pt| !pt.closed && pt.user_id == u_id }.present?
+    # Issue.includes(:progresstimes)
+    #      .started
+    #      .where('progresstimes.issue_id = ? AND progresstimes.user_id = ?', self.id, u_id)
+    #      .any?
+
+    # !progresstimes.find { |pt| !pt.closed && pt.user_id == u_id }.nil?
+    progresstimes.started.where(user_id: u_id).any?
   end
 
   def start_time!
@@ -156,7 +168,7 @@ module UserExtension
   end
 
   def ticking?
-    Issue.joins(:progresstimes)
+    assigned_issues.includes(:progresstimes)
          .where(progresstimes: { closed: [false, nil] })
          .where('progresstimes.user_id = ?', self.id)
          .any?

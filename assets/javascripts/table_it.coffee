@@ -182,5 +182,4 @@ class TableIt
 
 
 
-
 jQuery -> ( window.table_it = new TableIt )
