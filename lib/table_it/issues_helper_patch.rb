@@ -22,7 +22,7 @@ module IssuesHelperPatch
       data = { remote: true, method: :post }
       path = switch_time_issue_path(issue)
       unless User.current.admin? || issue.assignees_ids.include?(User.current.id)
-        data.merge!(:"not-yours" => t("alert_not_yours"))
+        data[:"not-yours"] = t("alert_not_yours")
         path = '#'
       end
       buttons << link_to('', path, data: data, class: [:"#{issue_stop_button?(issue) ? "stop" : "start"}-time", :'status-icon'])

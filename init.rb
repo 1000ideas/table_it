@@ -31,5 +31,4 @@ end
 
 RedmineApp::Application.routes.prepend do
   root :to => 'issues#index', :as => 'home'
-  get '/my/page/manage', to: 'my#manage_task', as: 'manage_task'
 end

@@ -1,0 +1,62 @@
+#mypage-task {
+  max-width: 1000px;
+  width: 80%;
+  margin: 0 auto;
+  margin-top: 20px;
+  border: 1px solid #cccccc;
+  padding: 20px;
+
+  #issue-topbar {
+    overflow: auto;
+    clear: both;
+    width: 100%;
+    position: relative;
+    overflow: hidden;
+
+    #id-subject {
+      float: left;
+      width: 75%;
+
+      #issue-id, #issue-subject {
+        padding-right: 60px;
+      }
+    }
+
+    #stop-work {
+      float: left;
+      width: 18%;
+      height: 100%;
+      position: absolute;
+      right: 0;
+      top: 0;
+
+      .stop-time {
+        height: 90%;
+        width: 90%;
+        background-image: url('../images/stop.png');
+        text-align: center;
+        vertical-align: center;
+        cursor: pointer;
+      }
+
+      #time {
+        margin: 0;
+        padding: 0;
+        width: 90%;
+        vertical-align: middle;
+        text-align: center;
+        font-size: 9px;
+      }
+    }
+  }
+
+  #latest-com {
+    span {
+      font-size: 9px;
+    }
+  }
+
+  #issue-id, #issue-subject, #issue-desc, #latest-com {
+    margin-bottom: 20px;
+  }
+}

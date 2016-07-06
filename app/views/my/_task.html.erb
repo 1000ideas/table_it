@@ -1,0 +1,30 @@
+<div id="issue-topbar">
+  <div id="id-subject">
+    <div id="issue-id">
+      <h3>ID</h3>
+      <p><%= issue.id %></p>
+    </div>
+    <div id="issue-subject">
+      <h3><%= l('field_subject') %></h3>
+      <p><%= issue.subject %></p>
+    </div>
+  </div>
+  <div id="stop-work">
+    <div class="stop-time"></div>
+    <p id="time">
+      <span><%= l('my.overall_time') %></span>
+      <span id="time-count"></span>
+    </p>
+  </div>
+</div>
+<div id="issue-desc">
+  <h3><%= l('field_description') %></h3>
+  <%= raw issue.description %>
+</div>
+<% if note %>
+<div id="latest-com">
+  <h3><%= l('my.latest_comment') %></h3>
+  <p><%= raw note.notes %></p>
+  <span><%= authoring(note.created_on, note.user) %></span>
+</div>
+<% end %>

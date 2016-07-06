@@ -1,11 +1,7 @@
 <div id="mypage-content">
   <% if @issue %>
-  <div id="mypage-task" style="display: <%= @user_ticking ? 'block' : 'none' %>;">
-    HERE IS THE TASK
-    <div id="issue-id"><%= @issue.id %></div>
-    <div id="issue-subject"><%= @issue.subject %></div>
-    <div id="issue-desc"><%= raw @issue.description %></div>
-    <div id="stop-work">STOP IT!</div>
+  <div id="mypage-task" style="display: <%= @user_ticking ? 'block' : 'none' %>;" data-time="<%= @issue.spent_time %>" data-start-time="<%= @start_time %>">
+    <%= render partial: 'task', locals: { issue: @issue, note: @note } %>
   </div>
   <% end %>
 
@@ -52,4 +48,6 @@
 
 <% content_for :header_tags do %>
   <%= javascript_include_tag 'my_page', plugin: :table_it %>
+  <%= stylesheet_link_tag 'my_page', plugin: :table_it %>
+  <%= stylesheet_link_tag 'table_it', plugin: :table_it %>
 <% end %>
