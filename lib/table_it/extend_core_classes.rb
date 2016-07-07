@@ -148,6 +148,7 @@ module IssueExtension
   end
 
   def stop_by_admin
+    return unless User.current.admin?
     times = progresstimes.started.each do |time|
       t = time.close!
       time_entries.create(

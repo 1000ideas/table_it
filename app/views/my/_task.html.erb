@@ -1,11 +1,11 @@
 <div id="issue-topbar">
   <div id="id-subject">
     <div id="issue-id">
-      <h3>ID</h3>
+      <h2>ID</h2>
       <p><%= issue.id %></p>
     </div>
     <div id="issue-subject">
-      <h3><%= l('field_subject') %></h3>
+      <h2><%= l('field_subject') %></h2>
       <p><%= issue.subject %></p>
     </div>
   </div>
@@ -18,12 +18,12 @@
   </div>
 </div>
 <div id="issue-desc">
-  <h3><%= l('field_description') %></h3>
+  <h2><%= l('field_description') %></h2>
   <%= raw issue.description %>
 </div>
 <% if note %>
 <div id="latest-com">
-  <h3><%= l('my.latest_comment') %></h3>
+  <h2><%= l('my.latest_comment') %></h2>
   <p><%= raw note.notes %></p>
   <span><%= authoring(note.created_on, note.user) %></span>
 </div>

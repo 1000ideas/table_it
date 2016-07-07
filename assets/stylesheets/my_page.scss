@@ -1,9 +1,6 @@
 #mypage-task {
-  max-width: 1000px;
-  width: 80%;
   margin: 0 auto;
   margin-top: 20px;
-  border: 1px solid #cccccc;
   padding: 20px;
 
   #issue-topbar {
@@ -33,7 +30,7 @@
       .stop-time {
         height: 90%;
         width: 90%;
-        background-image: url('../images/stop.png');
+        background-color: #ee3333;
         text-align: center;
         vertical-align: center;
         cursor: pointer;

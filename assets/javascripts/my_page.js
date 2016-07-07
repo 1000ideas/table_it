@@ -42,6 +42,19 @@ MyPage = (function() {
     });
   };
 
+  MyPage.prototype.timeToString = function(time) {
+    if (time.hours < 10) {
+      time.hours = "0" + time.hours;
+    }
+    if (time.minutes < 10) {
+      time.minutes = "0" + time.minutes;
+    }
+    if (time.seconds < 10) {
+      time.seconds = "0" + time.seconds;
+    }
+    return time.hours + ":" + time.minutes + ":" + time.seconds;
+  };
+
   MyPage.prototype.timer = function(previousTime, startTime) {
     var diff, hours, minutes, now, seconds;
     now = new Date();
@@ -49,7 +62,11 @@ MyPage = (function() {
     seconds = Math.floor(diff / 1000) % 60;
     minutes = (Math.floor(diff / 1000 / 60) % 60) + previousTime.minutes;
     hours = (Math.floor(diff / 1000 / 60 / 60) % 24) + previousTime.hours;
-    return $('#time-count').text(hours.toString() + ':' + minutes.toString() + ':' + seconds.toString());
+    return $('#time-count').text(this.timeToString({
+      hours: hours,
+      minutes: minutes,
+      seconds: seconds
+    }));
   };
 
   MyPage.prototype.spentTimeHumanize = function() {
@@ -66,7 +83,7 @@ MyPage = (function() {
   MyPage.prototype.getStartTime = function() {
     var date;
     date = $('#mypage-task').data('startTime').split(' ');
-    date = (date[0] + ' ' + date[1]).split(/[ \-:]/);
+    date = (date[0] + ' ' + date[1]).split(/[\- :]/);
     date[1] = (parseInt(date[1]) - 1).toString();
     return new Date(date[0], date[1], date[2], date[3], date[4], date[5], 0);
   };
