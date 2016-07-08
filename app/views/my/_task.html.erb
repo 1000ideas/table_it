@@ -1,18 +1,18 @@
 <div id="issue-topbar">
-  <div id="id-subject">
-    <div id="issue-id">
-      <h2>ID</h2>
-      <p><%= issue.id %></p>
-    </div>
+  <div id="subject">
     <div id="issue-subject">
       <h2><%= l('field_subject') %></h2>
-      <p><%= issue.subject %></p>
+      <h3><%= link_to "##{issue.id} - #{issue.subject}", issue_path(issue.id) %></h3>
+    </div>
+    <div id="issue-total-time">
+      <h2><%= l('my.overall_time') %></h2>
+      <p><%= "#{issue.spent_time}h" %></p>
     </div>
   </div>
   <div id="stop-work">
     <div class="stop-time"></div>
     <p id="time">
-      <span><%= l('my.overall_time') %></span>
+      <span><%= l('my.since_start') %></span>
       <span id="time-count"></span>
     </p>
   </div>

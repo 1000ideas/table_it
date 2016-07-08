@@ -6,7 +6,7 @@ class MyPage
     true
 
   _init_click_task: ->
-    $(document).find("table.issues tr[id^='issue']").click (e) ->
+    $(document).find("#list-left table.issues tr[id^='issue']").click (e) ->
       e.preventDefault()
       $.ajax
         type: 'GET'
@@ -30,42 +30,32 @@ class MyPage
         success: (data, textStatus, jqXHR) ->
           location.reload()
 
+  _init_timer: ->
+    startTime = @getStartTime()
+    setInterval => 
+      @timer startTime
+    , 1000
+
+
   timeToString: (time) ->
     time.hours = "0#{time.hours}" if time.hours < 10
     time.minutes = "0#{time.minutes}" if time.minutes < 10
     time.seconds = "0#{time.seconds}" if time.seconds < 10
     "#{time.hours}:#{time.minutes}:#{time.seconds}"
 
-  timer: (previousTime, startTime) ->
+  timer: (startTime) ->
     now = new Date()
     diff = now - startTime
     seconds = Math.floor(diff / 1000) % 60
-    minutes = (Math.floor(diff / 1000 / 60) % 60) + previousTime.minutes
-    hours = (Math.floor(diff / 1000 / 60 / 60) % 24) + previousTime.hours
+    minutes = (Math.floor(diff / 1000 / 60) % 60)
+    hours = (Math.floor(diff / 1000 / 60 / 60) % 24)
     $('#time-count').text(@timeToString({hours: hours, minutes: minutes, seconds: seconds}))
-
-  spentTimeHumanize: ->
-    hours = parseInt($('#mypage-task').data('time'), 10)
-    minutes = parseFloat($('#mypage-task').data('time')) - hours;
-    minutes = parseInt(minutes * 60)
-    {
-      hours: hours,
-      minutes: minutes
-    }
 
   getStartTime: ->
     date = $('#mypage-task').data('startTime').split(' ')
     date = (date[0] + ' ' + date[1]).split(/[\- :]/)
     date[1] = (parseInt(date[1]) - 1).toString();
     new Date(date[0], date[1], date[2], date[3], date[4], date[5], 0)
-
-  _init_timer: ->
-    previousTime = @spentTimeHumanize()
-    startTime = @getStartTime()
-    setInterval => 
-      @timer previousTime, startTime
-    , 1000
-
 
 
 jQuery -> ( window.my_page = new MyPage )

@@ -46,5 +46,6 @@ en:
   label_remove: "Remove"
   alert_not_yours: "You can count time in issue you are not assigned to!"
   my:
-    overall_time: "Overall time: "
+    overall_time: "Overall time"
+    since_start: "Since start: "
     latest_comment: "Latest comment"

@@ -10,11 +10,11 @@
   position: relative;
   overflow: hidden;
 }
-#mypage-task #issue-topbar #id-subject {
+#mypage-task #issue-topbar #subject {
   float: left;
   width: 75%;
 }
-#mypage-task #issue-topbar #id-subject #issue-id, #mypage-task #issue-topbar #id-subject #issue-subject {
+#mypage-task #issue-topbar #subject #issue-total-time, #mypage-task #issue-topbar #subject #issue-subject {
   padding-right: 60px;
 }
 #mypage-task #issue-topbar #stop-work {

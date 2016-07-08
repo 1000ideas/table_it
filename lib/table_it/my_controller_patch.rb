@@ -2,7 +2,7 @@ module MyControllerPatch
   extend ActiveSupport::Concern
 
   included do
-    before_filter :find_issue, only: [:index, :page]
+    before_filter :find_issue, only: [:index, :page, :page_layout]
   end
 
   private
@@ -11,16 +11,16 @@ module MyControllerPatch
     if (user = User.current).ticking?
       @issue = Progresstime.started.where(user_id: user.id).first.issue
       @issue.stop_time! if params[:start] && params[:start] == 'false'
-      data_for_view
     elsif params[:issue_id]
       @issue = Issue.find(params[:issue_id])
       params[:start] ? @issue.start_time! : @issue.stop_time!
     end
+    data_for_view
     shared_issues
   end
 
   def data_for_view
-    @user_ticking = true
+    @user_ticking = User.current.ticking?
     @note = @issue.try(:journals).try(:last)
     @start_time = @issue.progresstimes.where(user_id: User.current.id).last.try(:start_time) if @issue
     @start_time = Time.parse(@start_time.to_s).in_time_zone('Warsaw') if @start_time

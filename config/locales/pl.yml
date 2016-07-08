@@ -46,5 +46,6 @@ pl:
   label_remove: "Usuń"
   alert_not_yours: "Nie możesz liczyć czasu w nieswoich zadaniach!"
   my:
-    overall_time: "Całkowity czas: "
+    overall_time: "Całkowity czas"
+    since_start: "Od startu: "
     latest_comment: "Ostatni komentarz"

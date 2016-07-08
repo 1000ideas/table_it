@@ -17,8 +17,8 @@
     </div>
 
     <div id="list-left" class="splitcontentleft">
-      <% if @issue %>
-        <div id="mypage-task" class="mypage-box" data-time="<%= @issue.spent_time %>" data-start-time="<%= @start_time %>">
+      <% if User.current.ticking? %>
+        <div id="mypage-task" class="mypage-box" data-start-time="<%= @start_time %>">
           <%= render partial: 'task', locals: { issue: @issue, note: @note } %>
         </div>
       <% else %>
@@ -26,7 +26,6 @@
            next unless MyController::BLOCKS.keys.include? b %>
         <div class="mypage-box">
           <%= render :partial => "my/blocks/#{b}", :locals => { :user => @user, :extra_issues => @extra_issues || [] } %>
-          <%#= render :partial => "issues/list_simple", :locals => { :issues => @extra_issues } %>
         </div>
         <% end if @blocks['left'] %>
       <% end %>

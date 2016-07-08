@@ -9,7 +9,7 @@ MyPage = (function() {
   }
 
   MyPage.prototype._init_click_task = function() {
-    return $(document).find("table.issues tr[id^='issue']").click(function(e) {
+    return $(document).find("#list-left table.issues tr[id^='issue']").click(function(e) {
       e.preventDefault();
       return $.ajax({
         type: 'GET',
@@ -43,6 +43,16 @@ MyPage = (function() {
     });
   };
 
+  MyPage.prototype._init_timer = function() {
+    var startTime;
+    startTime = this.getStartTime();
+    return setInterval((function(_this) {
+      return function() {
+        return _this.timer(startTime);
+      };
+    })(this), 1000);
+  };
+
   MyPage.prototype.timeToString = function(time) {
     if (time.hours < 10) {
       time.hours = "0" + time.hours;
@@ -56,29 +66,18 @@ MyPage = (function() {
     return time.hours + ":" + time.minutes + ":" + time.seconds;
   };
 
-  MyPage.prototype.timer = function(previousTime, startTime) {
+  MyPage.prototype.timer = function(startTime) {
     var diff, hours, minutes, now, seconds;
     now = new Date();
     diff = now - startTime;
     seconds = Math.floor(diff / 1000) % 60;
-    minutes = (Math.floor(diff / 1000 / 60) % 60) + previousTime.minutes;
-    hours = (Math.floor(diff / 1000 / 60 / 60) % 24) + previousTime.hours;
+    minutes = Math.floor(diff / 1000 / 60) % 60;
+    hours = Math.floor(diff / 1000 / 60 / 60) % 24;
     return $('#time-count').text(this.timeToString({
       hours: hours,
       minutes: minutes,
       seconds: seconds
     }));
-  };
-
-  MyPage.prototype.spentTimeHumanize = function() {
-    var hours, minutes;
-    hours = parseInt($('#mypage-task').data('time'), 10);
-    minutes = parseFloat($('#mypage-task').data('time')) - hours;
-    minutes = parseInt(minutes * 60);
-    return {
-      hours: hours,
-      minutes: minutes
-    };
   };
 
   MyPage.prototype.getStartTime = function() {
@@ -87,17 +86,6 @@ MyPage = (function() {
     date = (date[0] + ' ' + date[1]).split(/[\- :]/);
     date[1] = (parseInt(date[1]) - 1).toString();
     return new Date(date[0], date[1], date[2], date[3], date[4], date[5], 0);
-  };
-
-  MyPage.prototype._init_timer = function() {
-    var previousTime, startTime;
-    previousTime = this.spentTimeHumanize();
-    startTime = this.getStartTime();
-    return setInterval((function(_this) {
-      return function() {
-        return _this.timer(previousTime, startTime);
-      };
-    })(this), 1000);
   };
 
   return MyPage;
