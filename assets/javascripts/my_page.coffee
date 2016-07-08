@@ -6,7 +6,8 @@ class MyPage
     true
 
   _init_click_task: ->
-    $(document).find("table.issues tr[id^='issue']").click ->
+    $(document).find("table.issues tr[id^='issue']").click (e) ->
+      e.preventDefault()
       $.ajax
         type: 'GET'
         dataType: 'html'

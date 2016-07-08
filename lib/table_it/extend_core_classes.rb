@@ -169,10 +169,7 @@ module UserExtension
   end
 
   def ticking?
-    assigned_issues.includes(:progresstimes)
-         .where(progresstimes: { closed: [false, nil] })
-         .where('progresstimes.user_id = ?', self.id)
-         .any?
+    Progresstime.started.where(user_id: self.id).any?
   end
 
   def default_activity(project)

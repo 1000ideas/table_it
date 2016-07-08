@@ -9,7 +9,8 @@ MyPage = (function() {
   }
 
   MyPage.prototype._init_click_task = function() {
-    return $(document).find("table.issues tr[id^='issue']").click(function() {
+    return $(document).find("table.issues tr[id^='issue']").click(function(e) {
+      e.preventDefault();
       return $.ajax({
         type: 'GET',
         dataType: 'html',
