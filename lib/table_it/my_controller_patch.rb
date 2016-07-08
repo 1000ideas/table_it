@@ -21,9 +21,17 @@ module MyControllerPatch
 
   def data_for_view
     @user_ticking = User.current.ticking?
-    @note = @issue.try(:journals).try(:last)
+    @note = find_note_with_text
     @start_time = @issue.progresstimes.where(user_id: User.current.id).last.try(:start_time) if @issue
     @start_time = Time.parse(@start_time.to_s).in_time_zone('Warsaw') if @start_time
+  end
+
+  def find_note_with_text
+    return nil if @issue.nil?
+    @issue.journals.reverse.each do |journal|
+      return journal if journal.notes.present?
+    end
+    nil
   end
 
   def shared_issues
