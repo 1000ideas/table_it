@@ -9,25 +9,28 @@ MyPage = (function() {
   }
 
   MyPage.prototype._init_click_task = function() {
-    return $(document).find("#list-left table.issues tr[id^='issue']").click(function(e) {
-      e.preventDefault();
-      return $.ajax({
-        type: 'GET',
-        dataType: 'html',
-        data: {
-          issue_id: $(this).attr('id').split('-')[1],
-          start: true
-        },
-        url: '/my/page',
-        success: function(data, textStatus, jqXHR) {
-          return location.reload();
-        }
-      });
+    return $("#list-left table.issues tr[id^='issue']").click(function(e) {
+      if (e.target.tagName === 'A') {
+        return true;
+      } else {
+        return $.ajax({
+          type: 'GET',
+          dataType: 'html',
+          data: {
+            issue_id: $(this).attr('id').split('-')[1],
+            start: true
+          },
+          url: '/my/page',
+          success: function(data, textStatus, jqXHR) {
+            return location.reload();
+          }
+        });
+      }
     });
   };
 
   MyPage.prototype._init_stop_task = function() {
-    return $(document).find('#stop-work').click(function() {
+    return $('#stop-work').click(function() {
       return $.ajax({
         type: 'GET',
         dataType: 'html',

@@ -30,5 +30,5 @@ Redmine::Plugin.register :table_it do
 end
 
 RedmineApp::Application.routes.prepend do
-  root :to => 'issues#index', :as => 'home'
+  root :to => 'my#page', :as => 'home'
 end

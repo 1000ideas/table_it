@@ -6,20 +6,22 @@ class MyPage
     true
 
   _init_click_task: ->
-    $(document).find("#list-left table.issues tr[id^='issue']").click (e) ->
-      e.preventDefault()
-      $.ajax
-        type: 'GET'
-        dataType: 'html'
-        data:
-          issue_id: $(this).attr('id').split('-')[1],
-          start: true
-        url: '/my/page'
-        success: (data, textStatus, jqXHR) ->
-          location.reload()
+    $("#list-left table.issues tr[id^='issue']").click (e) ->
+      if e.target.tagName == 'A'
+        return true
+      else
+        $.ajax
+          type: 'GET'
+          dataType: 'html'
+          data:
+            issue_id: $(this).attr('id').split('-')[1],
+            start: true
+          url: '/my/page'
+          success: (data, textStatus, jqXHR) ->
+            location.reload()
 
   _init_stop_task: ->
-    $(document).find('#stop-work').click ->
+    $('#stop-work').click ->
       $.ajax
         type: 'GET'
         dataType: 'html'
@@ -35,7 +37,6 @@ class MyPage
     setInterval => 
       @timer startTime
     , 1000
-
 
   timeToString: (time) ->
     time.hours = "0#{time.hours}" if time.hours < 10

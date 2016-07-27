@@ -13,3 +13,14 @@
                              :assigned_to_id => 'me', :format => 'atom', :key => User.current.rss_key},
                             {:title => l(:label_assigned_to_me_issues)}) %>
 <% end %>
+
+<script>
+  $(document).tooltip({
+    items: "[data-tooltip]",
+    track: true,
+    hide: false,
+    content: function() {
+      return $(this).data('tooltip');
+    }
+  });
+</script>
