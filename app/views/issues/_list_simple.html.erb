@@ -16,9 +16,12 @@
       </td>
       <td class="project"><%= link_to_project(issue.project) %></td>
       <td class="tracker"><%= issue.tracker %></td>
-      <%# binding.pry %>
       <td class="subject">
-        <%= link_to(issue.subject.truncate(60), issue_path(issue)) %> (<%= issue.status %>)
+        <% if issue.assigned_to_id == User.current.id %>
+          <%= link_to(issue.subject.truncate(60), issue_path(issue)) %> (<%= issue.status %>)
+        <% else %>
+          <%= link_to("*#{issue.subject.truncate(60)}", issue_path(issue)) %> (<%= issue.status %>)
+        <% end %>
       </td>
     </tr>
     <% end %>
