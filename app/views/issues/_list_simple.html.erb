@@ -15,13 +15,14 @@
         <%= link_to(issue.id, issue_path(issue)) %>
       </td>
       <td class="project"><%= link_to_project(issue.project) %></td>
-      <td class="tracker"><%= issue.tracker %></td>
-      <td class="subject">
+      <td class="tracker">
+        <%= issue.tracker %>
         <% if issue.assigned_to_id == User.current.id %>
-          <%= link_to(issue.subject.truncate(60), issue_path(issue)) %> (<%= issue.status %>)
-        <% else %>
-          <%= link_to("*#{issue.subject.truncate(60)}", issue_path(issue)) %> (<%= issue.status %>)
+          <span class="add-info">(Extra access)</span>
         <% end %>
+      </td>
+      <td class="subject">
+        <%= link_to(issue.subject.truncate(60), issue_path(issue)) %> <%= content_tag :span, "(#{issue.status})", class: 'add-info' %>
       </td>
     </tr>
     <% end %>
@@ -30,4 +31,12 @@
 <% end %>
 <% else %>
   <p class="nodata"><%= l(:label_no_data) %></p>
+<% end %>
+
+<% content_for :header_tags do %>
+  <style type="text/css">
+    span.add-info {
+      font-style: italic;
+    }
+  </style>
 <% end %>
