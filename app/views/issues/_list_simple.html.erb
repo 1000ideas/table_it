@@ -17,7 +17,7 @@
       <td class="project"><%= link_to_project(issue.project) %></td>
       <td class="tracker">
         <%= issue.tracker %>
-        <% if issue.assigned_to_id == User.current.id %>
+        <% if issue.assigned_to_id != User.current.id %>
           <span class="add-info">(Extra access)</span>
         <% end %>
       </td>
