@@ -111,7 +111,7 @@ module IssueExtension
   end
 
   def wrap_with_p_tags
-    unless self.description.slice(0, 3) == '<p>'
+    if self.description.slice(0, 3) != '<p>'
       text = self.description
       text = text.split("\r\n")
       desc = []
@@ -125,7 +125,7 @@ module IssueExtension
   def add_parent_id_to_issue
     cf = self.custom_field_values.find { |cfv| cfv.custom_field.name =~ /pid/i }
     return if cf.nil?
-    return unless cf.visible?
+    return unless cf.custom_field.visible_by? cf.customized.project, User.current
 
     p_id = @parent_issue.try(&:root_id)
 
