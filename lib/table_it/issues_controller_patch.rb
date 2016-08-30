@@ -3,6 +3,7 @@ module IssuesControllerPatch
 
   included do
     before_filter :find_projects_and_users, only: [:index]
+    before_filter :remove_empty_p_tags, only: [:new]
   end
 
   private
@@ -13,6 +14,14 @@ module IssuesControllerPatch
              .select("*, (id = #{User.current.id}) as current")
              .where(type: 'User', status: User::STATUS_ACTIVE)
              .order('current DESC')
+  end
+
+  def remove_empty_p_tags
+    if params[:copy_from].present? && @issue.description.present?
+      @issue.description.gsub!('<p><p', '<p')
+      @issue.description.gsub!('</p></p>', '</p>')
+      @issue.description.gsub!('<p></p>', '')
+    end
   end
 end
 
