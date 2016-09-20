@@ -40,6 +40,7 @@ MyPage = (function() {
         },
         url: '/my/page',
         success: function(data, textStatus, jqXHR) {
+          window.tableItLeaveBlock = true;
           return location.reload();
         }
       });

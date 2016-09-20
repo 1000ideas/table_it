@@ -30,11 +30,12 @@ class MyPage
           start: false
         url: '/my/page'
         success: (data, textStatus, jqXHR) ->
+          window.tableItLeaveBlock = true
           location.reload()
 
   _init_timer: ->
     startTime = @getStartTime()
-    setInterval => 
+    setInterval =>
       @timer startTime
     , 1000
 

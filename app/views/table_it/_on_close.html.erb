@@ -1,0 +1,22 @@
+<% if User.current.ticking? %>
+  <script type="text/javascript">
+    window.tableItTicking =  true;
+    window.tableItLeaveBlock =  false;
+
+    $(window).on('beforeunload', function(ev) {
+      if (window.tableItTicking && !window.tableItLeaveBlock) {
+        return "<%= t('.leaving') %>";
+      }
+    });
+
+    $(document).on('click', function() {
+      window.tableItLeaveBlock = true;
+      window.setTimeout(function() {
+        window.tableItLeaveBlock = false;
+      }, 100);
+    });
+  </script>
+<% end %>
+
+
+

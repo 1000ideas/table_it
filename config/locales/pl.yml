@@ -16,6 +16,8 @@ pl:
       time:
         success: "Pomyślnie dodano czas."
         failure: "Wystąpił błąd podczas dodawania czasu, spróbuj jeszcze raz."
+    on_close:
+      leaving: "Masz zadanie z włączonym start. Czy na pewno chcesz wyjść?"
   late: spóźnienia
   to: do
   end_time_field_name: koniec

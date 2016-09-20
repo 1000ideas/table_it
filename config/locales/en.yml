@@ -16,6 +16,8 @@ en:
       time:
         success: "Time added successfully."
         failure: "Time adding failed. Try again."
+    on_close:
+      leaving: "You have task with play running. Do you really want to leave?"
   late: late
   to: to
   end_time_field_name: koniec

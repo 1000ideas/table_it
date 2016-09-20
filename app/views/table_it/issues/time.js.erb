@@ -3,10 +3,14 @@ $('tr#issue-<%= @issue.id %> td.spent_hours').text('<%= @issue.spent_time %>');
 <% if @issue.started? %>
 $('tr#issue-<%= @issue.id %> .start-time, h2 > .start-time').removeClass('start-time').addClass('stop-time');
 $('tr#issue-<%= @issue.id %> .status-new, h2 > .status-new').removeClass('status-new').addClass('status-progress');
+$('li[data-issue-id=\"<%= @issue.id %>\"] span.status a.start-time').removeClass('start-time').addClass('stop-time');
 $('li[data-issue-id=\"<%= @issue.id %>\"] span.status i.stop').removeClass('stop').addClass('play');
+window.tableItTicking = true;
 <% else %>
 $('tr#issue-<%= @issue.id %> .stop-time, h2 > .stop-time').removeClass('stop-time').addClass('start-time');
+$('li[data-issue-id=\"<%= @issue.id %>\"] span.status a.stop-time').removeClass('stop-time').addClass('start-time');
 $('li[data-issue-id=\"<%= @issue.id %>\"] span.status i.play').removeClass('play').addClass('stop');
+window.tableItTicking = false;
 <% end %>
 
 <% if @notice %>

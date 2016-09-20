@@ -1,5 +1,4 @@
 class TableIt::IssuesController < ApplicationController
-
   before_filter :find_issue, only: [:poke, :time, :close]
   before_filter :find_project_by_project_id, only: [:project_users]
   before_filter :authorize, except: [:stop_time]
@@ -65,7 +64,6 @@ class TableIt::IssuesController < ApplicationController
       format.json { render json: { success: @success, time: tentry.try(:hours) } }
       format.js
     end
-
   end
 
   def close
