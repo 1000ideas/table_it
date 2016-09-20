@@ -2,7 +2,9 @@ require 'redmine'
 require 'table_it/extend_core_classes'
 require 'table_it/issues_helper_patch'
 require 'table_it/issues_controller_patch'
+require 'table_it/timelog_controller_patch'
 require 'table_it/my_controller_patch'
+require 'table_it/table_it_hooks'
 
 Redmine::Plugin.register :table_it do
   name 'TableIt'

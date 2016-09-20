@@ -1,6 +1,5 @@
 require_dependency 'issue'
 require_dependency 'custom_field'
-require_dependency 'issue'
 
 module ProjectExtension
   extend ActiveSupport::Concern
@@ -32,11 +31,13 @@ module IssueExtension
 
   included do
     has_many :progresstimes, dependent: :destroy
+    cattr_accessor :skip_callbacks
 
     scope :started, -> { joins(:progresstimes).where(progresstimes: { closed: [false, nil] }) }
     before_update :stop_time_if_closed
     before_create :wrap_with_p_tags
     before_save :add_parent_id_to_issue
+    after_update :update_spent_time, unless: :skip_callbacks
   end
 
   def started?
@@ -160,6 +161,12 @@ module IssueExtension
       )
     end
   end
+
+  def update_spent_time
+    Issue.skip_callbacks = true
+    update_attributes(spent_time: spent_hours.round(2))
+    Issue.skip_callbacks = false
+  end
 end
 
 module UserExtension
@@ -192,28 +199,7 @@ module UserExtension
   end
 end
 
-module TimeEntryExtension
-  extend ActiveSupport::Concern
-
-  included do
-    after_create :time_entry_added
-    after_update :time_entry_added
-    before_destroy :time_entry_deleted
-  end
-
-  def time_entry_added
-    issue = Issue.find(issue_id)
-    issue.update_attributes(spent_time: issue.spent_time + hours)
-  end
-
-  def time_entry_deleted
-    issue = Issue.find(issue_id)
-    issue.update_attributes(spent_time: issue.spent_time - hours)
-  end
-end
-
 User.send(:include, UserExtension)
 Project.send(:include, ProjectExtension)
 CustomField.send(:include, CustomFieldExtension)
 Issue.send(:include, IssueExtension)
-TimeEntry.send(:include, TimeEntryExtension)
