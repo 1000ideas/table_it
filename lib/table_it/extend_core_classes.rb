@@ -147,6 +147,7 @@ module IssueExtension
       activity_id: 8,
       spent_on: Date.today
     )
+    update_spent_time
   end
 
   def stop_by_admin
@@ -159,6 +160,7 @@ module IssueExtension
         activity_id: 8,
         spent_on: Date.today
       )
+      update_spent_time
     end
   end
 
