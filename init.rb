@@ -14,14 +14,16 @@ Redmine::Plugin.register :table_it do
   url 'https://github.com/1000ideas/table_it.git'
   author_url 'http://1000i.pl'
 
-  settings default: {
+  settings(
+    default: {
       default_users: '{}',
       end_time: 1,
       default_activity: '{}',
       close_status: 5,
       inprogress_status: 2
-    }, partial: 'settings/table_it'
-
+    },
+    partial: 'settings/table_it'
+  )
 
   project_module :table_it do
     permission :time_actions, :"table_it/issues" => :time
@@ -32,5 +34,5 @@ Redmine::Plugin.register :table_it do
 end
 
 RedmineApp::Application.routes.prepend do
-  root :to => 'my#page', :as => 'home'
+  root to: 'my#page', as: 'home'
 end

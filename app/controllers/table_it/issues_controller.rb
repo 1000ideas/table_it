@@ -34,16 +34,15 @@ class TableIt::IssuesController < ApplicationController
     if params[:switch] === true
       any_in_progress = User.current.ticking?
 
-      @success = if @issue.started_by_user? || (User.current.admin? && @issue.started?)
-        @issue.stop_time!
-        tentry = @issue.time_entries.last
-      else
-        if !any_in_progress
+      @success =
+        if @issue.started_by_user? || (User.current.admin? && @issue.started?)
+          @issue.stop_time!
+          tentry = @issue.time_entries.last
+        elsif !any_in_progress
           @issue.start_time!
         else
           false
         end
-      end
     elsif time === true
       @success = @issue.start_time!
     elsif time === false

@@ -5,12 +5,10 @@ class Progresstime < ActiveRecord::Base
   after_update :clear_issues_cache
   after_create :clear_issues_cache
 
-  scope :started, lambda { where(closed: [false, nil]) }
+  scope :started, -> { where(closed: [false, nil]) }
 
   def timediff
-    if end_time
-      ((end_time - start_time) / 3600.0).round(2)
-    end
+    ((end_time - start_time) / 3600.0).round(2) if end_time
   end
 
   def close!
@@ -24,5 +22,4 @@ class Progresstime < ActiveRecord::Base
     pt = Progresstime.where(closed: [false, nil]).pluck(:issue_id)
     Issue.class_variable_set('@@started_issues_ids', pt)
   end
-
 end

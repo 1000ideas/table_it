@@ -166,7 +166,7 @@ module IssueExtension
 
   def update_spent_time
     Issue.skip_callbacks = true
-    update_attributes(spent_time: spent_hours.round(2))
+    update_attributes(spent_time: total_spent_hours.round(2))
     Issue.skip_callbacks = false
   end
 end
