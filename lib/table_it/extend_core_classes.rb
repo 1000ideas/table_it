@@ -124,14 +124,14 @@ module IssueExtension
   end
 
   def add_parent_id_to_issue
-    cf = self.custom_field_values.find { |cfv| cfv.custom_field.name =~ /pid/i }
+    cf = custom_field_values.find { |cfv| cfv.custom_field.name =~ /pid/i }
 
     return if cf.nil?
     return unless cf.custom_field.visible_by? cf.customized.project, User.current
 
     p_id = @parent_issue.try(&:root_id) || root_id
 
-    if p_id.nil?
+    if p_id.nil? || p_id == id
       cf.value = nil
     elsif p_id != cf.value.to_i
       cf.value = p_id
