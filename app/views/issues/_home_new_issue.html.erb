@@ -52,3 +52,9 @@
   <%= f.button l(:button_clear), type: :reset %>
 </p>
 <% end %>
+
+<% if params[:pid] || params[:project_id] %>
+<script type="text/javascript">
+  setTimeout(function(){$('h2#new-issue').next().slideToggle('fast');}, 1000);
+</script>
+<% end %>
