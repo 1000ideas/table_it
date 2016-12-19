@@ -127,6 +127,7 @@ module IssueExtension
     cf = custom_field_values.find { |cfv| cfv.custom_field.name =~ /pid/i }
 
     return if cf.nil?
+    return if cf.value.present?
     return unless cf.custom_field.visible_by? cf.customized.project, User.current
 
     p_id = @parent_issue.try(&:root_id) || root_id
