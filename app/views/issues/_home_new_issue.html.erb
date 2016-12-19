@@ -13,11 +13,15 @@
   <%= f.label :description %>
   <%= f.text_area :description, rows: 6 %>
 </p>
+
+<%- cf = CustomField.where(name: "PID").first -%>
+<% if cf %>
 <p>
-  <%= f.label :parent_issue_id %>
-  <%= f.text_field :parent_issue_id, size: 10 %>
+  <%= f.label :"custom_field_values_#{cf.id}", (cf.try(:name) || l(:field_pid)) %>
+  <%= text_field_tag "issue[custom_field_values][#{cf.id}]", '', size: 10 %>
 </p>
-<%= javascript_tag "observeAutocompleteField('issue_parent_issue_id', '#{escape_javascript auto_complete_issues_path}')" %>
+<% end %>
+
 <p>
   <%= f.label :priority_id %>
   <%= f.select :priority_id, options_from_collection_for_select(IssuePriority.scoped, :id, :name) %>

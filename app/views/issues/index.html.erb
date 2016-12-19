@@ -8,7 +8,7 @@
 <% end %>
 </div>
 
-<% if request.path == home_path %>
+<% if request.path == issues_path %>
   <h2 id="new-issue"><%= l(:label_issue_new) %></h2>
   <div style="display:none">
     <%= render 'home_new_issue' %>
