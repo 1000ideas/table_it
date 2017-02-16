@@ -1,0 +1,23 @@
+<script>
+$(document).on('click', 'input[type=submit]', function(ev) {
+  if ($('span#attachments_fields').children().length > 0) {
+    return;
+  }
+
+  var text = '';
+  if ($('body').hasClass('action-show')) {
+    var text = $('textarea#issue_notes').val();
+  } else if ($('body').hasClass('action-new')) {
+    var text = $('textarea#issue_description').val();
+  }
+  var r = /za(łą|ła|lą|la)cznik(a|owi|iem|u|i|ów|ow|om|ami|ach)?/i;
+
+  if (text.search(r) != -1) {
+    var res = confirm('W swoim tekście wspominasz o załącznikach, lecz nie dodano żadnego. Kontynuować?');
+
+    if (!res) {
+      ev.preventDefault();
+    }
+  }
+});
+</script>
